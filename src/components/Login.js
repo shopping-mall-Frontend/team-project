@@ -32,7 +32,7 @@ const Login = (props) => {
     } else {
       sessionStorage.setItem('accessToken', accessToken);
       alert(`hello, ${user.displayName}!!`);
-      history('/user');
+      history('/test');
     }
   };
 

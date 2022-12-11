@@ -7,6 +7,7 @@ import {
   CategoryPage,
   ProductPage,
   UserPage,
+  TestPage,
 } from './pages/index';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Route path="/category" element={<CategoryPage />} />
       <Route path="/product" element={<ProductPage />} />
       <Route path="/user" element={<UserPage />} />
+      <Route path="/test" element={<TestPage />} />
     </Routes>
   );
 };

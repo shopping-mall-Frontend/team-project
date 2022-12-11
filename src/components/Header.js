@@ -6,8 +6,16 @@ const Container = styled.div`
   background-color: orange;
 `;
 
-const Header = () => {
-  return <Container>Header</Container>;
+const Header = ({ user }) => {
+  return (
+    <Container>
+      {user ? (
+        <p>안녕하세요, {user.displayName} 님!</p>
+      ) : (
+        <p>로그인해주세요!</p>
+      )}
+    </Container>
+  );
 };
 
 export default Header;

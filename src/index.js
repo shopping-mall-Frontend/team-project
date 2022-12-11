@@ -10,7 +10,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   // 전역 css 설정
   body {
-    font: 20px sans-serif, Futura, 'Century Gothic';
+    font: 15px sans-serif, Futura, 'Century Gothic';
   }
 `;
 

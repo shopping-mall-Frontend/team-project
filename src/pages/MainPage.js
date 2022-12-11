@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Login from '../components/Login';
 import { auth } from '../utils/useAPI';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 const logoutButtonHandle = () => {
@@ -26,19 +26,21 @@ const MainPage = () => {
 
   return (
     <Container>
-      <Header />
+      <Header user={user} />
       This is Main Page
       {user ? (
         <div>
           <p> 현재 사용자: {user.displayName} </p>
           <button
-            onClick={() => {
+            onClick={async () => {
               logoutButtonHandle();
+              await auth('logout');
               window.location.reload();
             }}
           >
             로그아웃하기
           </button>
+          <Link to="/test">테스트 페이지로 가기</Link>
         </div>
       ) : (
         <Login />
