@@ -99,6 +99,7 @@ export const getAllProduct = async (key) => {
 export const addProduct = async (key, list) => {
   try {
     list.price = parseInt(list.price);
+    list.tags = list.tags.split(' ');
     if (key) {
       headers.masterKey = true;
       const data = await fetch(`${requestUrl}/products`, {
@@ -131,6 +132,22 @@ export const deleteProduct = async (key, id) => {
       return json;
     }
     return false;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 제품 상세 조회
+export const getProductDetail = async (id) => {
+  try {
+    headers.masterKey = true;
+    const data = await fetch(`${requestUrl}/products/${id}`, {
+      method: 'GET',
+      headers,
+    });
+    const json = await data.json();
+    console.log(json);
+    return json;
   } catch (err) {
     console.log(err);
   }
