@@ -107,7 +107,7 @@ const TestPage = () => {
         <BankUl>
           <Title>등록 가능한 계좌</Title>
           {bankList.map((item) => {
-            return <li>{item.name}</li>;
+            return <li key={item.id}>{item.name}</li>;
           })}
         </BankUl>
         <AccountUl>
