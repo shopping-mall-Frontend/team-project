@@ -16,7 +16,7 @@ const LoginForm = styled.form`
   }
 `;
 const Login = (props) => {
-  const history = useNavigate();
+  // const history = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -32,7 +32,7 @@ const Login = (props) => {
     } else {
       sessionStorage.setItem('accessToken', accessToken);
       alert(`hello, ${user.displayName}!!`);
-      history('/test');
+      window.location.reload();
     }
   };
 
