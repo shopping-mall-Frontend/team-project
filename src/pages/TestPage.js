@@ -51,7 +51,7 @@ const TestPage = () => {
     totalBalance: 0,
     accounts: [],
   });
-
+  const [toggle, setToggle] = useState(true);
   const [bankList, setBankList] = useState([]);
   useEffect(() => {
     const getState = async () => {
@@ -89,6 +89,7 @@ const TestPage = () => {
   const getProductDetails = async (id) => {
     const newProduct = await getProductDetail(id);
     setProduct(newProduct);
+    setToggle(true);
   };
 
   const { register, handleSubmit } = useForm();
@@ -213,19 +214,20 @@ const TestPage = () => {
                 >
                   제품 상세 이미지 보기
                 </button>
-                {product.photo ? (
-                  <span>
-                    제품 상세 이미지:
-                    <img alt="상품 상세 이미지" src={product.photo} />
-                  </span>
-                ) : (
-                  ''
-                )}
                 <span>매진 여부: {item.isSoldOut ? 'O' : 'X'}</span>
               </li>
             ))
           )}
         </ProductUl>
+        {product.photo && toggle ? (
+          <span>
+            <button onClick={() => setToggle(false)}>닫기</button>
+            제품 상세 이미지:
+            <img alt="상품 상세 이미지" src={product.photo} />
+          </span>
+        ) : (
+          ''
+        )}
       </ProductWrap>
     </Container>
   );
