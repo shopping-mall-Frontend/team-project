@@ -8,6 +8,7 @@ import {
   deleteProduct,
   getAccount,
   getAllProduct,
+  getProductDetail,
 } from '../utils/useAPI';
 
 const Container = styled.div``;
@@ -45,6 +46,7 @@ const TestPage = () => {
   const [user, setUser] = useState({});
   const [productList, setProductList] = useState([]);
   const [formToggle, setFormToggle] = useState(false);
+  const [product, setProduct] = useState([]);
   const [accountInfo, setAccountInfo] = useState({
     totalBalance: 0,
     accounts: [],
@@ -84,11 +86,16 @@ const TestPage = () => {
     }
   };
 
+  const getProductDetails = async (id) => {
+    const newProduct = await getProductDetail(id);
+    setProduct(newProduct);
+  };
+
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     data.thumbnailBase64 = await imgToBase64(data.thumbnailBase64);
     data.photoBase64 = await imgToBase64(data.photoBase64);
-
+    console.log(data);
     await addProduct(true, data);
     setProductList([...productList, data]);
   };
@@ -185,7 +192,13 @@ const TestPage = () => {
                 <span>제품 이름: {item.title}</span>
                 <span>제품 가격: {item.price}</span>
                 <span>제품 상세 설명: {item.description}</span>
-                <span>제품 태그: {item.tags}</span>
+                <span>
+                  제품 태그: [
+                  {Array.isArray(item.tags)
+                    ? item.tags.map((tag) => tag).join(',')
+                    : item.tags}
+                  ]
+                </span>
                 {item.thumbnail ? (
                   <span>
                     제품 썸네일: <img alt="상품 이미지" src={item.thumbnail} />
@@ -193,10 +206,17 @@ const TestPage = () => {
                 ) : (
                   ''
                 )}
-                {item.photo ? (
+                <button
+                  onClick={() => {
+                    getProductDetails(item.id);
+                  }}
+                >
+                  제품 상세 이미지 보기
+                </button>
+                {product.photo ? (
                   <span>
                     제품 상세 이미지:
-                    <img alt="상품 상세 이미지" src={item.photo} />
+                    <img alt="상품 상세 이미지" src={product.photo} />
                   </span>
                 ) : (
                   ''
