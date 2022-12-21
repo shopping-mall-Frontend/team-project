@@ -45,10 +45,10 @@ const ItemsContainer = styled.div`
 
   .items-swiper {
     position:absolute;
-    opacity:0;
     transition:1s all;
     width:100%;
-    display:none;
+    opacity:0;
+    display:none
   }
 
   ul {
@@ -88,7 +88,8 @@ const MainPage = () => {
 
   const [gucci, setGucci] = useState([]);
   const [bottega, setBottega] = useState([]);
-  const brand = [gucci, bottega]
+  const [louis, setLouis] = useState([]);
+  const brand = [gucci, bottega, louis]
 
   useEffect(() => {
     const authUser = async () => {
@@ -98,6 +99,7 @@ const MainPage = () => {
 
       setGucci (products.filter((item) => item.title.includes('GUCCI')));
       setBottega (products.filter((item) => item.title.includes('BOTTEGA')));
+      setLouis (products.filter((item) => item.title.includes('LOUIS')));
     };
     authUser();
   }, []);
@@ -125,7 +127,7 @@ const MainPage = () => {
                 console.log(swiper)
                 let index = `.items-swiper-${swiper.activeIndex - 2}`
                 let item = document.querySelector(index)
-                document.querySelectorAll('.items-swiper').forEach(e => {
+                document.querySelectorAll('.items-wrap .swiper').forEach(e => {
                   e.style.opacity = 0;
                   e.style.dispay = 0;
                 })
@@ -146,34 +148,34 @@ const MainPage = () => {
           </Swiper>
         </BannerWrap>
 
-        <ItemsContainer>
+        <ItemsContainer className='items-wrap'>
           {
             brand.map((brand, index) => {
               return(
-                <Swiper
-                  modules={[Navigation, Pagination, A11y]}
-                  slidesPerView={1}
-                  className={'items-swiper items-swiper-' + index}
-                  key={index}
-                >
-                  <SwiperSlide>
-                    <ul>
-                      {
-                        brand.map(item => {
-                          return (
-                            <Link to={'/product/' + item.id} className='item-container' key={item.id}>
-                              <div>
-                                <img src={item.thumbnail} alt={item.title + '이미지'} className='item-img' />
-                                <p className='item-title'>{item.title}</p>
-                                <p className='item-price'>{item.price}</p>
-                              </div>
-                            </Link>
-                          )
-                        })
-                      }
-                    </ul>
-                  </SwiperSlide>
-                </Swiper>
+                  <Swiper
+                    modules={[Navigation, Pagination, A11y]}
+                    slidesPerView={1}
+                    className={'items-swiper items-swiper-' + index} 
+                    key={index}
+                  >
+                    <SwiperSlide>
+                      <ul>
+                        {
+                          brand.map(item => {
+                            return (
+                              <Link to={'/product/' + item.id} className='item-container' key={item.id}>
+                                <div>
+                                  <img src={item.thumbnail} alt={item.title + '이미지'} className='item-img' />
+                                  <p className='item-title'>{item.title}</p>
+                                  <p className='item-price'>{item.price}</p>
+                                </div>
+                              </Link>
+                            )
+                          })
+                        }
+                      </ul>
+                    </SwiperSlide>
+                  </Swiper>
               )
             })
           }
