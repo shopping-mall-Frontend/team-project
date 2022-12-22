@@ -5,7 +5,8 @@ import styles from "../css/Productpage.module.css";
 import { getProductDetail, headers } from "../utils/useAPI";
 import Header from "../components/Header";
 
-const ProductdetailsPage = () => {
+const ProductdetailsPage = ({ cart, setCart }) => {
+  /////////////// 제품 상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
   useEffect(() => {
@@ -25,15 +26,60 @@ const ProductdetailsPage = () => {
     };
     getState();
   }, []);
+
+  /////////////// 장바구니 담기 ///////////////
+  const [count, setCount] = useState(1);
+
+  const handleCart = () => {
+    const cartItem = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      thumnail: product.thumbnail,
+      quantity: count,
+    };
+
+    //중복된 제품에 대한 수량 처리
+    const setQuantity = (id, quantity) => {
+      const found = cart.filter((elment) => elment.id === id)[0];
+      const idx = cart.indexOf(found);
+      const cartItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        thumnail: product.thumbnail,
+        quantity: quantity,
+      };
+      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+    };
+
+    const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
+    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+  };
+  console.log(cart);
+
   return (
     <div>
-      <img src={product.thumbnail} />
-      <ol>
-        <li>상품명 : {product.title}</li>
-        <li>가격 : {product.price}원</li>
-        <li>설명 : {product.description}</li>
-      </ol>
-      <img src={product.photo} />
+      <div>
+        <Link to={`/`}>
+          <button>메인페이지</button>
+        </Link>
+        <Link to={`/product`}>
+          <button>제품 목록 페이지</button>
+        </Link>
+      </div>
+      {product && (
+        <div>
+          <img src={product.thumbnail} />
+          <ol>
+            <li>상품명 : {product.title}</li>
+            <li>가격 : {product.price}원</li>
+            <li>설명 : {product.description}</li>
+            <button onClick={handleCart}>ADD TO CART</button>
+          </ol>
+          <img src={product.photo} />
+        </div>
+      )}
     </div>
   );
 
@@ -45,46 +91,6 @@ const ProductdetailsPage = () => {
   // const Tab = styled.div``;
   // const Links = styled.ul``;
   // const Image = styled.div``;
-
-  // const getProductDetails = async (id) => {
-  //   const newProduct = await getProductDetail(id);
-  //   setProduct(newProduct);
-  //   console.log(product);
-  // };
-  // getProductDetails("BhVkwfe0dukBXeNEybbP");
-
-  // //장바구니 담기
-  // const [cart, setCart] = useState([]);
-  // const [count, setCount] = useState(1);
-
-  //같은 상품일 때 수량만 변경
-  // const setQuantity = (id, quantity) => {
-  //   const found = cart.filter((el) => el.id === id)[0];
-  //   const idx = cart.indexOf(found);
-  //   const cartItem = {
-  //     id: product.id,
-  //     title: product.title,
-  //     price: product.price,
-  //     thumnail: product.thumbnail,
-  //     quantity: quantity,
-  //   };
-  //   setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-  // };
-
-  // const handleCart = () => {
-  //   const cartItem = {
-  //     id: product.id,
-  //     title: product.title,
-  //     price: product.price,
-  //     thumnail: product.thumbnail,
-  //     quantity: count,
-  //   };
-
-  //   const found = cart.find((el) => el.id === cartItem.id);
-
-  //   if (found) setQuantity(cartItem.id, found.quantity + count);
-  //   else setCart([...cart, cartItem]);
-  // };
 
   // <Container>
   //   <Header />
