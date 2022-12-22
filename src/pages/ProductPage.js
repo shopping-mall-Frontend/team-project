@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styles from "../css/Productpage.module.css";
 import { getAllProduct } from "../utils/useAPI";
 import Product from "../components/Product";
@@ -14,11 +15,17 @@ const ProductPage = ({ products, setProducts }) => {
   }, []);
 
   return (
-    <main>
+    <div>
+      <Link to={`/`}>
+        <button>메인</button>
+      </Link>
+      <Link to={`/cart`}>
+        <button>장바구니</button>
+      </Link>
       {products.map((product) => (
         <Product key={product.id} id={product.id} product={product} />
       ))}
-    </main>
+    </div>
   );
 };
 

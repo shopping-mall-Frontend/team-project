@@ -62,10 +62,13 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     <div>
       <div>
         <Link to={`/`}>
-          <button>메인페이지</button>
+          <button>메인</button>
         </Link>
         <Link to={`/product`}>
-          <button>제품 목록 페이지</button>
+          <button>제품 목록</button>
+        </Link>
+        <Link to={`/cart`}>
+          <button>장바구니</button>
         </Link>
       </div>
       {product && (
