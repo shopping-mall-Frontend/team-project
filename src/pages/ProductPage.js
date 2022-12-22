@@ -1,30 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import styles from "../css/Productpage.module.css";
 import { getAllProduct } from "../utils/useAPI";
+import Product from "../components/Product";
 
-const ProductPage = ({ product }) => {
-  const [productList, setProductList] = useState([]);
-
+const ProductPage = ({ products, setProducts }) => {
+  //제품 전체 목록 한번만 조회
   useEffect(() => {
     const getState = async () => {
-      const products = await getAllProduct(true);
-      setProductList(products);
-      console.log(products);
+      const data = await getAllProduct(true);
+      setProducts(data);
     };
     getState();
   }, []);
 
   return (
-    <div>
-      {productList.map((item) => (
-        <Link to={`/productdetails/${item.id}`}>
-          <li key={item.id}>
-            <span>제품 이름: {item.title}</span>
-            <span>제품 이름: {item.id}</span>
-          </li>
-        </Link>
+    <main>
+      {products.map((product) => (
+        <Product key={product.id} id={product.id} product={product} />
       ))}
-    </div>
+    </main>
   );
 };
 
