@@ -1,9 +1,9 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import styles from "../css/CartPage.module.css";
-import Header from "../components/Header";
-import { CartHeader, CartList } from "../components/Cart";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import styles from '../css/CartPage.module.css';
+import Header from '../components/Header';
+import { CartHeader, CartList } from '../components/Cart';
 
 const Container = styled.div``;
 const Step = styled.ul``;
@@ -34,7 +34,13 @@ const CartPage = ({ cart }) => {
             <h2>상품을 담아주세요.</h2>
           </div>
         ) : (
-          cart.map((cart) => <CartList className={styles.cartlist} key={cart.id} cart={cart}></CartList>)
+          cart.map((cart) => (
+            <CartList
+              className={styles.cartlist}
+              key={cart.id}
+              cart={cart}
+            ></CartList>
+          ))
         )}
       </Products>
       <button className={styles.cartlist} type="button">

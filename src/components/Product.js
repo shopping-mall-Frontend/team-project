@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styles from "../css/product.module.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styles from '../css/product.module.css';
 
 const Product = ({ id, product }) => {
   return (

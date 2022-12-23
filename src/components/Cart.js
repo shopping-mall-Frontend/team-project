@@ -1,4 +1,4 @@
-import styles from "../css/CartPage.module.css";
+import styles from '../css/CartPage.module.css';
 
 export const CartHeader = () => {
   return (

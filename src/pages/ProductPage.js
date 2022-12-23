@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import styles from "../css/Productpage.module.css";
-import { getAllProduct } from "../utils/useAPI";
-import Product from "../components/Product";
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styles from '../css/Productpage.module.css';
+import { getAllProduct } from '../utils/useAPI';
+import Product from '../components/Product';
 
 const ProductPage = ({ products, setProducts }) => {
   //제품 전체 목록 한번만 조회

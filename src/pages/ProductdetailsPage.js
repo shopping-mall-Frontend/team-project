@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import styled from "styled-components";
-import styles from "../css/Productpage.module.css";
-import { getProductDetail, headers } from "../utils/useAPI";
-import Header from "../components/Header";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import styles from '../css/Productpage.module.css';
+import { getProductDetail, headers } from '../utils/useAPI';
+import Header from '../components/Header';
 
 const ProductdetailsPage = ({ cart, setCart }) => {
   /////////////// 제품 상세 불러오기 ///////////////
@@ -17,10 +17,13 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     // };
     const getState = async () => {
       const json = await (
-        await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
-          method: "GET",
-          headers,
-        })
+        await fetch(
+          `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+          {
+            method: 'GET',
+            headers,
+          }
+        )
       ).json();
       setProduct(json);
     };
@@ -54,7 +57,9 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
-    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+    foundDuplication
+      ? setQuantity(cartItem.id, foundDuplication.quantity + count)
+      : setCart([...cart, cartItem]);
   };
   console.log(cart);
 
