@@ -184,7 +184,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
           </Tab>
           <Btns>
             <button>
-              <Link to={'#'}>BUY NOW</Link>
+              <Link to={'/order'}>BUY NOW</Link>
             </button>
 
             <button onClick={handleCart}>ADD TO CART</button>
