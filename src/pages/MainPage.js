@@ -89,6 +89,7 @@ const MainPage = () => {
   const [gucci, setGucci] = useState([]);
   const [bottega, setBottega] = useState([]);
   const [louis, setLouis] = useState([]);
+  const [showBrand, setShowBrand] = useState('');
   const brand = [gucci, bottega, louis]
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const MainPage = () => {
       const products = await getAllProduct(true);
       setUser(userInfo);
 
-      setGucci (products.filter((item) => item.title.includes('GUCCI')));
+      setGucci (products.filter((item) => item.tags[0] === 'GUCCI'));
       setBottega (products.filter((item) => item.title.includes('BOTTEGA')));
       setLouis (products.filter((item) => item.title.includes('LOUIS')));
     };
@@ -117,22 +118,12 @@ const MainPage = () => {
             centeredSlides={true}
             loop={true} 
             loopFillGroupWithBlank={true}
-            onSwiper={() => {
-                const item = document.querySelector('.items-swiper-0')
-                item.style.display = 'block'
-                item.style.opacity = 1
+            onSwiper={(swiper) => {
+                setShowBrand(swiper.activeIndex - 2)
               }
             }
             onSlideChange={(swiper) => {
-                console.log(swiper)
-                let index = `.items-swiper-${swiper.activeIndex - 2}`
-                let item = document.querySelector(index)
-                document.querySelectorAll('.items-wrap .swiper').forEach(e => {
-                  e.style.opacity = 0;
-                  e.style.dispay = 0;
-                })
-                item.style.opacity = 1
-                item.style.display = 'block'
+                setShowBrand(swiper.activeIndex - 2)
               }
             }
           >
@@ -144,6 +135,9 @@ const MainPage = () => {
             </SwiperSlide>
             <SwiperSlide>
               <Banner style={{'background':'url("https://www.noblesse.com/shop/data/m/editor_new/2019/10/02/19e8151a86f3a75d0930_style_02.jpg") center center / cover no-repeat'} }></Banner>
+            </SwiperSlide>
+            <SwiperSlide>
+              <Banner style={{'background':'url("https://mouchegallery.com/wp-content/uploads/2018/12/COCO-CHANEL-WEBSITE-BANNER.jpg") center center / cover no-repeat'} }></Banner>
             </SwiperSlide>
           </Swiper>
         </BannerWrap>
