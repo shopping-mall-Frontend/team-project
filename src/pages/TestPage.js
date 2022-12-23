@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import styled from 'styled-components';
-import Header from '../components/Header';
-import {
-  addProduct,
-  auth,
-  deleteProduct,
-  getAccount,
-  getAllProduct,
-  getProductDetail,
-} from '../utils/useAPI';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import styled from "styled-components";
+import Header from "../components/Header";
+import { addProduct, auth, deleteProduct, getAccount, getAllProduct, getProductDetail } from "../utils/useAPI";
 
 const Container = styled.div``;
 const AccountWrap = styled.div`
@@ -55,12 +48,13 @@ const TestPage = () => {
   const [bankList, setBankList] = useState([]);
   useEffect(() => {
     const getState = async () => {
-      const banks = await getAccount('banks');
+      const banks = await getAccount("banks");
       setBankList(banks);
       const accounts = await getAccount();
       setAccountInfo(accounts);
       const products = await getAllProduct(true);
       setProductList(products);
+      console.log(products);
     };
     getState();
     getUser();
@@ -82,7 +76,7 @@ const TestPage = () => {
         };
       });
     } else {
-      return '';
+      return "";
     }
   };
 
@@ -110,7 +104,7 @@ const TestPage = () => {
     <Container>
       <Header user={user} />
       테스트 페이지입니다.
-      <AccountWrap>
+      {/* <AccountWrap>
         <Title>계좌</Title>
         <BankUl>
           <Title>등록 가능한 계좌</Title>
@@ -133,7 +127,7 @@ const TestPage = () => {
             ))
           )}
         </AccountUl>
-      </AccountWrap>
+      </AccountWrap> */}
       <ProductWrap>
         <Title>제품</Title>
         <button
@@ -145,36 +139,18 @@ const TestPage = () => {
         </button>
         {formToggle ? (
           <ProductForm onSubmit={handleSubmit(onSubmit)}>
-            <input
-              placeholder="제품 이름 (필수!)"
-              {...register('title', { required: true })}
-            />
-            <input
-              placeholder="제품 가격 (필수!)"
-              {...register('price', { required: true })}
-            />
-            <textarea
-              placeholder="제품 상세 설명 (필수!)"
-              {...register('description', { required: true })}
-            ></textarea>
-            <input
-              placeholder="태그"
-              {...register('tags', { required: false })}
-            />
+            <input placeholder="제품 이름 (필수!)" {...register("title", { required: true })} />
+            <input placeholder="제품 가격 (필수!)" {...register("price", { required: true })} />
+            <textarea placeholder="제품 상세 설명 (필수!)" {...register("description", { required: true })}></textarea>
+            <input placeholder="태그" {...register("tags", { required: false })} />
             {/* 제품 썸네일 사진 */}
-            <input
-              type="file"
-              {...register('thumbnailBase64', { required: false })}
-            />
+            <input type="file" {...register("thumbnailBase64", { required: false })} />
             {/* 제품 상세 사진 */}
-            <input
-              type="file"
-              {...register('photoBase64', { required: false })}
-            />
+            <input type="file" {...register("photoBase64", { required: false })} />
             <button type="submit">완료</button>
           </ProductForm>
         ) : (
-          ''
+          ""
         )}
         <ProductUl>
           <Title>현재 제품 리스트</Title>
@@ -193,19 +169,13 @@ const TestPage = () => {
                 <span>제품 이름: {item.title}</span>
                 <span>제품 가격: {item.price}</span>
                 <span>제품 상세 설명: {item.description}</span>
-                <span>
-                  제품 태그: [
-                  {Array.isArray(item.tags)
-                    ? item.tags.map((tag) => tag).join(',')
-                    : item.tags}
-                  ]
-                </span>
+                <span>제품 태그: [{Array.isArray(item.tags) ? item.tags.map((tag) => tag).join(",") : item.tags}]</span>
                 {item.thumbnail ? (
                   <span>
                     제품 썸네일: <img alt="상품 이미지" src={item.thumbnail} />
                   </span>
                 ) : (
-                  ''
+                  ""
                 )}
                 <button
                   onClick={() => {
@@ -214,7 +184,6 @@ const TestPage = () => {
                 >
                   제품 상세 이미지 보기
                 </button>
-                <span>매진 여부: {item.isSoldOut ? 'O' : 'X'}</span>
               </li>
             ))
           )}
