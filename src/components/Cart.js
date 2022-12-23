@@ -16,7 +16,6 @@ export const CartHeader = () => {
 export const CartList = ({ cart }) => {
   return (
     <div>
-      <Header />
       <input type="checkbox" />
       <img src="" alt="" />
       <p>{cart.title}</p>
