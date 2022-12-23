@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import styles from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail, headers } from '../utils/useAPI';
@@ -108,7 +108,6 @@ const ProductdetailsPage = ({ cart, setCart }) => {
 
   /////////////// 장바구니 담기 ///////////////
   const [count, setCount] = useState(1);
-
   const handleCart = () => {
     const cartItem = {
       id: product.id,
@@ -134,6 +133,19 @@ const ProductdetailsPage = ({ cart, setCart }) => {
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
     foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+
+    moveTocart();
+  };
+
+  //alert 창
+  const navigate = useNavigate();
+  const moveTocart = () => {
+    {
+      window.confirm(`상품을 장바구니에 담았습니다. 
+장바구니로 이동하시겠습니까?`)
+        ? navigate('/cart')
+        : console.log(false);
+    }
   };
 
   /////////////// 상세설명 토글 ///////////////
