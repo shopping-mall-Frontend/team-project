@@ -173,7 +173,13 @@ const ProductdetailsPage = ({ cart, setCart }) => {
               <dt>
                 <button onClick={handleToggle}>CARE GUIDE</button>
               </dt>
-              {toggle ? '' : <dd>가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다. </dd>}
+              {toggle ? (
+                ''
+              ) : (
+                <dd>
+                  [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
+                </dd>
+              )}
             </div>
             <div>
               <dt>
