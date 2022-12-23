@@ -77,6 +77,7 @@ const Btns = styled.div`
   flex-direction: column;
   gap: 10px;
   button {
+    width: 100%;
     padding: 10px 0;
     border: 1px solid #000;
     cursor: pointer;
@@ -201,10 +202,9 @@ const ProductdetailsPage = ({ cart, setCart }) => {
             </div>
           </Tab>
           <Btns>
-            <button>
-              <Link to={'/order'}>BUY NOW</Link>
-            </button>
-
+            <Link to={'/order'}>
+              <button>BUY NOW</button>
+            </Link>
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>
         </Sidebar>
