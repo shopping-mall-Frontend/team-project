@@ -1,4 +1,5 @@
 import styles from '../css/CartPage.module.css';
+import Header from '../components/Header';
 
 export const CartHeader = () => {
   return (
@@ -15,6 +16,7 @@ export const CartHeader = () => {
 export const CartList = ({ cart }) => {
   return (
     <div>
+      <Header />
       <input type="checkbox" />
       <img src="" alt="" />
       <p>{cart.title}</p>

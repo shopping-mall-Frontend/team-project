@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import styles from '../css/Productpage.module.css';
+import styles from '../css/ProductdetailsPage.module.css';
 import { getProductDetail, headers } from '../utils/useAPI';
 import Header from '../components/Header';
 
@@ -60,6 +60,8 @@ const ProductdetailsPage = ({ cart, setCart }) => {
 
   return (
     <div>
+      <Header />
+      {/* 헤더에 들어갈 링크, 임시 표기 */}
       <div>
         <Link to={`/`}>
           <button>메인</button>
@@ -69,6 +71,9 @@ const ProductdetailsPage = ({ cart, setCart }) => {
         </Link>
         <Link to={`/cart`}>
           <button>장바구니</button>
+        </Link>
+        <Link to={`/user`}>
+          <button>user님</button>
         </Link>
       </div>
       {product && (
