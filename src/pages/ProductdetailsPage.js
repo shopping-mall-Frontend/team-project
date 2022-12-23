@@ -27,6 +27,7 @@ const Sidebar = styled.ol`
   right: 0;
 
   width: 400px;
+  padding-right: 20px;
 `;
 
 const Category = styled.ol`
@@ -58,12 +59,27 @@ const Info = styled.ol`
   }
 `;
 const Tab = styled.dl`
+  padding-right: 50px;
   div + div {
     margin-top: 8px;
   }
 
   dt button {
+    padding-bottom: 10px;
     font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+`;
+
+const Btns = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  button {
+    padding: 10px 0;
+    border: 1px solid #000;
+    cursor: pointer;
   }
 `;
 
@@ -166,10 +182,13 @@ const ProductdetailsPage = ({ cart, setCart }) => {
               {toggle ? '' : <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>}
             </div>
           </Tab>
-          <div>
-            <button>BUY NOW</button>
+          <Btns>
+            <button>
+              <Link to={'#'}>BUY NOW</Link>
+            </button>
+
             <button onClick={handleCart}>ADD TO CART</button>
-          </div>
+          </Btns>
         </Sidebar>
       </ProductWrap>
     </Container>
