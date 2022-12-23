@@ -17,13 +17,10 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     // };
     const getState = async () => {
       const json = await (
-        await fetch(
-          `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
-          {
-            method: 'GET',
-            headers,
-          }
-        )
+        await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
+          method: 'GET',
+          headers,
+        })
       ).json();
       setProduct(json);
     };
@@ -33,7 +30,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
   /////////////// 장바구니 담기 ///////////////
   const [count, setCount] = useState(1);
 
-  const handleCart = () => {
+  const HandleCart = () => {
     const cartItem = {
       id: product.id,
       title: product.title,
@@ -57,9 +54,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
-    foundDuplication
-      ? setQuantity(cartItem.id, foundDuplication.quantity + count)
-      : setCart([...cart, cartItem]);
+    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
   };
   console.log(cart);
 
@@ -83,7 +78,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
             <li>상품명 : {product.title}</li>
             <li>가격 : {product.price}원</li>
             <li>설명 : {product.description}</li>
-            <button onClick={handleCart}>ADD TO CART</button>
+            <button onClick={HandleCart}>ADD TO CART</button>
           </ol>
           <img src={product.photo} />
         </div>
