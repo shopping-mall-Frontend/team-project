@@ -4,6 +4,7 @@ import styles from '../css/ProductPage.module.css';
 import { getAllProduct } from '../utils/useAPI';
 import Product from '../components/Product';
 import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 const ProductPage = ({ products, setProducts }) => {
   //제품 전체 목록 한번만 조회
@@ -18,19 +19,7 @@ const ProductPage = ({ products, setProducts }) => {
   return (
     <div>
       <Header />
-      {/* 헤더에 들어갈 링크, 임시 표기 */}
-      <div>
-        <Link to={`/`}>
-          <button>메인</button>
-        </Link>
-        <Link to={`/cart`}>
-          <button>장바구니</button>
-        </Link>
-        <Link to={`/user`}>
-          <button>user님</button>
-        </Link>
-      </div>
-
+      <Navbar />
       {/* 제품 목록 */}
       <ol>
         {products.map((product) => (

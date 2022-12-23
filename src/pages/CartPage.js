@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import styles from '../css/CartPage.module.css';
 import Header from '../components/Header';
 import { CartHeader, CartList } from '../components/Cart';
+import Navbar from '../components/Navbar';
 
 const Container = styled.div``;
 const Step = styled.ul``;
@@ -15,17 +16,7 @@ const CartPage = ({ cart }) => {
   return (
     <Container>
       <Header />
-      <div>
-        <Link to={`/`}>
-          <button>메인</button>
-        </Link>
-        <Link to={`/product`}>
-          <button>제품 목록</button>
-        </Link>
-        <Link to={`/user`}>
-          <button>user님</button>
-        </Link>
-      </div>
+      <Navbar />
       <Step className={styles.step}>
         <li>01 SHOPPING BAG</li>
         <li>02 ORDER</li>

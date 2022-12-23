@@ -1,20 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../css/Product.module.css';
-
+import styled from 'styled-components';
+const PrdList = styled.div`
+  width: calc(20% - 15px);
+  a {
+    display: block;
+    height: 200px;
+    margin-bottom: 10px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+`;
+const PrdBrand = styled.p`
+  margin-bottom: 5px;
+`;
+const PrdTitle = styled.p`
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.02rem;
+`;
+const PrdPrice = styled.p`
+  font-size: 0.9rem;
+`;
 const Product = ({ id, product }) => {
   return (
-    <li>
-      <Link to={`/product/${id}`}>
-        <img src={product.thumbnail} alt="상품 이미지" />
-      </Link>
-      <div>
-        <span>{product.tags[0]}</span>
-        <span>{product.title}</span>
-        <span>{`${product.price}원`}</span>
-      </div>
-    </li>
+    <PrdList>
+      <Link to={`/product/${id}`} style={{ backgroundImage: `url(${product.thumbnail})` }} />
+      <PrdBrand>[{product.tags[0]}]</PrdBrand>
+      <PrdTitle>{product.title}</PrdTitle>
+      <PrdPrice>{`${product.price.toLocaleString()}원`}</PrdPrice>
+    </PrdList>
   );
 };
-
 export default Product;
