@@ -8,9 +8,11 @@ const Product = ({ id, product }) => {
       <Link to={`/product/${id}`}>
         <img src={product.thumbnail} alt="상품 이미지" />
       </Link>
-      <span>{product.tags}</span>
-      <span>{product.title}</span>
-      <span>{`${product.price}원`}</span>
+      <div>
+        <span>{product.tags[0]}</span>
+        <span>{product.title}</span>
+        <span>{`${product.price}원`}</span>
+      </div>
     </li>
   );
 };

@@ -30,6 +30,8 @@ const ProductPage = ({ products, setProducts }) => {
           <button>user님</button>
         </Link>
       </div>
+
+      {/* 제품 목록 */}
       <ol>
         {products.map((product) => (
           <Product key={product.id} id={product.id} product={product} />

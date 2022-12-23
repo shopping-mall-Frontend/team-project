@@ -1,0 +1,10 @@
+@import url(reset-css.css);
+
+ol {
+  display: flex;
+  flex-wrap: wrap;
+
+  margin: 80px 300px;
+
+  background-color: rgb(92, 176, 101);
+}
