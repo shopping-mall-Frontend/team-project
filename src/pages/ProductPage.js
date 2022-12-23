@@ -30,9 +30,11 @@ const ProductPage = ({ products, setProducts }) => {
           <button>user님</button>
         </Link>
       </div>
-      {products.map((product) => (
-        <Product key={product.id} id={product.id} product={product} />
-      ))}
+      <ol>
+        {products.map((product) => (
+          <Product key={product.id} id={product.id} product={product} />
+        ))}
+      </ol>
     </div>
   );
 };
