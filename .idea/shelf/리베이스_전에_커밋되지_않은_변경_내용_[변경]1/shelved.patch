@@ -1,0 +1,41 @@
+Index: src/css/reset-css.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>/* Custom */\r\n* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n}\r\n\r\na {\r\n  color: inherit;\r\n  text-decoration: none;\r\n}\r\n\r\nul,\r\nol,\r\nli {\r\n  padding-left: 0;\r\n  margin-left: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbutton,\r\ninput,\r\ntextarea {\r\n  font-family: ;\r\n  font-size: 16px;\r\n}\r\n\r\nbutton:focus,\r\nbutton:active,\r\ninput:focus,\r\ninput:active,\r\ntextarea:focus,\r\ntextarea:active {\r\n  outline: none;\r\n  box-shadow: none;\r\n}\r\n\r\nbutton,\r\ninput,\r\ntextarea {\r\n  padding: 0;\r\n  border: none;\r\n  background-color: transparent;\r\n}\r\n\r\n.hidden {\r\n  display: none;\r\n}\r\n\r\n.sr-only {\r\n  position: absolute;\r\n  overflow: hidden;\r\n  width: 1px;\r\n  height: 1px;\r\n  padding: 0;\r\n  margin: -1px;\r\n  border: 0;\r\n  clip: rect(0, 0, 0, 0);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/css/reset-css.css b/src/css/reset-css.css
+--- a/src/css/reset-css.css	(revision b4504f46962c643033ccd7608a9b53cd30d551e3)
++++ b/src/css/reset-css.css	(date 1671988167037)
+@@ -20,7 +20,6 @@
+ button,
+ input,
+ textarea {
+-  font-family: ;
+   font-size: 16px;
+ }
+ 
+Index: src/pages/ProductPage.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { useEffect } from 'react';\r\nimport { Link } from 'react-router-dom';\r\nimport styles from '../css/ProductPage.module.css';\r\nimport { getAllProduct } from '../utils/useAPI';\r\nimport Product from '../components/Product';\r\nimport Header from '../components/Header';\r\nimport Navbar from '../components/Navbar';\r\n\r\nconst ProductPage = ({ products, setProducts }) => {\r\n  //제품 전체 목록 한번만 조회\r\n  useEffect(() => {\r\n    const getState = async () => {\r\n      const data = await getAllProduct(true);\r\n      setProducts(data);\r\n    };\r\n    getState();\r\n  }, []);\r\n\r\n  return (\r\n    <div>\r\n      <Header />\r\n      <Navbar />\r\n      {/* 제품 목록 */}\r\n      <ol>\r\n        {products.map((product) => (\r\n          <Product key={product.id} id={product.id} product={product} />\r\n        ))}\r\n      </ol>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport { ProductPage };\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/ProductPage.js b/src/pages/ProductPage.js
+--- a/src/pages/ProductPage.js	(revision b4504f46962c643033ccd7608a9b53cd30d551e3)
++++ b/src/pages/ProductPage.js	(date 1671988566068)
+@@ -1,11 +1,10 @@
+ import { useEffect } from 'react';
+ import { Link } from 'react-router-dom';
+-import styles from '../css/ProductPage.module.css';
+ import { getAllProduct } from '../utils/useAPI';
+ import Product from '../components/Product';
+ import Header from '../components/Header';
+ import Navbar from '../components/Navbar';
+-
++import styles from '../css/Productpage.module.css';
+ const ProductPage = ({ products, setProducts }) => {
+   //제품 전체 목록 한번만 조회
+   useEffect(() => {
