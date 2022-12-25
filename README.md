@@ -31,5 +31,6 @@ N4명들과 마지막 27살 쿨수마스를  보내다 ..> <🍊
 
 ## 🎁️ PLAY
  <img src="https://user-images.githubusercontent.com/98737388/209478442-84b03675-04a4-42c5-8533-aa931111d0f7.gif" width="50%" height="50%"/>
- <br> <img src="
+ <br> 
+<img src="
 https://user-images.githubusercontent.com/98737388/209479185-16d6d275-adec-48a8-8727-ee0120497b0f.gif" width="50%" height="50%"/>

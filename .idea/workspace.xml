@@ -9,15 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89e81198-bfd1-480f-bfda-139c9e5f6c5e" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/src/axios/Axios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/layout/DefaultLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/reset-css.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/reset-css.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/Auth/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Auth/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/ProductPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/ProductPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +61,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "configurable.group.appearance",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -82,7 +75,7 @@
       <updated>1671982368492</updated>
       <workItem from="1671982369620" duration="2467000" />
       <workItem from="1671985355230" duration="1592000" />
-      <workItem from="1671987322964" duration="5628000" />
+      <workItem from="1671987322964" duration="7260000" />
     </task>
     <servers />
   </component>
