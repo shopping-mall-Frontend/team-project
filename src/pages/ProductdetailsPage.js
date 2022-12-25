@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import styles from '../css/reset-css.css';
 import styled from 'styled-components';
-import { getProductDetail, headers } from '../utils/useAPI';
+import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
