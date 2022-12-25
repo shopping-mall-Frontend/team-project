@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../css/Productpage.module.css';
+import styles from '../css/ProductPage.module.css';
 import { getAllProduct } from '../utils/useAPI';
 import Product from '../components/Product';
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 const ProductPage = ({ products, setProducts }) => {
   //제품 전체 목록 한번만 조회
@@ -16,15 +18,14 @@ const ProductPage = ({ products, setProducts }) => {
 
   return (
     <div>
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
-      <Link to={`/cart`}>
-        <button>장바구니</button>
-      </Link>
-      {products.map((product) => (
-        <Product key={product.id} id={product.id} product={product} />
-      ))}
+      <Header />
+      <Navbar />
+      {/* 제품 목록 */}
+      <ol>
+        {products.map((product) => (
+          <Product key={product.id} id={product.id} product={product} />
+        ))}
+      </ol>
     </div>
   );
 };

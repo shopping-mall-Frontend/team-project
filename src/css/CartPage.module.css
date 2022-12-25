@@ -1,3 +1,5 @@
+@import url(reset-css.css);
+
 .container {
   font-size: 9px;
 }
@@ -15,7 +17,7 @@
 }
 
 .step li + li::before {
-  content: "<";
+  content: '<';
   margin-right: 10px;
 }
 

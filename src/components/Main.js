@@ -70,130 +70,87 @@ const Main = () => {
   return (
     <Main>
       <Beaner>
-        <BeanerItems
-          src="https://spnimage.edaily.co.kr/images/photo/files/NP/S/2021/05/PS21051900009.jpg"
-          alt="guggi"
-        />
+        <BeanerItems src="https://spnimage.edaily.co.kr/images/photo/files/NP/S/2021/05/PS21051900009.jpg" alt="guggi" />
       </Beaner>
 
       <ItemsContainer>
         <ul>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>
           </li>
           <li className="item-container">
             <div className="item-img">
-              <img
-                src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg"
-                alt=""
-              />
+              <img src="https://www.wdrobe.com/web/upload/NNEditor/20220128/copy-1643340580-1.jpg" alt="" />
             </div>
             <div className="itme-info">
-              <p className="item-name">
-                22F/W 구찌 오피디아 미니 체인 장지갑&숄더백
-              </p>
+              <p className="item-name">22F/W 구찌 오피디아 미니 체인 장지갑&숄더백</p>
               <p className="item-brand">GUCCI</p>
               <p className="item-place">1,298,000원</p>
             </div>

@@ -1,9 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import styles from '../css/reset-css.css';
 import styled from 'styled-components';
-import styles from '../css/Productpage.module.css';
 import { getProductDetail, headers } from '../utils/useAPI';
 import Header from '../components/Header';
+import Navbar from '../components/Navbar';
+
+const Container = styled.div``;
+const ProductWrap = styled.main`
+  padding: 100px 0;
+`;
+const ImageWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  img {
+    width: 500px;
+  }
+`;
+const Sidebar = styled.ol`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  position: fixed;
+  top: 190px;
+  right: 0;
+
+  width: 400px;
+  padding-right: 20px;
+`;
+
+const Category = styled.ol`
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 10px;
+
+  color: rgb(137, 137, 137);
+  font-size: 12px;
+
+  li {
+    cursor: pointer;
+  }
+
+  li + li::before {
+    content: '/';
+    padding-right: 10px;
+  }
+`;
+const Info = styled.ol`
+  display: flex;
+  flex-direction: column;
+
+  li:first-child {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+`;
+const Tab = styled.dl`
+  padding-right: 50px;
+  div + div {
+    margin-top: 8px;
+  }
+
+  dt button {
+    padding-bottom: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+`;
+
+const Btns = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  button {
+    width: 100%;
+    padding: 10px 0;
+    border: 1px solid #000;
+    cursor: pointer;
+  }
+`;
 
 const ProductdetailsPage = ({ cart, setCart }) => {
   /////////////// 제품 상세 불러오기 ///////////////
@@ -17,22 +96,19 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     // };
     const getState = async () => {
       const json = await (
-        await fetch(
-          `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
-          {
-            method: 'GET',
-            headers,
-          }
-        )
+        await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
+          method: 'GET',
+          headers,
+        })
       ).json();
       setProduct(json);
     };
     getState();
   }, []);
+  const copyTags = { ...product.tags };
 
   /////////////// 장바구니 담기 ///////////////
   const [count, setCount] = useState(1);
-
   const handleCart = () => {
     const cartItem = {
       id: product.id,
@@ -57,87 +133,84 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
-    foundDuplication
-      ? setQuantity(cartItem.id, foundDuplication.quantity + count)
-      : setCart([...cart, cartItem]);
+    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+
+    moveTocart();
   };
-  console.log(cart);
+
+  //alert 창
+  const navigate = useNavigate();
+  const moveTocart = () => {
+    {
+      window.confirm(`상품을 장바구니에 담았습니다. 
+장바구니로 이동하시겠습니까?`)
+        ? navigate('/cart')
+        : console.log(false);
+    }
+  };
+
+  /////////////// 상세설명 토글 ///////////////
+  const [toggle, setToggle] = useState(true);
+  const handleToggle = () => {
+    setToggle((current) => !current);
+  };
 
   return (
-    <div>
-      <div>
-        <Link to={`/`}>
-          <button>메인</button>
-        </Link>
-        <Link to={`/product`}>
-          <button>제품 목록</button>
-        </Link>
-        <Link to={`/cart`}>
-          <button>장바구니</button>
-        </Link>
-      </div>
-      {product && (
-        <div>
-          <img src={product.thumbnail} />
-          <ol>
-            <li>상품명 : {product.title}</li>
-            <li>가격 : {product.price}원</li>
-            <li>설명 : {product.description}</li>
+    <Container>
+      <Header />
+      <Navbar />
+      <ProductWrap>
+        <ImageWrap>
+          <img src={product.photo} alt={`${product.title} 상세이미지`} />
+        </ImageWrap>
+        <Sidebar>
+          <div>
+            <Category>
+              <li>{copyTags[0]}</li>
+              <li>{copyTags[1]}</li>
+            </Category>
+
+            <Info>
+              <li>{product.title}</li>
+              <li>{product.price}원</li>
+            </Info>
+          </div>
+          <Tab>
+            <div>
+              <dt>
+                <button onClick={handleToggle}>DETAILS</button>
+              </dt>
+              {toggle ? '' : <dd>{product.description}</dd>}
+            </div>
+            <div>
+              <dt>
+                <button onClick={handleToggle}>CARE GUIDE</button>
+              </dt>
+              {toggle ? (
+                ''
+              ) : (
+                <dd>
+                  [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
+                </dd>
+              )}
+            </div>
+            <div>
+              <dt>
+                <button onClick={handleToggle}>SHIPPING & RETURN</button>
+              </dt>
+              {toggle ? '' : <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>}
+            </div>
+          </Tab>
+          <Btns>
+            <Link to={'/order'}>
+              <button>BUY NOW</button>
+            </Link>
             <button onClick={handleCart}>ADD TO CART</button>
-          </ol>
-          <img src={product.photo} />
-        </div>
-      )}
-    </div>
+          </Btns>
+        </Sidebar>
+      </ProductWrap>
+    </Container>
   );
-
-  //CSS 추후 추가
-  // const Container = styled.div``;
-  // const Product = styled.div``;
-  // const Sidebar = styled.div``;
-  // const Info = styled.div``;
-  // const Tab = styled.div``;
-  // const Links = styled.ul``;
-  // const Image = styled.div``;
-
-  // <Container>
-  //   <Header />
-  //   {product === null ? (
-  //     <p>"제품을 조회할 수 없습니다."</p>
-  //   ) : (
-  //     <Product className={styles.productwrap}>
-  //       <Sidebar className={styles.sidebar}>
-  //         <Info>
-  //           <ol className={styles.category}>
-  //             <li>카테고리</li>
-  //             <li>카테고리2</li>
-  //             <li>카테고리3</li>
-  //           </ol>
-  //           <ul className={styles.description}>
-  //             <li>{product.title}</li>
-  //             <li>{product.price}원</li>
-  //             <li>{product.tags}</li>
-  //           </ul>
-  //         </Info>
-  //         <Tab className={styles.tab}>
-  //           <li>DETAILS</li>
-  //           <div className={styles.tabdesc}>{product.description}</div>
-  //         </Tab>
-  //         <Links className={styles.links}>
-  //           <li>
-  //             <Link to="#">
-  //               <button>BUY NOW</button>
-  //             </Link>
-  //           </li>
-  //           <li>
-  //             <button>ADD TO CART</button>
-  //           </li>
-  //         </Links>
-  //       </Sidebar>
-  //       <Image className={styles.img}>{product.photo ? <img className={styles.imgdetail} alt="상품 상세이미지" src={product.photo} /> : "상품 상세이미지 없음"}</Image>
-  //     </Product>
-  //   )}
-  // </Container>
 };
 
 export { ProductdetailsPage };

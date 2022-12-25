@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import styles from '../css/CartPage.module.css';
 import Header from '../components/Header';
 import { CartHeader, CartList } from '../components/Cart';
+import Navbar from '../components/Navbar';
 
 const Container = styled.div``;
 const Step = styled.ul``;
@@ -15,12 +16,7 @@ const CartPage = ({ cart }) => {
   return (
     <Container>
       <Header />
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
-      <Link to={`/product`}>
-        <button>제품 목록</button>
-      </Link>
+      <Navbar />
       <Step className={styles.step}>
         <li>01 SHOPPING BAG</li>
         <li>02 ORDER</li>
@@ -34,13 +30,7 @@ const CartPage = ({ cart }) => {
             <h2>상품을 담아주세요.</h2>
           </div>
         ) : (
-          cart.map((cart) => (
-            <CartList
-              className={styles.cartlist}
-              key={cart.id}
-              cart={cart}
-            ></CartList>
-          ))
+          cart.map((cart) => <CartList className={styles.cartlist} key={cart.id} cart={cart}></CartList>)
         )}
       </Products>
       <button className={styles.cartlist} type="button">
