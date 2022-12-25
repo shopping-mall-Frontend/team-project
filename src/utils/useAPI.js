@@ -141,7 +141,7 @@ export const deleteProduct = async (key, id) => {
 export const getProductDetail = async (id) => {
   try {
     headers.masterKey = true;
-    const data = await fetch(`${requestUrl}/products/${id}`, {
+    const data = await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
       method: 'GET',
       headers,
     });

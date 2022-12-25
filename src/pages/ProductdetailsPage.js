@@ -89,18 +89,8 @@ const ProductdetailsPage = ({ cart, setCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   useEffect(() => {
-    //이게 왜 안되는지 몰겠어요.. 살려주세요...
-    // const getState = async (id) => {
-    //   const json = await getProductDetail(id);
-    //   setProduct(json);
-    // };
     const getState = async () => {
-      const json = await (
-        await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
-          method: 'GET',
-          headers,
-        })
-      ).json();
+      const json = await getProductDetail(id);
       setProduct(json);
     };
     getState();
