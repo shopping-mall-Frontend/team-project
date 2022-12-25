@@ -1,0 +1,8 @@
+@import url(reset-css.css);
+
+ol {
+  display: flex;
+  flex-wrap: wrap;
+
+  margin: 80px 300px;
+}
