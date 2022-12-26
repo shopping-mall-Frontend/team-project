@@ -3,15 +3,19 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import OrderHistory from '../components/Mypage/OrderHistory';
+import CancleHistory from '../components/Mypage/CancleHistory';
+import Account from '../components/Mypage/Account';
+import EditMemberInfo from '../components/Mypage/EditMemberInfo';
 
 const UserPage = () => {
   const array = [
-    { id: 0, title: '나의 주문내역', description: '내용1' },
-    { id: 1, title: '취소 내역', description: '내용2' },
-    { id: 2, title: '내 계좌', description: '내용3' },
-    { id: 3, title: '내정보 수정', description: '내용4' },
+    { id: 0, title: '나의 주문내역', description: <OrderHistory /> },
+    { id: 1, title: '취소 내역', description: <CancleHistory /> },
+    { id: 2, title: '내 계좌', description: <Account /> },
+    { id: 3, title: '내정보 수정', description: <EditMemberInfo /> },
   ];
   const [title, setTitle] = useState(0);
+
   return (
     <Container>
       <Header />
@@ -42,18 +46,17 @@ const UserPage = () => {
           </UserInfo>
           <Details>
             <Title>
-              {' '}
               {array
                 .filter((item) => title === item.id)
                 .map((item) => (
-                  <div>{item.title}</div>
+                  <div key={item.id}>{item.title}</div>
                 ))}
             </Title>
             <div>
               {array
                 .filter((item) => title === item.id)
                 .map((item) => (
-                  <div>{item.description}</div>
+                  <div key={item.id}>{item.description}</div>
                 ))}
             </div>
           </Details>
@@ -110,7 +113,7 @@ const UserInfo = styled.div`
   gap: 20px;
   padding: 20px;
   width: 100%;
-  height: 120px;
+  height: 140px;
   background-color: #303032;
   color: #9b9fa8;
 
