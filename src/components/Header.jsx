@@ -38,7 +38,15 @@ const StyledHeader = styled.div`
     position: relative;
   }
 input{
-
+  margin: 0 auto;
+  width: 10rem;
+  height: 2rem;
+  font-size: 2px;
+  border: 0;
+  border-radius: 15px;
+  outline: none;
+  padding-left: 10px;
+  background-color: rgb(233, 233, 233);
 }
 
   li {
