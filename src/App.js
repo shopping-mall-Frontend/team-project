@@ -18,9 +18,9 @@ const App = () => {
 
   return (
     <Routes>
-      <Route 
-        path="/" 
-        element={<MainPage products={products} setProducts={setProducts} />} 
+      <Route
+        path="/"
+        element={<MainPage products={products} setProducts={setProducts} />}
       />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
@@ -37,7 +37,6 @@ const App = () => {
         path="/cart"
         element={<CartPage cart={cart} setCart={setCart} />}
       />
-      <Route path="/order" element={<OrderPage />} />
       <Route path="/user" element={<UserPage />} />
     </Routes>
   );
