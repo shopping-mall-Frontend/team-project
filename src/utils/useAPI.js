@@ -1,7 +1,7 @@
 const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
 const requestUrl = 'api';
 
-const headers = {
+export const headers = {
   Accept: 'application/json',
   'content-type': 'application/json',
   apikey: REACT_APP_API_KEY,
