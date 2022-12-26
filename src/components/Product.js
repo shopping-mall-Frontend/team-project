@@ -12,6 +12,7 @@ const PrdList = styled.li`
     background-size:cover;
     background-repeat: no-repeat;
   }
+  text-align: center;
 `;
 const PrdBrand = styled.p`
   margin-bottom:5px;
