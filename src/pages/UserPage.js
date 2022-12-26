@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
-import OrderHistory from '../components/Mypage/OrderHistory';
-import CancleHistory from '../components/Mypage/CancleHistory';
-import Account from '../components/Mypage/Account';
-import EditMemberInfo from '../components/Mypage/EditMemberInfo';
+import OrderHistory from '../components/Userpage/OrderHistory';
+import CancleHistory from '../components/Userpage/CancleHistory';
+import Account from '../components/Userpage/Account';
+import EditMemberInfo from '../components/Userpage/EditMemberInfo';
 
 const UserPage = () => {
+  //유저 정보
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const authUser = async () => {
+      const userInfo = await auth();
+      setUser(userInfo);
+    };
+    authUser();
+  }, []);
+
+  //내비게이션 탭별 화면 전환
   const array = [
     { id: 0, title: '나의 주문내역', description: <OrderHistory /> },
     { id: 1, title: '취소 내역', description: <CancleHistory /> },
@@ -22,7 +34,7 @@ const UserPage = () => {
       <Navbar />
       <Main>
         <Menu>
-          <div>테스트</div>
+          <div>{user.displayName}님</div>
           <ul>
             {array.map((item) => (
               <li key={item.id} onClick={() => setTitle(item.id)}>
