@@ -75,7 +75,7 @@ const StyledCategory = styled.div`
     display: flex;
     text-align: center;
     margin: 0rem 10rem 0rem 10rem;
-    padding: 2rem 2rem;
+    padding: 2rem 40rem;
     text-decoration: none;
     font-weight: bold;
 
