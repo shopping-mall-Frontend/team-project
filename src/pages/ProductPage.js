@@ -10,7 +10,6 @@ const Container = styled.div`
   ol {
     display: flex;
     flex-wrap: wrap;
-
     margin: 80px 300px;
   }
 `;

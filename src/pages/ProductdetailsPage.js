@@ -20,11 +20,9 @@ const Sidebar = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 40px;
-
   position: fixed;
   top: 190px;
   right: 0;
-
   width: 400px;
   padding-right: 20px;
 `;
@@ -32,16 +30,12 @@ const Sidebar = styled.ol`
 const Category = styled.ol`
   display: flex;
   gap: 10px;
-
   margin-bottom: 10px;
-
   color: rgb(137, 137, 137);
   font-size: 12px;
-
   li {
     cursor: pointer;
   }
-
   li + li::before {
     content: '/';
     padding-right: 10px;
@@ -50,7 +44,6 @@ const Category = styled.ol`
 const Info = styled.ol`
   display: flex;
   flex-direction: column;
-
   li:first-child {
     margin-bottom: 10px;
     font-size: 18px;
@@ -62,7 +55,6 @@ const Tab = styled.dl`
   div + div {
     margin-top: 8px;
   }
-
   dt button {
     padding-bottom: 10px;
     font-size: 15px;
