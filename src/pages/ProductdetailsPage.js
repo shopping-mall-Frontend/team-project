@@ -84,27 +84,23 @@ const ProductdetailsPage = ({ cart, setCart }) => {
           <Tab>
             <div>
               <dt>
-                <button onClick={handleToggle}>DETAILS</button>
+                <button>DETAILS</button>
               </dt>
-              {toggle ? '' : <dd>{product.description}</dd>}
+              <dd>{product.description}</dd>
             </div>
             <div>
               <dt>
-                <button onClick={handleToggle}>CARE GUIDE</button>
+                <button>CARE GUIDE</button>
               </dt>
-              {toggle ? (
-                ''
-              ) : (
-                <dd>
-                  [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
-                </dd>
-              )}
+              <dd>
+                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
+              </dd>
             </div>
             <div>
               <dt>
-                <button onClick={handleToggle}>SHIPPING & RETURN</button>
+                <button>SHIPPING & RETURN</button>
               </dt>
-              {toggle ? '' : <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>}
+              <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>
             </div>
           </Tab>
           <Btns>
