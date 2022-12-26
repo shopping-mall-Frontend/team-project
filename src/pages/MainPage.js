@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+
 import { Swiper, SwiperSlide } from 'swiper/react'; // basic
 import { Navigation, Pagination, A11y, Autoplay } from 'swiper';
 import 'swiper/css/bundle';
 
 const MainPage = ({products, setProducts}) => {
   const [user, setUser] = useState(false);
-
   const [gucci, setGucci] = useState([]);
   const [bottega, setBottega] = useState([]);
   const [louis, setLouis] = useState([]);

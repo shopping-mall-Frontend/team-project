@@ -33,6 +33,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
   /////////////// 장바구니 담기 ///////////////
   const [count, setCount] = useState(1);
 
+
   const handleCart = () => {
     const cartItem = {
       id: product.id,

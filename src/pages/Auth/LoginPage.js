@@ -1,24 +1,8 @@
 import React from 'react';
 import Login from '../../components/Login';
-import { Link } from 'react-router-dom';
-import { auth } from '../../utils/useAPI';
-import { useEffect, useState } from 'react';
+import Header from '../../components/Header';
 
 const LoginPage = () => {
-  const logoutButtonHandle = () => {
-    sessionStorage.removeItem('accessToken');
-  };
-
-  const [user, setUser] = useState(false);
-
-  useEffect(() => {
-    const authUser = async () => {
-      const userInfo = await auth();
-      setUser(userInfo);
-    };
-    authUser();
-  }, []);
-
   return (
     <div>
       {user ? (

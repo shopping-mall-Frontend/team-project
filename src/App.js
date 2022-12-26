@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
+
 import {
   MainPage,
   LoginPage,
@@ -36,6 +37,7 @@ const App = () => {
         path="/cart"
         element={<CartPage cart={cart} setCart={setCart} />}
       />
+      <Route path="/order" element={<OrderPage />} />
       <Route path="/user" element={<UserPage />} />
     </Routes>
   );

@@ -36,4 +36,5 @@ const Product = ({ id, product }) => {
     </PrdList>
   );
 };
+
 export default Product;

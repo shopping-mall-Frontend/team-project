@@ -151,4 +151,5 @@ const StyledCategory = styled.div`
   }
 `;
 
+
 export default Header;
