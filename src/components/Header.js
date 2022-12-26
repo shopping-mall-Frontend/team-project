@@ -1,4 +1,3 @@
-/*esline-diable*/
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -151,5 +150,6 @@ const StyledCategory = styled.div`
     }
   }
 `;
+
 
 export default Header;
