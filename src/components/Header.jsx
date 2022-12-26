@@ -9,77 +9,64 @@ const StyledHeader = styled.div`
   flex-wrap: wrap;
   font-family: 'Marcellus', serif;
   display: flex;
-  justify-content: space-between;
-  margin: 20px;
+  margin: 30px;
 
   .header {
     Justify-content: space-between;
     width: 100%;
     margin: 0;
-    padding: 0;
+    padding-right: 19rem;
+    padding-left: 10rem;
     display: flex;
     text-align: center;
-    margin: .25rem;
-    padding: .5rem 1rem;
     text-decoration: none;
     font-weight: bold;
   }
 
-  .header-left {
-    font-family: 'Marcellus', serif;
-    display: block;
-    margin: 0px;
-    padding: 0px;
-    list-style: none;
-  }
-
   .nav-logo-link {
-    font-family: 'Marcellus', serif;
-    position: relative;
+    font-size: 50px;
+    margin-left: 2.5em;
+    padding-left: 2.50em;
   }
 
   input {
+    color: gray;
     margin: 0 auto;
-    width: 10rem;
-    height: 2rem;
-    font-size: 2px;
+    width: 11rem;
+    height: 3rem;
+    text-align: center;
+    font-size: 9px;
     border: 0;
     border-radius: 15px;
     outline: none;
     padding-left: 10px;
-    background-color: rgb(233, 233, 233);
-  }
-
-  li {
-    font-family: 'Marcellus', serif;
-    display: flex;
-
+    background-color: gainsboro;
   }
 
   .nav-menu-side {
-    font-weight: 500;
-    display: flex;
-    justify-content: end;
-    @media screen and (max-width: 500px) {
-      display: none;
-    }
+    font-weight: 400;
+    color: gray;
   }
+}
 `;
 
 const StyledCategory = styled.div`
 
-  .categoryList {
+  ul {
     font-family: 'Marcellus', serif;
-    Justify-content: space-between;
-    width: 100%;
     display: flex;
-    text-align: center;
-    margin: 0rem 10rem 0rem 10rem;
+    justify-content: center;
+    margin: 0rem 0rem 0rem 0rem;
     padding: 2rem 40rem;
     text-decoration: none;
-    font-weight: bold;
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
 
-  }
+    li {
+      padding-left: 40px;
+      color: dark-gray;
+    }
 
 `;
 
@@ -149,7 +136,7 @@ const Header = () => {
         </div>
         <div className="header-center">
           <Link to={"/"} className="nav-logo-link">
-            N4S1
+            N4
           </Link>
         </div>
         {/* 요건 잠시만기다려주세용ㅎㅎㅎㅎ */}
@@ -168,13 +155,15 @@ const Header = () => {
 
       </div>
       <StyledCategory>
+        <ul>
+          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+          {/* {아직 아래 카테고리 미정} */}
+          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+        </ul>
         <div className="categoryList">
 
-          <li><Link to={"/category"} className="nav-menu-side">Category</Link></li>
-          {/* {아직 아래 카테고리 미정} */}
-          <li><Link to={"/category"} className="nav-menu-side">New product</Link></li>
-          <li><Link to={"/category"} className="nav-menu-side">New product</Link></li>
-          <li><Link to={"/category"} className="nav-menu-side">New product</Link></li>
 
         </div>
 
