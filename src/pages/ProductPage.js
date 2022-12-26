@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../css/ProductPage.module.css';
+
 import { getAllProduct } from '../utils/useAPI';
 import Product from '../components/Product';
 import Header from '../components/Header';
