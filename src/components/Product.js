@@ -6,7 +6,7 @@ const PrdList = styled.li`
   
   a {
     display:block;
-    height:200px;
+    height:225px;
     margin-bottom:10px;
     background-position:center;
     background-size:cover;

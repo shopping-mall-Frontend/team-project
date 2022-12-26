@@ -4,7 +4,7 @@ import { auth } from '../utils/useAPI';
 import { getAllProduct } from '../utils/useAPI';
 
 import { useEffect, useState } from 'react';
-import { isRouteErrorResponse, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Swiper, SwiperSlide } from 'swiper/react'; // basic
@@ -61,6 +61,10 @@ const MainPage = ({products, setProducts}) => {
             pagination={{ clickable: true }}
             centeredSlides={true}
             loop={true}
+            autoplay={{
+              delay:5000
+            }}
+            speed={1500}
             loopFillGroupWithBlank={true}
             onSlideChange={(swiper) => {
                 let item = document.querySelector('.items-swiper');
@@ -153,15 +157,16 @@ const MainPage = ({products, setProducts}) => {
         <BrandInfo>
           <Swiper
             direction={"vertical"}
-            modules={ Pagination }
+            modules={ [Pagination, Navigation] }
             slidesPerView={1}
             pagination={{
               clickable: true,
             }}
+            Navigation
             style={{'height':'500px'}}
           >
             <SwiperSlide>
-              <div className='info-wrap' style={{ background:'url("https://blog.kakaocdn.net/dn/llox0/btqD7YJV7om/5UVzunA91gchUonZ0PAn60/img.jpg") center center / cover no-repeat',}}>
+              <div className='info-wrap' style={{ background:'url("/images/info_bg/gucci_info_bg.jpg") center center / cover no-repeat',}}>
                 <p>
                   구찌는 혁신적이고 진취적인 자세로 패션의 현대적 감성을 극대화하는 영향력 있는 브랜드입니다. 하우스는 세련된 21세기식 럭셔리 아이템을 선보이며,
                   전 세계 최고 수준의 패션 브랜드로 브랜드의 입지를 한층 더 강화하고 있습니다. 
@@ -174,7 +179,7 @@ const MainPage = ({products, setProducts}) => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className='info-wrap' style={{ background:'url("https://kr.louisvuitton.com/images/is/image/Mens_Pre_Spring_2023_HP_DI3.jpg?wid=2048") center center / cover no-repeat',}} >
+              <div className='info-wrap' style={{ background:'url("/images/info_bg/louis_info_bg.jpg") center center / cover no-repeat',}} >
                 <p>
                   루이비통은 제품 출하 전 여러 테스트를 거쳐 통해 품질을 유지 관리합니다. 루이비통은 세컨 라인 확장을 금지하고 브랜드 라인을 차별화하고 있습니다.
                   1993년부터 루이비통은 '루이비통 클래식 자동차 경주대회'를 개최했고, 2005년부터는 2년마다 '루이비통 클래식 어워드'를 통해 경주대회 최고상 수상 차량과
@@ -189,7 +194,7 @@ const MainPage = ({products, setProducts}) => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className='info-wrap' style={{background:'url("https://bottega-veneta.dam.kering.com/m/4a4523882f1a96c1/Large-Pre-spring2023_Foulard_Cassette_Avocado_Desktop.jpg") center center / cover no-repeat',}}>
+              <div className='info-wrap' style={{background:'url("/images/info_bg/bottega_info_bg.jpg") center center / cover no-repeat',}}>
                 <p>
                   보테가 베네타(Bottega Veneta)는 전 세계적으로 판매되고 있는 가죽 제품으로 잘 알려진 이탈리아의 명품 브랜드이다. 1966년 북부 이탈리아의 베네토 지역에서 설립되었으며,
                   브랜드의 아틀리에는 몬테벨로 비첸티노(Montebello Vicentino)의 18세기 빌라에 위치하고 있으며, 이탈리아 밀라노와 비첸자에 있는 오피스와 함께 스위스 루가노에 본사를 두고 있다. 
@@ -201,7 +206,7 @@ const MainPage = ({products, setProducts}) => {
               </div>
             </SwiperSlide>
             <SwiperSlide>
-              <div className='info-wrap' style={{ background:'url("https://pbs.twimg.com/media/FeNpaSwWIAMtfbe?format=jpg&name=large") center center / cover no-repeat'}}>
+              <div className='info-wrap' style={{ background:'url("/images/info_bg/chanel_info_bg.jpg") center center / cover no-repeat'}}>
                 <p>
                   가브리엘 샤넬은 자신의 삶을 스스로 개척해나갔습니다. 고아원에서 유년 시절을 보내고 성공한 사업가로 성장한 그녀는 단연코 자유롭고 대범하면서도 시대를 앞서가는 아이콘이었습니다. 
                   진실한 우정과 열정적인 사랑, 문화와 새로운 발견 그리고 여행을 향한 갈증은 가브리엘 샤넬의 원동력이었으며, 그녀는 제약과 과잉에서 벗어나 그 누구보다 먼저 성별의 경계를 허물고, 
@@ -293,7 +298,7 @@ const Banner = styled.div`
 `;
 
 const ItemsContainer = styled.div`
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 110px auto;
   position: relative;
 
@@ -313,7 +318,7 @@ const ItemsContainer = styled.div`
   .items-swiper {
     display: flex;
     width:100%;
-    height:580px;
+    height:650px;
     gap: 15px;
     opacity:0;
     flex-wrap: wrap;
@@ -321,7 +326,7 @@ const ItemsContainer = styled.div`
   }
 
   .items-swiper.fade {
-    animation: fade 1s forwards;
+    animation: fade 1.5s forwards;
   }
 
   // 신상 슬라이더 스타일
@@ -331,7 +336,7 @@ const ItemsContainer = styled.div`
     .item-image {
         display:block;
         width:100%;
-        height:200px;
+        height:216px;
         background-position:center;
         background-size:contain;
         background-repeat:no-repeat;
@@ -415,9 +420,40 @@ const ItemsSwiperTitle = styled.p`
 `
 
 const BrandInfo = styled.div`
-  width:1080px;
+  width:1200px;
   margin:200px auto;
   position:relative;
+
+  .swiper-pagination { 
+    position:absolute;
+    top:0 ;
+    left:0 ;
+    transform:translate(0);
+  
+    .swiper-pagination-bullet {
+      width:200px;
+      height:80px;
+      border-radius:0;
+      margin:0;
+      background-size:80%;
+      background-position:center;
+      background-repeat:no-repeat;
+      background-color:#ddd;
+    }
+
+    .swiper-pagination-bullet:nth-child(1) {
+      background-image:url('/images/logo/gucci_logo.png');
+    }
+    .swiper-pagination-bullet:nth-child(2) {
+      background-image:url('/images/logo/louis_logo.png');
+    }
+    .swiper-pagination-bullet:nth-child(3) {
+      background-image:url('/images/logo/bottega_logo.png');
+    }
+    .swiper-pagination-bullet:nth-child(4) {
+      background-image:url('/images/logo/chanel_logo.png');
+    }
+  }
 
   .info-wrap {
       display:flex;
@@ -432,9 +468,9 @@ const BrandInfo = styled.div`
       margin-right:20px;
       padding:30px;
       background:#000;
-      opacity:0.8;
       color:#fff;
       line-height:1.5;
+      background-color:rgba(0,0,0,.7)
     }
     
     a {
@@ -445,6 +481,7 @@ const BrandInfo = styled.div`
       text-align:center;
       background:#111;
       color:#eee;
+      border: 1px solid rgb(90 90 90 / 49%);
     }
   }
 `
