@@ -37,7 +37,17 @@ const StyledHeader = styled.div`
     font-family: 'Marcellus', serif;
     position: relative;
   }
-
+input{
+    margin: 0 auto;
+    width: 10rem;
+    height: 2rem;
+    font-size: 2px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: rgb(233, 233, 233);
+}
 
   li {
     font-family: 'Marcellus', serif;
@@ -134,7 +144,6 @@ const Header = () => {
     <StyledHeader>
       <div className="header">
         <div className='header-left'>
-          <li className="group sub">Search</li>
           <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchSpace(e)}/>
         </div>
         <div className="header-center">
