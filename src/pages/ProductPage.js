@@ -6,14 +6,6 @@ import Product from '../components/Product';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
-const Container = styled.div`
-  ol {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 80px 300px;
-  }
-`;
-
 const ProductPage = ({ products, setProducts }) => {
   //제품 전체 목록 한번만 조회
   useEffect(() => {
@@ -37,5 +29,13 @@ const ProductPage = ({ products, setProducts }) => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 80px 300px;
+  }
+`;
 
 export { ProductPage };
