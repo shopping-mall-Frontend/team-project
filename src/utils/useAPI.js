@@ -12,7 +12,7 @@ export const headers = {
 export const signIn = async (value) => {
   try {
     console.log(value);
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     const { email, password } = value;
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
@@ -27,7 +27,9 @@ export const signIn = async (value) => {
       }),
     });
     const json = await data.json();
+    const { accessToken } = json;
     console.log(json);
+    localStorage.setItem('accessToken', accessToken);
     return json;
   } catch (err) {
     console.log(err);
@@ -38,7 +40,7 @@ export const signIn = async (value) => {
 export const auth = async (type = 'me') => {
   // type: me => 인증 확인, logout => 로그아웃
   try {
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
       const data = await fetch(`${requestUrl}/auth/${type}`, {
@@ -59,7 +61,7 @@ export const auth = async (type = 'me') => {
 export const getAccount = async (type = '') => {
   // type: banks => 선택 가능한 은행 목록 조회, 기본: 계좌 목록 및 잔액 조회
   try {
-    const token = sessionStorage.getItem('accessToken');
+    const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
       const data = await fetch(`${requestUrl}/account/${type}`, {
