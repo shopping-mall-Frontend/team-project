@@ -130,12 +130,6 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     }
   };
 
-  /////////////// 상세설명 토글 ///////////////
-  const [toggle, setToggle] = useState(true);
-  const handleToggle = () => {
-    setToggle((current) => !current);
-  };
-
   return (
     <Container>
       <Header />
