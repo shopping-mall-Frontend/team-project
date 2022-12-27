@@ -55,9 +55,9 @@ const CartPage = ({ cart }) => {
             <span>??,???원</span>
           </li>
         </ol>
-        <button className={styles.btn} type="button">
-          주문하기
-        </button>
+        <Link to={'/order'}>
+          <button>주문하기</button>
+        </Link>
       </Price>
     </Container>
   );
