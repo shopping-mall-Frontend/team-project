@@ -70,7 +70,7 @@ export const getAccount = async (type = '') => {
       });
       const json = await data.json();
       // console.log(json);
-      console.log('호출')
+      console.log('호출');
       return json;
     }
     return false;
@@ -149,7 +149,6 @@ export const getProductDetail = async (id) => {
       headers,
     });
     const json = await data.json();
-    console.log(json);
     return json;
   } catch (err) {
     console.log(err);
@@ -165,13 +164,13 @@ export const accountAdd = async (body = '') => {
       const data = await fetch(`${requestUrl}/account`, {
         method: 'POST',
         headers,
-        body: body
+        body: body,
       });
       const json = await data.json();
       console.log(json);
       return json;
     }
-    return false;  
+    return false;
   } catch (err) {
     console.log(err);
   }
@@ -186,13 +185,13 @@ export const buyProduct = async (body = '') => {
       const data = await fetch(`${requestUrl}/products/buy `, {
         method: 'POST',
         headers,
-        body: body
+        body: body,
       });
       const json = await data.json();
       console.log(json);
       return json;
     }
-    return false;  
+    return false;
   } catch (err) {
     console.log(err);
   }

@@ -1,37 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
+import reset from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
-const ProductdetailsPage = ({ cart, setCart }) => {
-  /////////////// 제품 상세 불러오기 ///////////////
+const ProductdetailsPage = () => {
+  /////////////// 단일 제품상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
   useEffect(() => {
-    const getState = async () => {
+    const getServerProduct = async () => {
       const json = await getProductDetail(id);
       setProduct(json);
     };
-    getState();
+    getServerProduct();
   }, []);
+
+  //브랜드명, 상세 카테고리 변수에 담기
   const copyTags = { ...product.tags };
 
-  /////////////// 장바구니 담기 ///////////////
+  /////////////// 장바구니 담기 ////////////////////////
+  let cart = [];
+  const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
+  if (getSsesionData !== null) {
+    cart = getSsesionData;
+  }
+
+  const setSsesionData = (cart) => {
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+  };
+
+  //수량
   const [count, setCount] = useState(1);
 
-  //alert 창
+  //confirm창(상품 담기 확인 및 장바구니 이동)
   const navigate = useNavigate();
   const moveTocart = () => {
     {
       window.confirm(`상품을 장바구니에 담았습니다. 
-  장바구니로 이동하시겠습니까?`)
+장바구니로 이동하시겠습니까?`)
         ? navigate('/cart')
         : console.log(false);
     }
   };
 
+  //Add to cart 버튼 클릭시
   const handleCart = () => {
     const cartItem = {
       id: product.id,
@@ -44,7 +59,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
       const found = cart.filter((elment) => elment.id === id)[0];
-      const idx = cart.indexOf(found);
+      const index = cart.indexOf(found);
       const cartItem = {
         id: product.id,
         title: product.title,
@@ -52,35 +67,42 @@ const ProductdetailsPage = ({ cart, setCart }) => {
         thumnail: product.thumbnail,
         quantity: quantity,
       };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+
+      cart = [...cart.slice(0, index), cartItem, ...cart.slice(index + 1)];
+      setSsesionData(cart);
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
-    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+    if (foundDuplication) {
+      setQuantity(cartItem.id, foundDuplication.quantity + count);
+    } else {
+      cart.push(cartItem);
+      setSsesionData(cart);
+    }
 
     moveTocart();
   };
 
   return (
-    <Container>
+    <div>
       <Header />
       <Navbar />
-      <ProductWrap>
+      <Wrap>
         <ImageWrap>
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
         </ImageWrap>
-        <Sidebar>
-          <div>
-            <Category>
-              <li>{copyTags[0]}</li>
-              <li>{copyTags[1]}</li>
-            </Category>
 
-            <Info>
-              <li>{product.title}</li>
-              <li>{product.price}원</li>
-            </Info>
-          </div>
+        <Sidebar>
+          <Category>
+            <li>{copyTags[0]}</li>
+            <li>{copyTags[1]}</li>
+          </Category>
+
+          <Info>
+            <li>{product.title}</li>
+            <li>${product.price}</li>
+          </Info>
+
           <Tab>
             <div>
               <dt>
@@ -93,16 +115,17 @@ const ProductdetailsPage = ({ cart, setCart }) => {
                 <button>CARE GUIDE</button>
               </dt>
               <dd>
-                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
+                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다.
               </dd>
             </div>
             <div>
               <dt>
                 <button>SHIPPING & RETURN</button>
               </dt>
-              <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>
+              <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다.</dd>
             </div>
           </Tab>
+
           <Btns>
             <Link to={'/order'}>
               <button>BUY NOW</button>
@@ -110,13 +133,12 @@ const ProductdetailsPage = ({ cart, setCart }) => {
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>
         </Sidebar>
-      </ProductWrap>
-    </Container>
+      </Wrap>
+    </div>
   );
 };
 
-const Container = styled.div``;
-const ProductWrap = styled.main`
+const Wrap = styled.main`
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`
@@ -126,10 +148,9 @@ const ImageWrap = styled.div`
     width: 500px;
   }
 `;
-const Sidebar = styled.ol`
+const Sidebar = styled.aside`
   display: flex;
   flex-direction: column;
-  gap: 40px;
   position: fixed;
   top: 190px;
   right: 0;
@@ -154,6 +175,8 @@ const Category = styled.ol`
 const Info = styled.ol`
   display: flex;
   flex-direction: column;
+  margin-bottom: 30px;
+
   li:first-child {
     margin-bottom: 10px;
     font-size: 18px;
@@ -161,6 +184,7 @@ const Info = styled.ol`
   }
 `;
 const Tab = styled.dl`
+  margin-bottom: 30px;
   padding-right: 50px;
   div + div {
     margin-top: 8px;
