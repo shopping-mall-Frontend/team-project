@@ -47,7 +47,7 @@ const MainPage = ({products, setProducts}) => {
     return
   }
   chunk(products)
-
+  
   return (
     <>
       <Header user={user} />

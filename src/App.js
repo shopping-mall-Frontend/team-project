@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import React, { useState } from 'react';
-
 import {
   MainPage,
   LoginPage,
@@ -9,8 +8,8 @@ import {
   ProductPage,
   ProductdetailsPage,
   CartPage,
+  OrderPage,
   UserPage,
-  Payment,
 } from './pages/index';
 
 const App = () => {
@@ -38,8 +37,8 @@ const App = () => {
         path="/cart"
         element={<CartPage cart={cart} setCart={setCart} />}
       />
+      <Route path="/order" element={<OrderPage cart={cart} setCart={setCart}/>} />
       <Route path="/user" element={<UserPage />} />
-      <Route path="/payment/:id" element={<Payment />} />
     </Routes>
   );
 };

@@ -34,13 +34,7 @@ const CartPage = ({ cart }) => {
             <h2>상품을 담아주세요.</h2>
           </div>
         ) : (
-          cart.map((cart) => (
-            <CartList
-              className={styles.cartlist}
-              key={cart.id}
-              cart={cart}
-            ></CartList>
-          ))
+          cart.map((cart) => <CartList className={styles.cartlist} key={cart.id} cart={cart}></CartList>)
         )}
       </Products>
       <button className={styles.cartlist} type="button">
@@ -61,9 +55,9 @@ const CartPage = ({ cart }) => {
             <span>??,???원</span>
           </li>
         </ol>
-        <button className={styles.btn} type="button">
-          주문하기
-        </button>
+        <Link to={'/order'}>
+          <button>주문하기</button>
+        </Link>
       </Price>
     </Container>
   );
