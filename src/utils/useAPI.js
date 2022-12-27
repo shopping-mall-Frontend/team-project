@@ -143,12 +143,14 @@ export const deleteProduct = async (key, id) => {
 export const getProductDetail = async (id) => {
   try {
     headers.masterKey = true;
-    const data = await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
-      method: 'GET',
-      headers,
-    });
+    const data = await fetch(
+      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+      {
+        method: 'GET',
+        headers,
+      }
+    );
     const json = await data.json();
-    console.log(json);
     return json;
   } catch (err) {
     console.log(err);

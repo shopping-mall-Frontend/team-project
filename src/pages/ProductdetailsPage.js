@@ -5,7 +5,7 @@ import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
-const ProductdetailsPage = ({ cart, setCart }) => {
+const ProductdetailsPage = () => {
   /////////////// 제품 상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -19,6 +19,11 @@ const ProductdetailsPage = ({ cart, setCart }) => {
   const copyTags = { ...product.tags };
 
   /////////////// 장바구니 담기 ///////////////
+  let cart = [];
+  const ssesionData = JSON.parse(sessionStorage.getItem('cart'));
+  if (ssesionData !== null) {
+    cart = ssesionData;
+  }
   const [count, setCount] = useState(1);
 
   //alert 창
@@ -44,7 +49,7 @@ const ProductdetailsPage = ({ cart, setCart }) => {
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
       const found = cart.filter((elment) => elment.id === id)[0];
-      const idx = cart.indexOf(found);
+      const index = cart.indexOf(found);
       const cartItem = {
         id: product.id,
         title: product.title,
@@ -52,11 +57,18 @@ const ProductdetailsPage = ({ cart, setCart }) => {
         thumnail: product.thumbnail,
         quantity: quantity,
       };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+
+      cart = [...cart.slice(0, index), cartItem, ...cart.slice(index + 1)];
+      sessionStorage.setItem('cart', JSON.stringify(cart));
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
-    foundDuplication ? setQuantity(cartItem.id, foundDuplication.quantity + count) : setCart([...cart, cartItem]);
+    if (foundDuplication) {
+      setQuantity(cartItem.id, foundDuplication.quantity + count);
+    } else {
+      cart.push(cartItem);
+      sessionStorage.setItem('cart', JSON.stringify(cart));
+    }
 
     moveTocart();
   };
@@ -93,14 +105,20 @@ const ProductdetailsPage = ({ cart, setCart }) => {
                 <button>CARE GUIDE</button>
               </dt>
               <dd>
-                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한 세탁을 추천합니다.{' '}
+                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는
+                것이 좋습니다. 더 깨끗하게 세탁해야 하는 경우에는 전문가에 의한
+                세탁을 추천합니다.{' '}
               </dd>
             </div>
             <div>
               <dt>
                 <button>SHIPPING & RETURN</button>
               </dt>
-              <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이 초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.</dd>
+              <dd>
+                기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후,
+                1~10일(영업일 기준)입니다. 재고 상황으로 인해 기본 배송 기간이
+                초과될 수 있으며, 사전에 이에 대한 알림을 보내드립니다.
+              </dd>
             </div>
           </Tab>
           <Btns>
