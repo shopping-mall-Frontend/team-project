@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import reset from '../css/reset-css.css';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
-import { CartHeader, CartList } from '../components/Cart';
 
 const CartPage = () => {
   let cart = [];
@@ -12,72 +11,91 @@ const CartPage = () => {
   if (getSsesionData !== null) {
     cart = getSsesionData;
   }
+
+  const setSsesionData = (cart) => {
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+  };
+
+  const handleOrder = (cart, check) => {
+    const orderItem = {
+      id: cart.id,
+      title: cart.title,
+      price: cart.price,
+      thumnail: cart.thumbnail,
+      quantity: cart.quantity,
+      checked: check,
+    };
+  };
+
   return (
-    <Container>
+    <div>
       <Header />
       <Navbar />
-      <Step>
-        <li>01 SHOPPING BAG</li>
-        <li>02 ORDER</li>
-        <li>03 ORDER CONFIRMED</li>
-      </Step>
-      <Products>
-        <CartHeader></CartHeader>
-        {cart.length === 0 ? (
-          <div>
-            <h2>장바구니에 상품이 없습니다.</h2>
-            <h2>상품을 담아주세요.</h2>
-          </div>
-        ) : (
-          cart.map((cart) => <CartList key={cart.id} cart={cart}></CartList>)
-        )}
-      </Products>
-      <button type="button">선택상품삭제</button>
-      <Price>
-        <ol>
-          <li>
-            <div>상품금액</div>
-            <span>??,???원</span>
-          </li>
-          <li>
-            <div>배송비</div>
-            <span>2,500원</span>
-          </li>
-          <li>
-            <div>총 상품금액</div>
-            <span>??,???원</span>
-          </li>
-        </ol>
-        <Link to={'/order'}>
-          <button>주문하기</button>
-        </Link>
-      </Price>
-    </Container>
+      <Wrap>
+        <Table>
+          <CartHeader>
+            <input type="checkbox" name="select-all" />
+            <span>상품정보</span>
+            <span>수량</span>
+            <span>주문금액</span>
+          </CartHeader>
+          {cart.length === 0 ? (
+            <div>
+              <h2>장바구니에 상품이 없습니다.</h2>
+              <h2>상품을 담아주세요.</h2>
+            </div>
+          ) : (
+            cart.map((cart) => (
+              <CartList key={cart.id} cart={cart}>
+                <input type="checkbox" name={`select-${cart.id}`} />
+                <img src={cart.thumbnail} alt="상세이미지" />
+                <p>{cart.title}</p>
+                <div>
+                  <span>{cart.quantity}</span>
+                </div>
+                <span>{cart.price * cart.quantity}원</span>
+              </CartList>
+            ))
+          )}
+        </Table>
+        <button type="button">선택상품삭제</button>
+        <Price>
+          <ol>
+            <li>
+              <div>상품금액</div>
+              <span>??,???원</span>
+            </li>
+            <li>
+              <div>총 상품금액</div>
+              <span>??,???원</span>
+            </li>
+          </ol>
+          <Link to={'/order'}>
+            <button>주문하기</button>
+          </Link>
+        </Price>
+      </Wrap>
+    </div>
   );
 };
 
-const Container = styled.div``;
-const Step = styled.ul`
+const Wrap = styled.main``;
+
+const CartHeader = styled.div`
+  border-bottom: 1px solid #000;
+  font-weight: 700;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-
-  width: fit-content;
-  margin: 0 auto 50px;
-  padding: 20px;
-  color: rgb(181, 176, 176);
-
-  li:first-child {
-    font-weight: 700;
-    color: #000;
-  }
-
-  li + li::before {
-    content: '<';
-    margin-right: 10px;
-  }
+  justify-content: space-between;
+  padding: 20px 30px;
 `;
-const Products = styled.section`
+
+const CartList = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+`;
+
+const Table = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;

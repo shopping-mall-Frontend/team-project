@@ -1,34 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Wrap = styled.div`
+const Step = ({}) => {
+  return (
+    <Step>
+      <li>01 SHOPPING BAG</li>
+      <li>02 ORDER</li>
+      <li>03 ORDER CONFIRMED</li>
+    </Step>
+  );
+};
+
+const StepEl = styled.ul`
   display: flex;
-  margin: 20px 0;
-  button {
-    color: rgb(115, 115, 115);
+  justify-content: center;
+  gap: 10px;
+
+  width: fit-content;
+  margin: 0 auto 50px;
+  padding: 20px;
+  color: rgb(181, 176, 176);
+
+  li:first-child {
     font-weight: 700;
-    margin-left: 20px;
-    cursor: pointer;
+    color: #000;
+  }
+
+  li + li::before {
+    content: '<';
+    margin-right: 10px;
   }
 `;
 
-const Links = ({}) => {
-  return (
-    <Wrap>
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
-      <Link to={`/product`}>
-        <button>제품목록</button>
-      </Link>
-      <Link to={`/cart`}>
-        <button>장바구니</button>
-      </Link>
-      <Link to={`/user`}>
-        <button>user님</button>
-      </Link>
-    </Wrap>
-  );
-};
-export default Links;
+export default Step;

@@ -87,7 +87,7 @@ const ProductdetailsPage = () => {
     <div>
       <Header />
       <Navbar />
-      <ProductWrap>
+      <Wrap>
         <ImageWrap>
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
         </ImageWrap>
@@ -133,12 +133,12 @@ const ProductdetailsPage = () => {
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>
         </Sidebar>
-      </ProductWrap>
+      </Wrap>
     </div>
   );
 };
 
-const ProductWrap = styled.main`
+const Wrap = styled.main`
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`
