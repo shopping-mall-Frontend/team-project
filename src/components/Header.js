@@ -9,7 +9,7 @@ const Header = React.memo(() => {
 
   const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
 
-  console.log(accessToken);
+  // console.log(accessToken);
 
   const validLogin = async () => {
     try {
@@ -77,12 +77,8 @@ const Header = React.memo(() => {
           </>
         ) : (
           <>
-            <Link to={'/login'} className="nav-menu-side">
-              Login/out
-            </Link>
-            <Link to={'/Cart'} className="nav-menu-side">
-              Chart
-            </Link>{' '}
+            <Link to={"/login"} className="nav-menu-side">Login/out</Link>
+            <Link to={"/Cart"} className="nav-menu-side">Chart</Link>        
           </>
         )}
       </div>
