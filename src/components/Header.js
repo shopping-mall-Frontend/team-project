@@ -23,7 +23,7 @@ const Header = React.memo(() => {
         },
       });
       const response = (await instance.post('/me')).data;
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
       setIsLogin(false);

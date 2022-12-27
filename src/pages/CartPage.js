@@ -12,9 +12,6 @@ const CartPage = () => {
   if (getSsesionData !== null) {
     cart = getSsesionData;
   }
-  const setSsesionData = (cart) => {
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-  };
 
   /////////////// 체크 박스 ///////////////////
   const [checkItems, setCheckItems] = useState([]);
@@ -39,6 +36,10 @@ const CartPage = () => {
     }
   };
 
+  const handleCheckedDelete = () => {
+    console.log('선택 상품 삭제!');
+  };
+
   /////////////// 총 금액 ///////////////////
   const priceArr = checkItems.map((el) => el.price);
   let totalPrice = 0;
@@ -46,8 +47,12 @@ const CartPage = () => {
     totalPrice += price;
   });
 
-  const handleCheckedDelete = () => {
-    console.log('선택 상품 삭제!');
+  console.log(checkItems);
+
+  ////////// 주문 상품, 세션스토리지로 ////////
+  sessionStorage.setItem('order', JSON.stringify());
+  const setSsesionData = (orderProducts) => {
+    sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
   return (
@@ -103,7 +108,7 @@ const CartPage = () => {
             </li>
           </ol>
           <Link to={'/order'}>
-            <button>주문하기</button>
+            <button onClick={() => setSsesionData(checkItems)}>주문하기</button>
           </Link>
         </Price>
       </Wrap>
