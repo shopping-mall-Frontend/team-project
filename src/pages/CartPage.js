@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import reset from '../css/reset-css.css';
 import styles from '../css/CartPage.module.css';
 import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 import { CartHeader, CartList } from '../components/Cart';
 
 const Container = styled.div``;
@@ -10,17 +12,16 @@ const Step = styled.ul``;
 const Products = styled.section``;
 const Price = styled.div``;
 
-const CartPage = ({ cart }) => {
-  console.log(cart);
+const CartPage = () => {
+  let cart = [];
+  const ssesionData = JSON.parse(sessionStorage.getItem('cart'));
+  if (ssesionData !== null) {
+    cart = ssesionData;
+  }
   return (
     <Container>
       <Header />
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
-      <Link to={`/product`}>
-        <button>제품 목록</button>
-      </Link>
+      <Navbar />
       <Step className={styles.step}>
         <li>01 SHOPPING BAG</li>
         <li>02 ORDER</li>
@@ -34,7 +35,13 @@ const CartPage = ({ cart }) => {
             <h2>상품을 담아주세요.</h2>
           </div>
         ) : (
-          cart.map((cart) => <CartList className={styles.cartlist} key={cart.id} cart={cart}></CartList>)
+          cart.map((cart) => (
+            <CartList
+              className={styles.cartlist}
+              key={cart.id}
+              cart={cart}
+            ></CartList>
+          ))
         )}
       </Products>
       <button className={styles.cartlist} type="button">
