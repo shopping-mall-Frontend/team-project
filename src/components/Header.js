@@ -9,7 +9,7 @@ const Header = React.memo(() => {
 
   const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
 
-  console.log(accessToken);
+  // console.log(accessToken);
 
   const validLogin = async () => {
     try {
@@ -23,7 +23,7 @@ const Header = React.memo(() => {
         },
       });
       const response = (await instance.post('/me')).data;
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
       setIsLogin(false);
@@ -32,7 +32,7 @@ const Header = React.memo(() => {
 
   useEffect(() => {
     validLogin();
-    console.log('하이');
+    // console.log('하이');
   }, []);
 
   const logout = async () => {

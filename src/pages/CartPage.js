@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
@@ -6,14 +6,38 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
 const CartPage = () => {
+  /////////////// 세션 스토리지 ///////////////
   let cart = [];
   const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
   if (getSsesionData !== null) {
     cart = getSsesionData;
   }
-
   const setSsesionData = (cart) => {
     sessionStorage.setItem('cart', JSON.stringify(cart));
+  };
+
+  /////////////// 체크 박스 ///////////////////
+  const [checkItems, setCheckItems] = useState([]);
+
+  // 전체 체크
+  const handelCheckedAll = (checked) => {
+    if (checked) {
+      const checkedListArray = [];
+
+      cart.forEach((element) => checkedListArray.push(element.id));
+      setCheckItems(checkedListArray);
+    } else {
+      setCheckItems([]);
+    }
+  };
+
+  // 개별 체크
+  const handleCheckedSingle = (checked, id) => {
+    if (checked) {
+      setCheckItems([...checkItems, id]);
+    } else {
+      setCheckItems(checkItems.filter((el) => el !== id));
+    }
   };
 
   return (
@@ -23,7 +47,12 @@ const CartPage = () => {
       <Wrap>
         <Table>
           <CartHeader>
-            <input type="checkbox" name="select-all" />
+            <input
+              type="checkbox"
+              onChange={(e) => handelCheckedAll(e.target.checked)}
+              checked={checkItems.length === cart.length ? true : false}
+              value={cart || ''}
+            />
             <span>상품정보</span>
             <span>수량</span>
             <span>주문금액</span>
@@ -36,7 +65,13 @@ const CartPage = () => {
           ) : (
             cart.map((cart) => (
               <CartList key={cart.id} cart={cart}>
-                <input type="checkbox" name={`select-${cart.id}`} />
+                <input
+                  type="checkbox"
+                  name={`select-${cart.id}`}
+                  onChange={(e) => handleCheckedSingle(e.target.checked, cart.id)}
+                  checked={checkItems.includes(cart.id) ? true : false}
+                  value={cart || ''}
+                />
                 <img src={cart.thumbnail} alt="상세이미지" />
                 <p>{cart.title}</p>
                 <div>
@@ -70,6 +105,16 @@ const CartPage = () => {
 
 const Wrap = styled.main``;
 
+const Table = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  margin: 0 50px 20px;
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
+`;
+
 const CartHeader = styled.div`
   border-bottom: 1px solid #000;
   font-weight: 700;
@@ -84,15 +129,6 @@ const CartList = styled.div`
   padding: 20px 30px;
 `;
 
-const Table = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  margin: 0 50px 20px;
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
-`;
 const Price = styled.div`
   width: 300px;
   margin-right: 80px;
