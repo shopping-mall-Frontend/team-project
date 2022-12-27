@@ -5,5 +5,6 @@ export * from './CartPage';
 export * from './OrderPage';
 export * from './Auth/LoginPage';
 export * from './Auth/SignUpPage';
-export * from './CategoryPage';
+export * from './Category/CategoryPage';
 export * from './UserPage';
+export * from './OrderPage';
