@@ -1,39 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 const PrdList = styled.li`
-  width:calc(20% - 15px);
-  
   a {
-    display:block;
-    height:225px;
-    margin-bottom:10px;
-    background-position:center;
-    background-size:cover;
+    display: block;
+    background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
   }
-  text-align: center;
+  ${(props) =>
+    props.isCategory
+      ? css`
+          padding: 10px;
+          width: calc(25% - 15px);
+          a {
+            height: 400px;
+            margin-bottom: 10px;
+          }
+        `
+      : css`
+          width: calc(20% - 15px);
+          a {
+            height: 225px;
+            margin-bottom: 10px;
+          }
+
+          text-align: center;
+        `}
 `;
+
 const PrdBrand = styled.p`
-  margin-bottom:5px;
-`
+  margin-bottom: 5px;
+`;
 const PrdTitle = styled.p`
-  display:block;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  font-size:1.02rem;
-`
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.02rem;
+`;
 const PrdPrice = styled.p`
-  font-size:0.9rem;
-`
-const Product = ({ id, product }) => {
+  font-size: 0.9rem;
+`;
+const Product = ({ id, product, isCategory }) => {
   return (
-    <PrdList>
-      <Link to={`/product/${id}`} style={{'backgroundImage':`url(${product.thumbnail})`}} />
-      <PrdBrand  className='product-brand'>[{product.tags[0]}]</PrdBrand>
+    <PrdList isCategory={isCategory}>
+      <Link to={`/product/${id}`} style={{ backgroundImage: `url(${product.thumbnail})` }} />
+      <PrdBrand className="product-brand">[{product.tags[0]}]</PrdBrand>
       <PrdTitle>{product.title}</PrdTitle>
-      <PrdPrice>{`${product.price.toLocaleString()}원`}</PrdPrice>
+      <PrdPrice>{`${product.price.toLocaleString()}$`}</PrdPrice>
     </PrdList>
   );
 };

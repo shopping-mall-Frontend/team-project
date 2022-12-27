@@ -1,31 +1,28 @@
-import React, {useEffect, useState} from "react";
-import styled from "styled-components";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import "../css/reset-css.css";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import '../css/reset-css.css';
 
-const Header = () => {
-  const accessToken = window.localStorage.getItem("accessToken");
+const Header = React.memo(() => {
+  const accessToken = window.localStorage.getItem('accessToken');
 
-  const [isLogin, setIsLogin] = useState(
-    window.localStorage.getItem("accessToken") !== ""
-  );
+  const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
 
   // console.log(accessToken);
 
   const validLogin = async () => {
     try {
       const instance = axios.create({
-        baseURL:
-          "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth",
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
-          "content-type": "application/json",
-          apikey: "FcKdtJs202209",
-          "username": "KDT3_teamOT",
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const response = (await instance.post("/me")).data;
+      const response = (await instance.post('/me')).data;
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -35,41 +32,39 @@ const Header = () => {
 
   useEffect(() => {
     validLogin();
-    console.log("하이");
+    console.log('하이');
   }, []);
 
   const logout = async () => {
     try {
       console.log(isLogin);
       const instance = axios.create({
-        baseURL:
-          "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth",
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
-          "content-type": "application/json",
-          apikey: "FcKdtJs202209",
-          "username": "KDT3_teamOT",
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const response = (await instance.post("/logout")).data;
-      window.localStorage.setItem("accessToken", "");
+      const response = (await instance.post('/logout')).data;
+      window.localStorage.setItem('accessToken', '');
       console.log(response);
       setIsLogin(false);
     } catch (err) {
-      alert("로그아웃 실패.");
-      console.log("실패");
+      alert('로그아웃 실패.');
+      console.log('실패');
     }
   };
-
 
   return (
     <StyledHeader>
       <div className="header">
-        <div className='header-left'>
-          <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchSpace(e)}/>
+        <div className="header-left">
+          <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchSpace(e)} />
         </div>
         <div className="header-center">
-          <Link to={"/"} className="nav-logo-link">
+          <Link to={'/'} className="nav-logo-link">
             N4
           </Link>
         </div>
@@ -90,21 +85,33 @@ const Header = () => {
 
       <StyledCategory>
         <ul>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+          <li>
+            <Link to={'/category'} className="nav-menu-category">
+              Category
+            </Link>
+          </li>
           {/* {아직 아래 카테고리 미정} */}
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+          <li>
+            <Link to={'/category'} className="nav-menu-category">
+              Category
+            </Link>
+          </li>
+          <li>
+            <Link to={'/category'} className="nav-menu-category">
+              Category
+            </Link>
+          </li>
+          <li>
+            <Link to={'/category'} className="nav-menu-category">
+              Category
+            </Link>
+          </li>
         </ul>
-        <div className="categoryList">
-
-        </div>
-
+        <div className="categoryList"></div>
       </StyledCategory>
     </StyledHeader>
-
   );
-};
+});
 
 const StyledHeader = styled.div`
   flex-wrap: wrap;
@@ -125,7 +132,7 @@ const StyledHeader = styled.div`
   .nav-logo-link {
     font-size: 50px;
     margin-left: 2.5em;
-    padding-left: 2.50em;
+    padding-left: 2.5em;
   }
   input {
     color: gray;
