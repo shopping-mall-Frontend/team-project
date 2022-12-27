@@ -154,3 +154,29 @@ export const getProductDetail = async (id) => {
     console.log(err);
   }
 };
+
+// 계좌 추가
+export const addAccount = async (bkCode = '', accNum ='', pNum='', sign=false) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      headers.authorization = `Bearer ${token}`;
+      const data = await fetch(`${requestUrl}/account`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          bankCode : bkCode,
+          accountNumber : accNum,
+          phoneNumber : pNum,
+          signature : sign
+        }),
+      });
+      const json = await data.json();
+      console.log(json);
+      return json;
+    }
+    return false;
+  } catch (err) {
+    console.log(err);
+  }
+};
