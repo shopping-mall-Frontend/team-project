@@ -8,9 +8,9 @@ import { CartHeader, CartList } from '../components/Cart';
 
 const CartPage = () => {
   let cart = [];
-  const ssesionData = JSON.parse(sessionStorage.getItem('cart'));
-  if (ssesionData !== null) {
-    cart = ssesionData;
+  const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
+  if (getSsesionData !== null) {
+    cart = getSsesionData;
   }
   return (
     <Container>
