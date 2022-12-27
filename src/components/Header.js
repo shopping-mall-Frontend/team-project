@@ -28,11 +28,7 @@ const Header = ({ user }) => {
     <StyledHeader>
       <div className="header">
         <div className="header-left">
-          <input
-            type="text"
-            placeholder="Enter item to be searched"
-            onChange={(e) => this.searchSpace(e)}
-          />
+          <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchSpace(e)} />
         </div>
         <div className="header-center">
           <Link to={'/'} className="nav-logo-link">
