@@ -16,6 +16,10 @@ const App = () => {
       <Route path="/product/:id" element={<ProductdetailsPage cart={cart} setCart={setCart} />} />
       <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} />} />
       <Route path="/order" element={<OrderPage />} />
+      <Route path="/product" element={<ProductPage products={products} setProducts={setProducts} />} />
+      <Route path="/product/:id" element={<ProductdetailsPage cart={cart} setCart={setCart} />} />
+      <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} />} />
+      <Route path="/order" element={<OrderPage />} />
       <Route path="/user" element={<UserPage />} />
     </Routes>
   );

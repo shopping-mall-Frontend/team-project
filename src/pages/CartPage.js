@@ -34,13 +34,7 @@ const CartPage = ({ cart }) => {
             <h2>상품을 담아주세요.</h2>
           </div>
         ) : (
-          cart.map((cart) => (
-            <CartList
-              className={styles.cartlist}
-              key={cart.id}
-              cart={cart}
-            ></CartList>
-          ))
+          cart.map((cart) => <CartList className={styles.cartlist} key={cart.id} cart={cart}></CartList>)
         )}
       </Products>
       <button className={styles.cartlist} type="button">
