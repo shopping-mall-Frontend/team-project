@@ -8,14 +8,10 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
+      <Route path="/" element={<MainPage products={products} setProducts={setProducts} />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/category" element={<CategoryPage />} />
-      <Route path="/product" element={<ProductPage products={products} setProducts={setProducts} />} />
-      <Route path="/product/:id" element={<ProductdetailsPage cart={cart} setCart={setCart} />} />
-      <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} />} />
-      <Route path="/order" element={<OrderPage />} />
       <Route path="/product" element={<ProductPage products={products} setProducts={setProducts} />} />
       <Route path="/product/:id" element={<ProductdetailsPage cart={cart} setCart={setCart} />} />
       <Route path="/cart" element={<CartPage cart={cart} setCart={setCart} />} />

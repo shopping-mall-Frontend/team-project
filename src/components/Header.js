@@ -35,7 +35,7 @@ const Header = ({ user }) => {
             N4
           </Link>
         </div>
-        {isLogin && <h1> {user.displayName} </h1>}
+        {/* {isLogin && <h1> {user.displayName} </h1>} */}
         {/* 요건 잠시만기다려주세용ㅎㅎㅎㅎ */}
         {isLogin ? (
           <>
