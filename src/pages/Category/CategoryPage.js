@@ -69,8 +69,7 @@ const CategoryPage = React.memo(({ products }) => {
         const newData = categoryProducts;
         setProductList(newData);
       } else if (ele === currentBrand) {
-        console.log(categoryProducts);
-        const newData = productList.filter((item) => item.tags[0] === ele);
+        const newData = categoryProducts.filter((item) => item.tags[0] === ele);
         setProductList(newData);
       }
     });
