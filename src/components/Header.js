@@ -1,22 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { auth } from '../utils/useAPI';
+import axios from 'axios';
+import '../css/reset-css.css';
 
-const Header = ({ user }) => {
-  const [isLogin, setIsLogin] = useState(false);
+const Header = React.memo(() => {
+  const accessToken = window.localStorage.getItem('accessToken');
+
+  const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
+
+  console.log(accessToken);
+
+  const validLogin = async () => {
+    try {
+      const instance = axios.create({
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        headers: {
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const response = (await instance.post('/me')).data;
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+      setIsLogin(false);
+    }
+  };
 
   useEffect(() => {
-    console.log('Hi!');
-    if (localStorage.getItem('accessToken')) {
-      setIsLogin(true);
-    }
+    validLogin();
+    console.log('하이');
   }, []);
 
   const logout = async () => {
     try {
-      await auth('logout');
-      localStorage.removeItem('accessToken');
+      console.log(isLogin);
+      const instance = axios.create({
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        headers: {
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const response = (await instance.post('/logout')).data;
+      window.localStorage.setItem('accessToken', '');
+      console.log(response);
       setIsLogin(false);
     } catch (err) {
       alert('로그아웃 실패.');
@@ -35,7 +68,6 @@ const Header = ({ user }) => {
             N4
           </Link>
         </div>
-        {/* {isLogin && <h1> {user.displayName} </h1>} */}
         {/* 요건 잠시만기다려주세용ㅎㅎㅎㅎ */}
         {isLogin ? (
           <>
@@ -54,6 +86,7 @@ const Header = ({ user }) => {
           </>
         )}
       </div>
+
       <StyledCategory>
         <ul>
           <li>
@@ -82,14 +115,13 @@ const Header = ({ user }) => {
       </StyledCategory>
     </StyledHeader>
   );
-};
+});
 
 const StyledHeader = styled.div`
   flex-wrap: wrap;
   font-family: 'Marcellus', serif;
   display: flex;
   margin: 30px;
-
   .header {
     justify-content: space-between;
     width: 100%;
@@ -101,13 +133,11 @@ const StyledHeader = styled.div`
     text-decoration: none;
     font-weight: bold;
   }
-
   .nav-logo-link {
     font-size: 50px;
     margin-left: 2.5em;
     padding-left: 2.5em;
   }
-
   input {
     color: gray;
     margin: 0 auto;
@@ -121,7 +151,6 @@ const StyledHeader = styled.div`
     padding-left: 10px;
     background-color: gainsboro;
   }
-
   .nav-menu-side {
     font-weight: 400;
     color: gray;
@@ -139,7 +168,6 @@ const StyledCategory = styled.div`
     @media screen and (max-width: 500px) {
       display: none;
     }
-
     li {
       padding-left: 40px;
       color: darkGray;
