@@ -23,7 +23,7 @@ const CategoryPage = React.memo(({ products }) => {
   // 페이지네이션에 필요한 변수들
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
   const getProduct = async () => {
@@ -33,7 +33,7 @@ const CategoryPage = React.memo(({ products }) => {
   };
 
   useEffect(() => {
-    setCount((page - 1) * limit + 1);
+    setCount((page - 1) * limit);
   }, [page]);
 
   const getCategories = (data) => {
@@ -89,9 +89,9 @@ const CategoryPage = React.memo(({ products }) => {
       </Link>
       <Container>
         <OptionDiv>
-          <ul>
+          <CategoryUl>
             {brand.map((item) => {
-              return currentCategory === item ? (
+              return currentBrand === item ? (
                 <CategoryMenuLi key={item} isCurrent={true}>
                   {item}
                 </CategoryMenuLi>
@@ -101,15 +101,16 @@ const CategoryPage = React.memo(({ products }) => {
                   onClick={() => {
                     setCurrentBrand(item);
                   }}
+                  logo={`/images/logo/${item.split(' ')[0]}_logo.png`}
                 >
                   {item}
                 </CategoryMenuLi>
               );
             })}
-          </ul>
-          <div>
+          </CategoryUl>
+          <PageSectionWrap>
             <PageOption page={page} maxPage={maxPage} setPage={setPage} />
-          </div>
+          </PageSectionWrap>
         </OptionDiv>
         {/* 제품 목록 */}
         <ol>
@@ -123,7 +124,6 @@ const CategoryPage = React.memo(({ products }) => {
 });
 
 const Container = styled.main`
-  border: 2px solid green;
   ol {
     margin: 0;
     display: flex;
@@ -134,9 +134,23 @@ const Container = styled.main`
 
 const CategoryMenuLi = styled.li`
   color: ${(props) => (props.isCurrent ? 'red' : 'black')};
+  font-size: 15px;
+  padding-right: 20px;
+  cursor: pointer;
+  &:hover {
+    color: grey;
+  }
+`;
+
+const CategoryUl = styled.ul`
+  display: flex;
 `;
 
 const OptionDiv = styled.div`
   display: flex;
+  justify-content: space-between;
+  padding: 30px;
 `;
+
+const PageSectionWrap = styled.div``;
 export { CategoryPage };

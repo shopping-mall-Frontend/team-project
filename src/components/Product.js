@@ -11,7 +11,6 @@ const PrdList = styled.li`
   ${(props) =>
     props.isCategory
       ? css`
-          border: 2px solid red;
           padding: 10px;
           width: calc(25% - 15px);
           a {
