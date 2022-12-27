@@ -3,10 +3,15 @@ import { AddAccount } from "../components/AddAccount";
 import React, { useEffect, useState } from "react";
 import { getAccount, auth, buyProduct } from "../utils/useAPI";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom'
 
 const OrderPage = ({ cart }) => {
-  const [user, setUser] = useState(false);
+  const navigate = useNavigate();
+  console.log(cart)
 
+  const [user, setUser] = useState(false);
+  // 전체 계좌 잔액, 리스트 확인
+  const [allBankList, setAllBankList] = useState([]);
   // 선택 가능 은행 리스트
   const [holdBankList, setHoldBankList] = useState([]);
   // 구매 제품 목록
@@ -20,18 +25,21 @@ const OrderPage = ({ cart }) => {
     const userBank = async () => {
       const userInfo = await auth();
       const selectBank = await getAccount("banks");
+      const allBank = await getAccount();
 
+      setAllBankList(allBank)
       setUser(userInfo);
       setHoldBankList(selectBank.filter((e) => e.disabled === true));
       setProduct(cart);
-      setTotalPrice(
-        cart.map((e) => {
-          let price = 0;
-          price += e.price;
+      let price = 0;
 
-          return price;
-        })
-      );
+      cart.forEach((e) => {
+        price += Number(e.price);
+
+        return null;
+      })
+
+      setTotalPrice(price);
     };
 
     userBank();
@@ -50,27 +58,30 @@ const OrderPage = ({ cart }) => {
   }, [accountId]);
 
   // 결제
-  const payment = () => {
-    if (window.confirm("정말 구매하시겠습니까 ?")) {
+  const payment = async () => {
+    if (window.confirm("정말 구매하시겠습니까 ?") && accountId !== '') {
       try{
         console.log('start')
 
-        cart.forEach((e) => {
+        for(const x of cart){
           let body = JSON.stringify({
-            productId: e.id,
+            productId: x.id,
             accountId: accountId,
           });
-        
-          buyProduct(body);
-        })
-
-        console.log()
+          await buyProduct(body);
+        }
+        alert('결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요')
+        navigate('/');
       }catch(err){
-        console.log(err)
+        console.log('결제실패' , err)
       }finally{
         console.log('done')
+        console.log(allBankList)
       }
-    } else return
+
+    } else if(accountId === '') {
+      alert('결제 계좌를 선택하세요.')
+    } else return 
   };
 
   return (
