@@ -10,6 +10,7 @@ import {
   ProductdetailsPage,
   CartPage,
   UserPage,
+  Payment,
 } from './pages/index';
 
 const App = () => {
@@ -38,6 +39,7 @@ const App = () => {
         element={<CartPage cart={cart} setCart={setCart} />}
       />
       <Route path="/user" element={<UserPage />} />
+      <Route path="/payment/:id" element={<Payment />} />
     </Routes>
   );
 };

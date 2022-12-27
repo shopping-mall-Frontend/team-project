@@ -6,3 +6,4 @@ export * from './Auth/LoginPage';
 export * from './Auth/SignUpPage';
 export * from './CategoryPage';
 export * from './UserPage';
+export * from './Payment';

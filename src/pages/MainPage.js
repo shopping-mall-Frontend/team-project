@@ -7,13 +7,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-
 import { Swiper, SwiperSlide } from 'swiper/react'; // basic
 import { Navigation, Pagination, A11y, Autoplay } from 'swiper';
 import 'swiper/css/bundle';
 
 const MainPage = ({products, setProducts}) => {
   const [user, setUser] = useState(false);
+
   const [gucci, setGucci] = useState([]);
   const [bottega, setBottega] = useState([]);
   const [louis, setLouis] = useState([]);
@@ -52,7 +52,6 @@ const MainPage = ({products, setProducts}) => {
     <>
       <Header user={user} />
       <Container>
-        {/* 사이드 스크롤바 유/무에 따라 끊기는 현상이 존재합니다. */}
         <BannerWrap>
           <Swiper
             modules={[Pagination, A11y, Autoplay]}
@@ -125,7 +124,7 @@ const MainPage = ({products, setProducts}) => {
         <ItemsContainer>
           <ItemsSwiperTitle>New Product</ItemsSwiperTitle>
           <Swiper
-            modules={[Navigation, A11y ,Autoplay]}
+            modules={[A11y ,Autoplay]}
             spaceBetween={30}
             slidesPerView={5}
             speed={1000}
@@ -138,7 +137,7 @@ const MainPage = ({products, setProducts}) => {
             {
               allItems.map(item => {
                 return (
-                  <SwiperSlide className='new-product-wrap'>
+                  <SwiperSlide className='new-product-wrap' key={item.id}>
                     <div>
                       <Link className='item-image' to={`/product/${item.id}`} style={{'backgroundImage':`url(${item.thumbnail})`}} />
                       <div className='item-info-wrap'>
@@ -162,7 +161,7 @@ const MainPage = ({products, setProducts}) => {
             pagination={{
               clickable: true,
             }}
-            Navigation
+            navigation
             style={{'height':'500px'}}
           >
             <SwiperSlide>
