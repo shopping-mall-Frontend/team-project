@@ -16,17 +16,6 @@ const CartPage = () => {
     sessionStorage.setItem('cart', JSON.stringify(cart));
   };
 
-  const handleOrder = (cart, check) => {
-    const orderItem = {
-      id: cart.id,
-      title: cart.title,
-      price: cart.price,
-      thumnail: cart.thumbnail,
-      quantity: cart.quantity,
-      checked: check,
-    };
-  };
-
   return (
     <div>
       <Header />
