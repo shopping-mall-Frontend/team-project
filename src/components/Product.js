@@ -15,7 +15,7 @@ const PrdList = styled.li`
           padding: 10px;
           width: calc(25% - 15px);
           a {
-            height: 225px;
+            height: 400px;
             margin-bottom: 10px;
           }
         `
@@ -49,7 +49,7 @@ const Product = ({ id, product, isCategory }) => {
       <Link to={`/product/${id}`} style={{ backgroundImage: `url(${product.thumbnail})` }} />
       <PrdBrand className="product-brand">[{product.tags[0]}]</PrdBrand>
       <PrdTitle>{product.title}</PrdTitle>
-      <PrdPrice>{`${product.price.toLocaleString()}원`}</PrdPrice>
+      <PrdPrice>{`${product.price.toLocaleString()}$`}</PrdPrice>
     </PrdList>
   );
 };
