@@ -23,7 +23,7 @@ const Header = React.memo(() => {
         },
       });
       const response = (await instance.post('/me')).data;
-      // console.log(response);
+      console.log(response);
     } catch (err) {
       console.log(err);
       setIsLogin(false);
@@ -82,7 +82,7 @@ const Header = React.memo(() => {
             </Link>
             <Link to={'/Cart'} className="nav-menu-side">
               Chart
-            </Link>{' '}
+            </Link>
           </>
         )}
       </div>

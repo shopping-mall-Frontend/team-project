@@ -46,14 +46,14 @@ const UserPage = () => {
         <Transactions>
           <UserInfo>
             <div>
-              회원등급 ><span>ORANGE</span>
+              회원등급<span>ORANGE</span>
               <button>할인혜택 보기</button>
             </div>
             <div>
-              사용가능한 계좌 잔액 ><span>000,000원</span>
+              사용가능한 계좌 잔액<span>000,000원</span>
             </div>
             <div>
-              배송중 ><span>0개</span>
+              배송중<span>0개</span>
             </div>
           </UserInfo>
           <Details>

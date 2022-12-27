@@ -23,8 +23,7 @@ const CartPage = () => {
   const handelCheckedAll = (checked) => {
     if (checked) {
       const checkedListArray = [];
-
-      cart.forEach((element) => checkedListArray.push(element.id));
+      cart.forEach((element) => checkedListArray.push(element));
       setCheckItems(checkedListArray);
     } else {
       setCheckItems([]);
@@ -32,12 +31,23 @@ const CartPage = () => {
   };
 
   // 개별 체크
-  const handleCheckedSingle = (checked, id) => {
+  const handleCheckedSingle = (checked, cart) => {
     if (checked) {
-      setCheckItems([...checkItems, id]);
+      setCheckItems([...checkItems, cart]);
     } else {
-      setCheckItems(checkItems.filter((el) => el !== id));
+      setCheckItems(checkItems.filter((el) => el.id !== cart.id));
     }
+  };
+
+  /////////////// 총 금액 ///////////////////
+  const priceArr = checkItems.map((el) => el.price);
+  let totalPrice = 0;
+  priceArr.forEach((price) => {
+    totalPrice += price;
+  });
+
+  const handleCheckedDelete = () => {
+    console.log('선택 상품 삭제!');
   };
 
   return (
@@ -68,8 +78,8 @@ const CartPage = () => {
                 <input
                   type="checkbox"
                   name={`select-${cart.id}`}
-                  onChange={(e) => handleCheckedSingle(e.target.checked, cart.id)}
-                  checked={checkItems.includes(cart.id) ? true : false}
+                  onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
+                  checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
                   value={cart || ''}
                 />
                 <img src={cart.thumbnail} alt="상세이미지" />
@@ -77,21 +87,19 @@ const CartPage = () => {
                 <div>
                   <span>{cart.quantity}</span>
                 </div>
-                <span>{cart.price * cart.quantity}원</span>
+                <span>${cart.price * cart.quantity}</span>
               </CartList>
             ))
           )}
         </Table>
-        <button type="button">선택상품삭제</button>
+        <button type="button" onClick={() => handleCheckedDelete()}>
+          선택상품삭제
+        </button>
         <Price>
           <ol>
             <li>
-              <div>상품금액</div>
-              <span>??,???원</span>
-            </li>
-            <li>
-              <div>총 상품금액</div>
-              <span>??,???원</span>
+              <div>총 금액</div>
+              <span>${totalPrice}</span>
             </li>
           </ol>
           <Link to={'/order'}>
@@ -103,7 +111,12 @@ const CartPage = () => {
   );
 };
 
-const Wrap = styled.main``;
+const Wrap = styled.main`
+  button {
+    padding: 10px 40px;
+    border: 1px solid #000;
+  }
+`;
 
 const Table = styled.div`
   display: flex;

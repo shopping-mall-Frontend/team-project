@@ -11,7 +11,7 @@ export const headers = {
 //로그인
 export const signIn = async (value) => {
   try {
-    console.log(value);
+    // console.log(value);
     const token = localStorage.getItem('accessToken');
     const { email, password } = value;
     if (token !== null) {
@@ -69,7 +69,8 @@ export const getAccount = async (type = '') => {
         headers,
       });
       const json = await data.json();
-      console.log(json);
+      // console.log(json);
+      console.log('호출');
       return json;
     }
     return false;
@@ -143,15 +144,54 @@ export const deleteProduct = async (key, id) => {
 export const getProductDetail = async (id) => {
   try {
     headers.masterKey = true;
-    const data = await fetch(
-      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
-      {
-        method: 'GET',
-        headers,
-      }
-    );
+    const data = await fetch(`https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
+      method: 'GET',
+      headers,
+    });
     const json = await data.json();
     return json;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 계좌 추가
+export const accountAdd = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      headers.authorization = `Bearer ${token}`;
+      const data = await fetch(`${requestUrl}/account`, {
+        method: 'POST',
+        headers,
+        body: body,
+      });
+      const json = await data.json();
+      console.log(json);
+      return json;
+    }
+    return false;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 제품 구매
+export const buyProduct = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      headers.authorization = `Bearer ${token}`;
+      const data = await fetch(`${requestUrl}/products/buy `, {
+        method: 'POST',
+        headers,
+        body: body,
+      });
+      const json = await data.json();
+      console.log(json);
+      return json;
+    }
+    return false;
   } catch (err) {
     console.log(err);
   }
