@@ -42,7 +42,7 @@ const CartPage = () => {
   };
 
   /////////////// 총 금액 ///////////////////
-  const priceArr = checkItems.map((el) => el.price);
+  const priceArr = checkItems.map((el) => el.price * el.quantity);
   let totalPrice = 0;
   priceArr.forEach((price) => {
     totalPrice += price;
@@ -76,27 +76,28 @@ const CartPage = () => {
                     type="checkbox"
                     onChange={(e) => handelCheckedAll(e.target.checked)}
                     checked={checkItems.length === cart.length ? true : false}
-                    value={cart || ''}
                   />
                   <span>상품정보</span>
                   <span>수량</span>
                   <span>주문금액</span>
+                  <span>배송비</span>
                 </CartHeader>
                 {cart.map((cart) => (
-                  <CartList key={cart.id} cart={cart}>
+                  <CartList key={cart.id}>
                     <input
                       type="checkbox"
-                      name={`select-${cart.id}`}
                       onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
                       checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
-                      value={cart || ''}
                     />
                     <img src={cart.thumbnail} alt="상세이미지" />
                     <p>{cart.title}</p>
                     <div>
+                      <button type="button">-</button>
                       <span>{cart.quantity}</span>
+                      <button type="button">+</button>
                     </div>
                     <span>${cart.price * cart.quantity}</span>
+                    <span>무료</span>
                   </CartList>
                 ))}
               </div>
@@ -107,16 +108,25 @@ const CartPage = () => {
           </button>
         </ProductWrap>
         <PriceWrap>
-          <ol>
-            <li>
-              <div>총 금액</div>
-              <span>${totalPrice}</span>
-            </li>
-          </ol>
-          <Link to={'/order'}>
-            <button onClick={() => setSsesionData(checkItems)}>주문하기</button>
-          </Link>
+          <PriceInfoHeader>
+            <span>총 주문금액</span>
+            <span>총 배송비</span>
+            <span>총 결제금액</span>
+          </PriceInfoHeader>
+          <PriceInfoRow>
+            <span>${totalPrice}</span>
+            <span>무료</span>
+            <span>${totalPrice}</span>
+          </PriceInfoRow>
         </PriceWrap>
+        <LinkWrap>
+          <Link to={'/'}>
+            <button>CONTINUE SHOPPING</button>
+          </Link>
+          <Link to={'/order'}>
+            <button onClick={() => setSsesionData(checkItems)}>CHECK OUT</button>
+          </Link>
+        </LinkWrap>
       </Wrap>
     </div>
   );
@@ -132,7 +142,9 @@ const Wrap = styled.main`
   }
 `;
 
-const ProductWrap = styled.section``;
+const ProductWrap = styled.section`
+  margin-bottom: 80px;
+`;
 
 const Table = styled.div`
   margin-bottom: 40px;
@@ -159,41 +171,49 @@ const Blank = styled.div`
 `;
 
 const CartHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+
   border-bottom: 1px solid #000;
+  font-size: 18px;
   font-weight: 700;
+`;
+
+const CartList = styled.li`
   display: flex;
   justify-content: space-between;
   padding: 20px 30px;
 `;
 
-const CartList = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 30px;
+const PriceWrap = styled.section`
+  margin-bottom: 50px;
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
 `;
 
-const PriceWrap = styled.div`
-  width: 300px;
-  margin-right: 80px;
-  margin-left: auto;
-  padding: 30px;
+const PriceInfoHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 200px;
 
-  text-align: right;
+  border-bottom: 1px solid #000;
+  font-size: 18px;
+  font-weight: 700;
+`;
+const PriceInfoRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 200px;
 
-  ol {
-    margin-bottom: 30px;
-  }
+  font-size: 20px;
+  font-weight: 700;
+`;
 
-  ol li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  ol li div {
-    width: 70px;
-    text-align: right;
-  }
+const LinkWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 30px;
 `;
 
 export { CartPage };

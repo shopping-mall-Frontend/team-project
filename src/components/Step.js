@@ -17,7 +17,7 @@ const StepEl = styled.ul`
   gap: 10px;
 
   width: fit-content;
-  margin: 0 auto 50px;
+  margin: 0 auto 70px;
   padding: 20px;
   color: rgb(181, 176, 176);
 
