@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Product from "../components/Product";
 import { auth } from "../utils/useAPI";
 import { getAllProduct } from "../utils/useAPI";
@@ -252,6 +253,7 @@ const MainPage = ({ products, setProducts }) => {
           </Swiper>
         </BrandInfo>
       </Container>
+      <Footer/>
     </>
   );
 };

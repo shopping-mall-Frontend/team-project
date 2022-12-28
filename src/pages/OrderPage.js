@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { AddAccount } from "../components/AddAccount";
 import React, { useEffect, useState } from "react";
 import { getAccount, auth, buyProduct } from "../utils/useAPI";
@@ -173,6 +174,7 @@ const OrderPage = () => {
           </div>
         </section>
       </Container>
+      <Footer/>
     </>
   );
 };

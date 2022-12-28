@@ -21,7 +21,7 @@ export const signIn = async (value) => {
 
     const res = await axios.post(`${requestUrl}/auth/login`,JSON.stringify({email,password}) , {headers,})
     const { accessToken } = res.data;
-    
+
     localStorage.setItem('accessToken', accessToken);
     return res.data;
   } catch (err) {
@@ -54,7 +54,6 @@ export const getAccount = async (type = '') => {
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
       const res = await axios.get(`${requestUrl}/account/${type}`, {headers});
-      console.log(res);
       return res.data;
     }
     return false;
@@ -69,7 +68,6 @@ export const getAllProduct = async (key) => {
     if (key) {
       headers.masterKey = true;
       const res = await axios.get(`${requestUrl}/products`, {headers});
-      console.log(res);
       return res.data;
     }
     return false;
@@ -78,7 +76,6 @@ export const getAllProduct = async (key) => {
   }
 };
 
-// ----------------건들지마----------------
 // 제품 추가
 export const addProduct = async (key, list) => {
   try {
@@ -128,12 +125,11 @@ export const accountAdd = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const res = axios.post(`${requestUrl}/account`, body ,{headers})
+      const res = await axios.post(`${requestUrl}/account`, body ,{headers})
       console.log(res);
     }
-    return false;
   } catch (err) {
-    console.log(err);
+    return 'string'
   }
 };
 
@@ -163,7 +159,7 @@ export const delAccount = async ( body = '' ) => {
       });
     }
   } catch(err) {
-    console.log(err);
+    return err.response.data + ''
   }  
 };
 
