@@ -25,14 +25,8 @@ const Links = ({}) => {
   }, []);
   return (
     <Wrap>
-      <Link to={`/category/all`}>
-        <button>제품목록</button>
-      </Link>
-      <Link to={`/cart`}>
-        <button>장바구니</button>
-      </Link>
       <Link to={`/user`}>
-        <button>{user.displayName}님</button>
+        <button>안녕하세요. {user.displayName}님</button>
       </Link>
     </Wrap>
   );
