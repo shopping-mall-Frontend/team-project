@@ -61,11 +61,12 @@ const MainPage = ({ products, setProducts }) => {
             centeredSlides={true}
             loop={true}
             autoplay={{
-              delay: 5000,
+              delay: 4000,
               disableOnInteraction: false,
             }}
             speed={1500}
             loopFillGroupWithBlank={true}
+            touchRatio={0}
             onSlideChange={(swiper) => {
               let item = document.querySelector(".items-swiper");
               if (item) item.classList.remove("fade");
@@ -156,11 +157,19 @@ const MainPage = ({ products, setProducts }) => {
         <BrandInfo>
           <Swiper
             direction={"vertical"}
-            modules={[Pagination, Navigation]}
+            modules={[Pagination, Navigation, Autoplay]}
             slidesPerView={1}
             pagination={{
               clickable: true,
             }}
+            autoplay={{
+              delay:3000,
+              disableOnInteraction: false,
+            }}
+            touchRatio={0}
+            speed={1500}
+            loopFillGroupWithBlank={true}
+            loop={true}
             style={{ height: "500px" }}
           >
             <SwiperSlide>
@@ -315,7 +324,6 @@ const BannerWrap = styled.div`
 
 const Banner = styled.div`
   height: 500px;
-  margin-top: 50px;
 `;
 
 const ItemsContainer = styled.div`

@@ -5,17 +5,20 @@ import { getAccount, accountAdd } from "../utils/useAPI";
 
 export const AddAccount = () => {
   const { register, handleSubmit } = useForm();
+  
+  // 계좌 등록
   const onSubmit = async (data) => {
     let body = JSON.stringify({
       bankCode: data.bankCode,
-      accountNumber: data.accountNumber0 + data.accountNumber1 + data.accountNumber2 + data.accountNumber3,
+      accountNumber: data.accountNumber0 + data.accountNumber1 + data.accountNumber2 + (data.accountNumber3 ? data.accountNumber3 : ''),
       phoneNumber: data.phoneNumber,
       signature: data.signature,
     });
 
-    accountAdd(body);
+    await accountAdd(body);
   };
 
+  // 은행 코드, 선택 가능 은행 조회
   const [bankCode, setBankCode] = useState(0);
   const [selectBank, setSelectBank] = useState([]);
 
@@ -44,7 +47,6 @@ export const AddAccount = () => {
 
   return (
     <>
-      <p>선택 가능한 계좌가 없습니다. 계좌를 등록하세요.</p>
       <BankForm onSubmit={handleSubmit(onSubmit)}>
         <select
           {...register("bankCode")}
@@ -72,7 +74,7 @@ export const AddAccount = () => {
               for (let i = 0; i < item.digits.length; i++) {
                 input.push(
                   <input
-                    {...register(`accountNumber${index}`)}
+                    {...register(`accountNumber${i}`)}
                     type="number"
                     onInput={(e) => {
                       maxLengthChk(e);
