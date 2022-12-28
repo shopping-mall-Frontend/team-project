@@ -8,13 +8,10 @@ import Product from '../../components/Product';
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
   const brandPath = pathname.split('/')[3];
+
   // 머지.. 이거 없으면 렌더링 안됩니다.
   const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
-
-  useEffect(() => {
-    setCurrentCategory(pathname.split('/')[2]);
-  }, [pathname]);
 
   const category = [
     ['all', '전체보기'],
@@ -28,28 +25,34 @@ const CategoryPage = React.memo(({ products }) => {
   const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
+  useEffect(() => {
+    setCurrentCategory(pathname.split('/')[2]);
+    setCurrentBrand(brandPath ? brandPath : '');
+  }, [pathname]);
+
   const getCategories = (data) => {
     category.forEach((ele) => {
+      let newData = data;
       if (currentCategory === 'all') {
-        const newData = data;
+        newData = data;
         setProductList(newData);
         setCategoryProducts(newData);
       } else if (ele[0] === currentCategory) {
-        const newData = data.filter((item) => item.tags[1] === ele[1]);
+        newData = data.filter((item) => item.tags[1] === ele[1]);
         setProductList(newData);
         setCategoryProducts(newData);
-        brand.forEach((ele, i) => {
-          if (i !== 0 && ele.split(' ')[0] === currentBrand) {
-            const k = newData.filter((item) => item.tags[0] === ele);
-            setProductList(k);
-          }
-        });
       }
+      brand.forEach((ele, i) => {
+        if (i !== 0 && ele.split(' ')[0] === currentBrand) {
+          newData = newData.filter((item) => item.tags[0] === ele);
+          setProductList(newData);
+        }
+      });
     });
   };
 
