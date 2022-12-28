@@ -65,11 +65,9 @@ const Header = React.memo(() => {
     <StyledHeader>
       <nav className="navbar">
         <div className="navbar-left">{
-          <input
-            type="text"
-            placeholder="Enter item to be searched"
-            onChange={(e) => this.searchSpace(e)}
-          />
+          <Link to={'/'}>
+            SEARCH
+          </Link>
         }
         </div>
 
@@ -93,13 +91,13 @@ const Header = React.memo(() => {
       <StyledCategory>
         <ul className="category">
           <li>
-            <Link to={'/category'}>category </Link>
+            <Link to={'/category/all'}>Category</Link>
           </li>
           <li>
-            <Link to={'/category'}>category </Link>
+            <Link to={'/category/clothes'}>Clothes </Link>
           </li>
           <li>
-            <Link to={'/category'}>category </Link>
+            <Link to={'/category/bags'}>Bag</Link>
           </li>
         </ul>
       </StyledCategory>
@@ -120,7 +118,7 @@ const StyledHeader = styled.div`
 
   }
   .navbar-logo {
-    padding-right: 200px;
+    padding-right: 10px;
     font-size: 2rem;
   }
   .navbar-right {
