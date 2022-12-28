@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
@@ -7,27 +7,32 @@ import Navbar from '../components/Navbar';
 import Step from '../components/Step';
 
 const CartPage = () => {
-  /////////////// 세션 스토리지 ///////////////
+  /////////////// 세션 스토리지 조회 ///////////////
   let cart = [];
   const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
   if (getSsesionData !== null) {
     cart = getSsesionData;
   }
 
-  /////////////// 체크 박스 ///////////////////
-  const [checkItems, setCheckItems] = useState([]);
+  ////////// 세션스토리지로 수정 ////////
+  sessionStorage.setItem('order', JSON.stringify());
+  const setSsesionData = (key, productArray) => {
+    sessionStorage.setItem(key, JSON.stringify(productArray));
+  };
 
   /////////////// 총 금액 ///////////////////
-  const priceArr = checkItems.map((el) => el.price * el.quantity);
+  const priceArray = cart.map((el) => el.price * el.quantity);
   let totalPrice = 0;
-  priceArr.forEach((price) => {
+  priceArray.forEach((price) => {
     totalPrice += price;
   });
 
-  ////////// 결제 상품, 세션스토리지로 ////////
-  sessionStorage.setItem('order', JSON.stringify());
-  const setSsesionData = (orderProducts) => {
-    sessionStorage.setItem('order', JSON.stringify(orderProducts));
+  /////////////// 삭제 버튼 ///////////////////
+  const handleDeleteCart = (e) => {
+    e.target.parentElement.remove();
+    const deletedcart = cart.filter((element) => element.id !== e.target.parentElement.id);
+    cart = deletedcart;
+    setSsesionData('cart', cart);
   };
 
   return (
@@ -49,7 +54,7 @@ const CartPage = () => {
               <h2>My Cart</h2>
               <ProductsTable>
                 {cart.map((cart) => (
-                  <CartList key={cart.id}>
+                  <CartList key={cart.id} id={cart.id}>
                     <img src={cart.thumbnail} alt="상세이미지" />
                     <Info>
                       <p>{cart.title}</p>
@@ -61,7 +66,9 @@ const CartPage = () => {
                       <button type="button">十</button>
                     </Quantity>
                     <span>${cart.price * cart.quantity}</span>
-                    <button className="deleteBtn">✕</button>
+                    <button className="deleteBtn" onClick={(e) => handleDeleteCart(e)}>
+                      ✕
+                    </button>
                   </CartList>
                 ))}
               </ProductsTable>
@@ -84,7 +91,7 @@ const CartPage = () => {
               </Total>
               <LinkWrap>
                 <Link to={'/order'}>
-                  <button onClick={() => setSsesionData(checkItems)}>CHECK OUT</button>
+                  <button onClick={() => setSsesionData('order', cart)}>CHECK OUT</button>
                 </Link>
               </LinkWrap>
             </OrderSummaryWrap>
@@ -174,11 +181,14 @@ const Info = styled.div`
 const Quantity = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
 
   width: 80px;
   height: 25px;
   border: 1px solid #000;
+
+  font-size: 12px;
 `;
 
 //Order Summary 스타일
