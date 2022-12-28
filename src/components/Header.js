@@ -1,23 +1,20 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../css/reset-css.css';
 
 const Header = React.memo(() => {
   const accessToken = window.localStorage.getItem('accessToken');
 
-  const [isLogin, setIsLogin] = useState(
-    window.localStorage.getItem('accessToken') !== ''
-  );
+  const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
 
   console.log(accessToken);
 
   const validLogin = async () => {
     try {
       const instance = axios.create({
-        baseURL:
-          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
           'content-type': 'application/json',
           apikey: 'FcKdtJs202209',
@@ -42,8 +39,7 @@ const Header = React.memo(() => {
     try {
       console.log(isLogin);
       const instance = axios.create({
-        baseURL:
-          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
           'content-type': 'application/json',
           apikey: 'FcKdtJs202209',
@@ -64,12 +60,7 @@ const Header = React.memo(() => {
   return (
     <StyledHeader>
       <nav className="navbar">
-        <div className="navbar-left">{
-          <Link to={'/'}>
-            SEARCH
-          </Link>
-        }
-        </div>
+        <div className="navbar-left">{<Link to={'/'}>SEARCH</Link>}</div>
 
         <div className="navbar-logo center"></div>
         <Link to={'/'} className="navbar-logo">
@@ -77,14 +68,10 @@ const Header = React.memo(() => {
         </Link>
         <ul className="navbar-right">
           <li>
-            <Link to={'/login'}>
-              Login/out
-            </Link>
+            <Link to={'/login'}>Login/out</Link>
           </li>
           <li>
-            <Link to={'/Cart'}>
-              Chart
-            </Link>{' '}
+            <Link to={'/Cart'}>Chart</Link>{' '}
           </li>
         </ul>
       </nav>
@@ -102,7 +89,6 @@ const Header = React.memo(() => {
         </ul>
       </StyledCategory>
     </StyledHeader>
-
   );
 });
 
@@ -115,7 +101,6 @@ const StyledHeader = styled.div`
     padding: 22px 1px;
     width: 90%;
     margin: 0;
-
   }
   .navbar-logo {
     padding-right: 10px;
@@ -125,14 +110,14 @@ const StyledHeader = styled.div`
     display: flex;
     width: 15%;
     justify-content: flex-end;
-    color:#302d2d;
+    color: #302d2d;
   }
   li {
     padding: 20px;
   }
   .navbar-left {
     margin-left: 100px;
-    color:#302d2d;
+    color: #302d2d;
   }
   @media screen and (max-width: 768px) {
     .navbar {
@@ -175,6 +160,7 @@ const StyledCategory = styled.div`
     .category {
       display: none;
     }
+  }
 `;
 
 export default Header;
