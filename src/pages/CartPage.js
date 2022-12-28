@@ -26,13 +26,6 @@ const CartPage = () => {
     sessionStorage.setItem(key, JSON.stringify(productArray));
   };
 
-  /////////////// 삭제 버튼 //////////////////////
-  const handleDeleteCart = (event) => {
-    const deletedcart = cart.filter((element) => element.id !== event.target.parentElement.id);
-    setCart(deletedcart);
-    setSsesionData('cart', deletedcart);
-  };
-
   /////////////// 총 금액 ////////////////////////
   let totalPrice = 0;
   const priceArray = cart.map((el) => el.price * el.quantity);
@@ -40,11 +33,40 @@ const CartPage = () => {
     return (totalPrice += price);
   });
 
-  /////// 수량
-  // const [inputvalue, setInputvalue] = useState('');
-  // const handleQuantityInput = useCallback((e) => {
-  //   setInputvalue(e.target.value);
-  // });
+  /////////////// 삭제 버튼 //////////////////////
+  const handleDeleteCart = (event) => {
+    const deletedcart = cart.filter((element) => element.id !== event.target.parentElement.id);
+    setCart(deletedcart);
+    setSsesionData('cart', deletedcart);
+  };
+
+  /////////////// 수량 버튼, 입력 //////////////////////
+  const onChangeQuantity = (id, value, key = 'quantity') => {
+    const product = cart.filter((element) => element.id === id);
+    product[0].quantity = value;
+    setSsesionData('cart', cart);
+  };
+
+  //수량 입력
+  const handleQuantityInput = (e) => {
+    onChangeQuantity(e.target.closest('li').id, e.target.value);
+  };
+
+  //수량 증가
+  const handleQuantityIncrease = (e) => {
+    e.target.previousElementSibling.value = parseInt(e.target.previousElementSibling.value) + 1;
+    onChangeQuantity(e.target.closest('li').id, e.target.previousElementSibling.value);
+  };
+
+  //수량 감소
+  const handleQuantityDecrease = (e) => {
+    if (e.target.nextElementSibling.value <= 1) {
+      e.preventDefault();
+      console.log('1 이하는 안돼욧!');
+    }
+    e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
+    onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+  };
 
   return (
     <div>
@@ -72,9 +94,13 @@ const CartPage = () => {
                       <span>${cart.price}</span>
                     </Info>
                     <Quantity>
-                      <button type="button">一</button>
-                      <input type="text" maxLength="3" step="1" defaultValue={cart.quantity} />
-                      <button type="button">十</button>
+                      <button type="button" onClick={handleQuantityDecrease}>
+                        一
+                      </button>
+                      <input type="text" maxLength="3" defaultValue={cart.quantity} onChange={handleQuantityInput} />
+                      <button type="button" onClick={handleQuantityIncrease}>
+                        十
+                      </button>
                     </Quantity>
                     <span>${cart.price * cart.quantity}</span>
                     <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
@@ -209,6 +235,10 @@ const Quantity = styled.div`
 
   button {
     padding: 0 8px;
+  }
+
+  .btn-disabled {
+    color: #dfdfdf;
   }
 `;
 
