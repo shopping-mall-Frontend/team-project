@@ -5,7 +5,6 @@ import {
   LoginPage,
   SignUpPage,
   CategoryPage,
-  ProductPage,
   ProductdetailsPage,
   CartPage,
   OrderPage,
@@ -32,7 +31,6 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/category/:category" element={<CategoryPage products={categoryItems} />} />
-      <Route path="/product" element={<ProductPage products={products} setProducts={setProducts} />} />
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage cart={cart} setCart={setCart} />} />

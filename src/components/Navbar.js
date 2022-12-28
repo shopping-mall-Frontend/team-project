@@ -25,7 +25,7 @@ const Links = ({}) => {
   }, []);
   return (
     <Wrap>
-      <Link to={`/product`}>
+      <Link to={`/category/all`}>
         <button>제품목록</button>
       </Link>
       <Link to={`/cart`}>
