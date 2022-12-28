@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
 import Product from '../../components/Product';
-import { getAllProduct } from '../../utils/useAPI';
 
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
@@ -26,16 +25,6 @@ const CategoryPage = React.memo(({ products }) => {
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
-  const getProduct = async () => {
-    const newData = await getAllProduct(true);
-    setProductList(newData);
-    return newData;
-  };
-
-  useEffect(() => {
-    setCount((page - 1) * limit);
-  }, [page]);
-
   const getCategories = (data) => {
     category.forEach((ele) => {
       if (currentCategory === 'all') {
@@ -51,17 +40,12 @@ const CategoryPage = React.memo(({ products }) => {
   };
 
   useEffect(() => {
-    const test = async () => {
-      if (products.length === 0) {
-        console.log('아직 정보를 못불러왔나바요!');
-        const newData = await getProduct();
-        getCategories(newData);
-      } else {
-        getCategories(products);
-      }
-    };
-    test();
-  }, [currentCategory]);
+    setCount((page - 1) * limit);
+  }, [page]);
+
+  useEffect(() => {
+    getCategories(products);
+  }, [products]);
 
   useEffect(() => {
     brand.forEach((ele) => {
