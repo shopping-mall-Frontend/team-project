@@ -9,7 +9,7 @@ const Header = React.memo(() => {
 
   const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
 
-  console.log(accessToken);
+  // console.log(accessToken);
 
   const validLogin = async () => {
     try {
