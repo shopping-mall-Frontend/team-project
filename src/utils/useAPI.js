@@ -1,29 +1,17 @@
-import axios from "axios";
-
-const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
-const requestUrl = 'api';
-
-export const headers = {
-  Accept: 'application/json',
-  'content-type': 'application/json',
-  apikey: REACT_APP_API_KEY,
-  username: REACT_APP_USERNAME,
-};
+import axios from '../api/axios';
 
 //로그인
 export const signIn = async (value) => {
   try {
-    const token = localStorage.getItem('accessToken');
     const { email, password } = value;
-    if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-    }
+    const { data } = await axios.post(`/auth/login`, {
+      email,
+      password,
+    });
+    const { accessToken } = data;
 
-    const res = await axios.post(`${requestUrl}/auth/login`,JSON.stringify({email,password}) , {headers,})
-    const { accessToken } = res.data;
-    
     localStorage.setItem('accessToken', accessToken);
-    return res.data;
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -35,10 +23,10 @@ export const auth = async (type = 'me') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const res = await axios.post(`${requestUrl}/auth/${type}`,{},{headers});
-      console.log(res.data);
-      return res.data;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.post(`/auth/${type}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -52,10 +40,10 @@ export const getAccount = async (type = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const res = await axios.get(`${requestUrl}/account/${type}`, {headers});
-      console.log(res);
-      return res.data;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.get(`/account/${type}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -67,10 +55,10 @@ export const getAccount = async (type = '') => {
 export const getAllProduct = async (key) => {
   try {
     if (key) {
-      headers.masterKey = true;
-      const res = await axios.get(`${requestUrl}/products`, {headers});
-      console.log(res);
-      return res.data;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.get(`/products`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -78,15 +66,15 @@ export const getAllProduct = async (key) => {
   }
 };
 
-// ----------------건들지마----------------
+// ----------------건들지마---------------- ㅈㅅ 건들여버림..
 // 제품 추가
 export const addProduct = async (key, list) => {
   try {
     list.price = parseInt(list.price, 10);
     if (key) {
-      headers.masterKey = true;
-      const res = await axios.post(`${requestUrl}/products`, JSON.stringify(list) ,{headers})
-      return res.data;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.post(`/products`, JSON.stringify(list));
+      return data;
     }
     return false;
   } catch (err) {
@@ -99,10 +87,10 @@ export const addProduct = async (key, list) => {
 export const deleteProduct = async (key, id) => {
   try {
     if (key) {
-      headers.masterKey = true;
-      const res = await axios.delete(`${requestUrl}/products/${id}`, {headers});
-      console.log(res);
-      return res.data;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.delete(`/products/${id}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -113,10 +101,10 @@ export const deleteProduct = async (key, id) => {
 // 제품 상세 조회
 export const getProductDetail = async (id) => {
   try {
-    headers.masterKey = true;
-    const res = await axios.get(`${requestUrl}/products/${id}`, {headers});
-    console.log(res)
-    return res.data
+    axios.defaults.headers.common['masterKey'] = true;
+    const { data } = await axios.get(`/products/${id}`);
+    console.log(data);
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -127,9 +115,9 @@ export const accountAdd = async (body = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const res = axios.post(`${requestUrl}/account`, body ,{headers})
-      console.log(res);
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = axios.post(`/account`, body);
+      console.log(data);
     }
     return false;
   } catch (err) {
@@ -138,33 +126,33 @@ export const accountAdd = async (body = '') => {
 };
 
 // 제품 구매
-export const buyProduct = async ( body = '' ) => {
+export const buyProduct = async (body = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const res = await axios.post(`${requestUrl}/products/buy `,body ,{headers})
-      console.log(res)
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const data = await axios.post(`/products/buy `, body);
+      console.log(data);
     }
-    return false;  
+    return false;
   } catch (err) {
     console.log(err);
   }
 };
 
 // 계좌 해제
-export const delAccount = async ( body = '' ) => {
+export const delAccount = async (body = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      await axios.delete(`${requestUrl}/account`, {
-        headers,
-        data : body
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.delete(`/account`, {
+        data: body,
       });
+      console.log(data);
+      return data;
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
-  }  
+  }
 };
-
-
