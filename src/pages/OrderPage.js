@@ -46,7 +46,12 @@ const OrderPage = () => {
   
         return arr 
       })
-      setBuyProducts(...buy)
+
+      let arr2 = [];
+      buy.forEach((element) => {
+        arr2 = [...arr2, ...element];
+      })
+      setBuyProducts(arr2)
 
       // 토탈 금액 계산
       let price = 0;
@@ -88,7 +93,7 @@ const OrderPage = () => {
           await buyProduct(body);
         }
         alert('결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요')
-        navigate('/');
+        // navigate('/');
       }catch(err){
         console.log('결제실패' , err)
       }finally{

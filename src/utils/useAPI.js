@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
 const requestUrl = 'api';
 
@@ -69,8 +71,7 @@ export const getAccount = async (type = '') => {
         headers,
       });
       const json = await data.json();
-      // console.log(json);
-      console.log('호출');
+      console.log(json);
       return json;
     }
     return false;
@@ -182,17 +183,29 @@ export const buyProduct = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/products/buy `, {
+      await fetch(`${requestUrl}/products/buy `, {
         method: 'POST',
         headers,
-        body: body,
+        body: body
       });
-      const json = await data.json();
-      console.log(json);
-      return json;
     }
-    return false;
+    return false;  
   } catch (err) {
     console.log(err);
   }
+};
+
+// 계좌 해제
+export const delAccount = async ( body = '' ) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      await axios.delete(`${requestUrl}/account`, {
+        headers,
+        data : body
+      });
+    }
+  } catch(err) {
+    console.log(err);
+  }  
 };
