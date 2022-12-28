@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { signIn } from '../utils/useAPI';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
@@ -27,12 +27,32 @@ const Login = () => {
 
   return (
     <Container>
+      <ul>
+        <li>
+          <Link to={'/'} className="go-back">
+                  <span className="material-symbols-outlined">
+          keyboard_double_arrow_left
+          </span>
+            GO Back
+          </Link>
+        </li>
+        <li>
+          <Link to={'/SignUp'} className="Login">
+          </Link>
+
+        </li>
+
+      </ul>
+
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <h1>Login</h1>
-          <h4>Username</h4>
+          <h1>WELCOM
+            <span className="material-symbols-outlined">
+heart_minus
+</span></h1>
+
+          <h4>E-mail</h4>
           <div className="username-input">
-            <i className="fas fa-user"></i>
             <input
               type="email"
               placeholder="example@gmail.com"
@@ -50,54 +70,82 @@ const Login = () => {
               {...register('password', { required: true })}
             />
           </div>
+          <Link to={'/SignUp'} className="Login">
+            <span className="material-symbols-outlined">touch_app</span>
+            SignUp
+          </Link>
         </div>
-        <button type="submit">LOGIN</button>
+        <div className="submit">
+
+          <input type="submit" value="submit"/>
+        </div>
       </LoginForm>
     </Container>
   );
 };
 
 const Container = styled.div`
-  background-color: #fff9f9;
-  min-height: 700px;
-  min-width: 700px;
-  height: 100vh;
-  width: 100vw;
-  background-color: hsla(0, 100%, 88%, 1);
-  background-image: radial-gradient(
-      at 80% 0%,
-      hsla(189, 100%, 56%, 1) 0px,
-      transparent 50%
-    ),
-    radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 1) 0px, transparent 50%),
-    radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 1) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, hsla(269, 100%, 77%, 1) 0px, transparent 50%),
-    radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 1) 0px, transparent 50%);
+
+  font-family: 'Marcellus', serif;
+
+  ul{
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 20px;
+    line-height: 55px;
+    height: 55px;
+
+    text-align: center;
+    color: gray;
+    font-family: 'Marcellus', serif;
+  }
+  li{
+    width: 30%;
+    box-sizing: border-box;
+    height: 65.99px;
+  }
+  .go-back {
+    padding-bottom: 20px;
+    height:100%;
+  }
+
+  .navbar-logo{
+    padding-bottom: 20px;
+    height:100%;
+  }
+  .material-symbols-outlined{
+    height:100%;
+    padding-right: 20px;
+    padding-top: 20px;
+  }
 
   h4 {
     margin: 20px 0 5px 0;
     font-size: 1.5rem;
     font-weight: 300;
+    font-family: 'Marcellus', serif;
+  }
+  .Login{
+    font-family: 'Marcellus', serif;
+
   }
 `;
 
 const LoginForm = styled.form`
-  margin: 0 auto;
-  width: 400px;
-  height: 380px;
-  transform: translateY(40%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 20px;
-  box-shadow: 0px 0 31px 0px rgb(0 0 0 / 10%);
+  font-family: 'Marcellus', serif;
+  letter-spacing: 0.5px;
+  margin: auto;
+  width: 600px;
+  height:800px;
+  transform: translateY(10%);
 
   h1 {
     font-family: 'Marcellus', serif;
     margin: 20px 0 10px 0;
-    font-size: 3rem;
+    font-size: 4rem;
+    padding-bottom: 40px;
   }
 
   .username-input,
@@ -106,36 +154,31 @@ const LoginForm = styled.form`
     border-bottom: 1px solid #a4a4a4;
   }
 
-  i {
-    width: 10%;
-    color: rgba(0, 0, 0, 0.3);
-    padding-right: 7px;
-  }
 
   input {
-    width: 80%;
-    font-size: 1.1rem;
-    font-weight: 300;
-    padding: 7px 0;
-    border: none;
-    background-color: inherit;
+    width: 100%;
+    outline: none;
+    border-radius: 0px;
+    line-height: 2.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    font-size: 15px;
   }
 
-  button {
-    margin: 40px;
-    border: none;
-    padding: 7px 20px;
-    width: 50%;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    background-image: linear-gradient(
-      43deg,
-      hsla(340, 100%, 76%, 1) 0%,
-      hsla(269, 100%, 77%, 1) 100%
-    );
-    color: white;
-    font-weight: 600;
-  }
+}
+.submit {
+  margin-top: 50px;
+  width: 90%;
+}
+.submit input {
+  height: 50px;
+  border-radius: 30px;
+  margin-top: 10px;
+  padding: 0px 20px;
+  border: 1px solid lightgray;
+  outline: none;
+}
 `;
 
 export default Login;
