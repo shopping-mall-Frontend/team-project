@@ -1,9 +1,8 @@
-
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {useForm} from 'react-hook-form';
-import {signIn} from '../utils/useAPI';
-import {Link, useNavigate} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { signIn } from '../utils/useAPI';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
@@ -14,9 +13,9 @@ const Login = () => {
   });
 
   // react hook form 사용해보기(렌더링 비용 최소화)
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    const {user} = await signIn(data);
+    const { user } = await signIn(data);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
@@ -36,12 +35,8 @@ const Login = () => {
           </Link>
         </li>
         <li>
-          <Link to={'/SignUp'} className="Login">
-
-          </Link>
-
+          <Link to={'/SignUp'} className="Login"></Link>
         </li>
-
       </ul>
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
@@ -49,37 +44,24 @@ const Login = () => {
 
           <h4>E-mail</h4>
           <div className="username-input">
-            <input
-              type="email"
-              placeholder="example@gmail.com"
-              {...register('email', {required: true})}
-            />
+            <input type="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
           </div>
         </div>
         <div>
           <h4>Password</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
-            <input
-              type="password"
-              placeholder="********"
-              {...register('password', {required: true})}
-            />
+            <input type="password" placeholder="********" {...register('password', { required: true })} />
           </div>
         </div>
         <div>
           <h4>Username</h4>
           <div className="password-input">
-            <input
-              type="text"
-              placeholder="User Name"
-              {...register('password', {required: true})}
-            />
+            <input type="text" placeholder="User Name" {...register('password', { required: true })} />
           </div>
         </div>
         <div className="submit">
-
-          <input type="submit" value="submit"/>
+          <input type="submit" value="submit" />
         </div>
       </LoginForm>
     </Container>
@@ -87,7 +69,6 @@ const Login = () => {
 };
 
 const Container = styled.div`
-
   font-family: 'Marcellus', serif;
 
   ul {
@@ -134,7 +115,6 @@ const Container = styled.div`
 
   .Login {
     font-family: 'Marcellus', serif;
-
   }
 `;
 
@@ -159,7 +139,6 @@ const LoginForm = styled.form`
     border-bottom: 1px solid #a4a4a4;
   }
 
-
   input {
     width: 100%;
     outline: none;
@@ -171,21 +150,19 @@ const LoginForm = styled.form`
     font-size: 15px;
   }
 
-}
+  .submit {
+    margin-top: 50px;
+    width: 90%;
+  }
 
-.submit {
-  margin-top: 50px;
-  width: 90%;
-}
-
-.submit input {
-  height: 50px;
-  border-radius: 30px;
-  margin-top: 10px;
-  padding: 0px 20px;
-  border: 1px solid lightgray;
-  outline: none;
-}
+  .submit input {
+    height: 50px;
+    border-radius: 30px;
+    margin-top: 10px;
+    padding: 0px 20px;
+    border: 1px solid lightgray;
+    outline: none;
+  }
 `;
 
 export default Login;
