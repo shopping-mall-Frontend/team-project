@@ -28,8 +28,8 @@ const ProductdetailsPage = () => {
     cart = getSsesionData;
   }
 
-  const cartSsesionData = (cart) => {
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+  const cartSsesionData = (cartProducts) => {
+    sessionStorage.setItem('cart', JSON.stringify(cartProducts));
   };
 
   //수량
