@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import '../css/reset-css.css';
 
 const Header = React.memo(() => {
   const accessToken = window.localStorage.getItem('accessToken');
 
-  const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
+  const [isLogin, setIsLogin] = useState(
+    window.localStorage.getItem('accessToken') !== ''
+  );
 
   console.log(accessToken);
 
   const validLogin = async () => {
     try {
       const instance = axios.create({
-        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        baseURL:
+          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
           'content-type': 'application/json',
           apikey: 'FcKdtJs202209',
@@ -39,7 +42,8 @@ const Header = React.memo(() => {
     try {
       console.log(isLogin);
       const instance = axios.create({
-        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
+        baseURL:
+          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
           'content-type': 'application/json',
           apikey: 'FcKdtJs202209',
@@ -59,22 +63,35 @@ const Header = React.memo(() => {
 
   return (
     <StyledHeader>
-      <nav className="navbar">
-        <div className="navbar-left">{<Link to={'/'}>SEARCH</Link>}</div>
+      <header>
+        <div className="search">
+          <Link to={'/'}>
+            SEARCH
+          </Link>
+        </div>
 
-        <div className="navbar-logo center"></div>
-        <Link to={'/'} className="navbar-logo">
-          N4
-        </Link>
-        <ul className="navbar-right">
-          <li>
-            <Link to={'/login'}>Login/out</Link>
-          </li>
-          <li>
-            <Link to={'/Cart'}>Chart</Link>{' '}
-          </li>
-        </ul>
-      </nav>
+        <div className="logo">
+          <Link to={'/'}>
+            N4
+          </Link>
+        </div>
+        <nav>
+          <ul className="nav__links">
+            <li>
+              <Link to={'/login'}>
+                Login/out
+              </Link>
+            </li>
+            <li>
+              <Link to={'/Cart'}>
+                Chart
+              </Link>{' '}
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+
       <StyledCategory>
         <ul className="category">
           <li>
@@ -89,78 +106,103 @@ const Header = React.memo(() => {
         </ul>
       </StyledCategory>
     </StyledHeader>
+
   );
 });
 
 const StyledHeader = styled.div`
-  .navbar {
-    font-family: 'Marcellus', serif;
-    justify-content: space-between;
-    display: flex;
-    align-items: center;
-    padding: 22px 1px;
-    width: 90%;
-    margin: 0;
+  font-family: 'Marcellus', serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+li, .logo {
+  text-decoration: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10px 0px 15px;
+}
+
+.search {
+  color: dimgray;
+}
+
+.nav__links {
+  list-style: none;
+}
+
+.nav__links li {
+  display: inline-block;
+  padding: 0px 20px;
+  transition: all 0.3s ease 0s;
+  color: dimgray;
+}
+
+.logo {
+  padding: 9px 5px 9px 150px;
+  cursor: pointer;
+  transition: all 0.3s ease 0s;
+  font-size: 3rem;
+}
+
+
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
   }
-  .navbar-logo {
-    padding-right: 10px;
-    font-size: 2rem;
+
+  .search {
+    display: none;
   }
-  .navbar-right {
-    display: flex;
-    width: 15%;
-    justify-content: flex-end;
-    color: #302d2d;
+
+  .logo {
+    padding: 0px 5px 9px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    font-size: 2.3rem;
   }
-  li {
-    padding: 20px;
+
+  .nav__links {
+    display: none;
   }
-  .navbar-left {
-    margin-left: 100px;
-    color: #302d2d;
-  }
-  @media screen and (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      text-align: center;
-      width: 100%;
-    }
-    .navbar-left {
-      display: none;
-    }
-    li {
-      display: inline-block;
-      padding: 10px;
-    }
-    .navbar-logo {
-      align-items: center;
-      padding: 8px 24px;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-    }
-    .navbar-right {
-      display: none;
-      justify-content: center;
-      width: 100%;
-      margin-right: 10px;
-    }
-  }
+}
 `;
 const StyledCategory = styled.div`
+  font-family: 'Marcellus', serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.category {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 10px;
+}
+
+.category li {
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0px 20px;
+  transition: all 0.3s ease 0s;
+  color: black;
+}
+
+@media screen and (max-width: 768px) {
   .category {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-    margin-left: 100px;
-    font-size: 1.45rem;
+    display: none;
   }
-  @media screen and (max-width: 768px) {
-    .category {
-      display: none;
-    }
-  }
+
 `;
 
 export default Header;
