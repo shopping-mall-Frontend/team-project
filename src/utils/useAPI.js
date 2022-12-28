@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
 const requestUrl = 'api';
 
@@ -11,26 +13,17 @@ export const headers = {
 //로그인
 export const signIn = async (value) => {
   try {
-    // console.log(value);
     const token = localStorage.getItem('accessToken');
     const { email, password } = value;
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
     }
 
-    const data = await fetch(`${requestUrl}/auth/login`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const json = await data.json();
-    const { accessToken } = json;
-    console.log(json);
+    const res = await axios.post(`${requestUrl}/auth/login`,JSON.stringify({email,password}) , {headers,})
+    const { accessToken } = res.data;
+    
     localStorage.setItem('accessToken', accessToken);
-    return json;
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -43,13 +36,9 @@ export const auth = async (type = 'me') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/auth/${type}`, {
-        method: 'POST',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = await axios.post(`${requestUrl}/auth/${type}`,{},{headers});
+      console.log(res.data);
+      return res.data;
     }
     return false;
   } catch (err) {
@@ -64,14 +53,9 @@ export const getAccount = async (type = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/account/${type}`, {
-        method: 'GET',
-        headers,
-      });
-      const json = await data.json();
-      // console.log(json);
-      console.log('호출');
-      return json;
+      const res = await axios.get(`${requestUrl}/account/${type}`, {headers});
+      console.log(res);
+      return res.data;
     }
     return false;
   } catch (err) {
@@ -84,13 +68,9 @@ export const getAllProduct = async (key) => {
   try {
     if (key) {
       headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products`, {
-        method: 'GET',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = await axios.get(`${requestUrl}/products`, {headers});
+      console.log(res);
+      return res.data;
     }
     return false;
   } catch (err) {
@@ -98,27 +78,21 @@ export const getAllProduct = async (key) => {
   }
 };
 
+// ----------------건들지마----------------
 // 제품 추가
 export const addProduct = async (key, list) => {
   try {
-    list.price = parseInt(list.price);
-    list.tags = list.tags.split(' ');
+    list.price = parseInt(list.price, 10);
     if (key) {
       headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(list),
-      });
-      console.log(data);
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = await axios.post(`${requestUrl}/products`, JSON.stringify(list) ,{headers})
+      return res.data;
     }
     return false;
   } catch (err) {
     console.log(err);
   }
+  return true;
 };
 
 // 제품 삭제
@@ -126,13 +100,9 @@ export const deleteProduct = async (key, id) => {
   try {
     if (key) {
       headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products/${id}`, {
-        method: 'DELETE',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = await axios.delete(`${requestUrl}/products/${id}`, {headers});
+      console.log(res);
+      return res.data;
     }
     return false;
   } catch (err) {
@@ -144,12 +114,9 @@ export const deleteProduct = async (key, id) => {
 export const getProductDetail = async (id) => {
   try {
     headers.masterKey = true;
-    const data = await fetch(`${requestUrl}/products/${id}`, {
-      method: 'GET',
-      headers,
-    });
-    const json = await data.json();
-    return json;
+    const res = await axios.get(`${requestUrl}/products/${id}`, {headers});
+    console.log(res)
+    return res.data
   } catch (err) {
     console.log(err);
   }
@@ -161,14 +128,8 @@ export const accountAdd = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/account`, {
-        method: 'POST',
-        headers,
-        body: body,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = axios.post(`${requestUrl}/account`, body ,{headers})
+      console.log(res);
     }
     return false;
   } catch (err) {
@@ -177,22 +138,33 @@ export const accountAdd = async (body = '') => {
 };
 
 // 제품 구매
-export const buyProduct = async (body = '') => {
+export const buyProduct = async ( body = '' ) => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/products/buy `, {
-        method: 'POST',
-        headers,
-        body: body,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      const res = await axios.post(`${requestUrl}/products/buy `,body ,{headers})
+      console.log(res)
     }
-    return false;
+    return false;  
   } catch (err) {
     console.log(err);
   }
 };
+
+// 계좌 해제
+export const delAccount = async ( body = '' ) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      await axios.delete(`${requestUrl}/account`, {
+        headers,
+        data : body
+      });
+    }
+  } catch(err) {
+    console.log(err);
+  }  
+};
+
+

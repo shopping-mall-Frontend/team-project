@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Step = ({}) => {
+const Step = () => {
   return (
-    <Step>
+    <StepEl>
       <li>01 SHOPPING BAG</li>
       <li>02 ORDER</li>
       <li>03 ORDER CONFIRMED</li>
-    </Step>
+    </StepEl>
   );
 };
 
