@@ -28,15 +28,11 @@ export const AddAccount = () => {
       phoneNumber: data.phoneNumber,
       signature: data.signature,
     });
-    let res = await accountAdd(body)
-
-    if(typeof res !== 'string'){
-      setBankCode('0')
-      bankNumInput()
-      alert('계좌 등록이 완료되었습니다.')
-    }else {
-      alert(res)
-    }
+    
+    await accountAdd(body)
+    setBankCode('0')
+    bankNumInput()
+    alert('계좌 등록이 완료되었습니다.')
   };
 
   // 은행 선택
