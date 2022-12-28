@@ -48,8 +48,6 @@ const CartPage = () => {
     totalPrice += price;
   });
 
-  console.log(checkItems);
-
   ////////// 결제 상품, 세션스토리지로 ////////
   sessionStorage.setItem('order', JSON.stringify());
   const setSsesionData = (orderProducts) => {
@@ -62,48 +60,53 @@ const CartPage = () => {
       <Navbar />
       <Step />
       <Wrap>
-        {/* {cart.length === 0 ? (
-            <div>
-              <h2>장바구니에 상품이 없습니다.</h2>
-              <h2>상품을 담아주세요.</h2>
-            </div>
-          ) : (
-            
-          )} */}
-        <Table>
-          <CartHeader>
-            <input
-              type="checkbox"
-              onChange={(e) => handelCheckedAll(e.target.checked)}
-              checked={checkItems.length === cart.length ? true : false}
-              value={cart || ''}
-            />
-            <span>상품정보</span>
-            <span>수량</span>
-            <span>주문금액</span>
-          </CartHeader>
-          {cart.map((cart) => (
-            <CartList key={cart.id} cart={cart}>
-              <input
-                type="checkbox"
-                name={`select-${cart.id}`}
-                onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
-                checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
-                value={cart || ''}
-              />
-              <img src={cart.thumbnail} alt="상세이미지" />
-              <p>{cart.title}</p>
+        <ProductWrap>
+          <Table>
+            {cart.length === 0 ? (
+              <Blank>
+                <p>장바구니에 담은 상품이 없습니다.</p>
+                <Link to={'/'}>
+                  <button>CONTINUE SHOPPING</button>
+                </Link>
+              </Blank>
+            ) : (
               <div>
-                <span>{cart.quantity}</span>
+                <CartHeader>
+                  <input
+                    type="checkbox"
+                    onChange={(e) => handelCheckedAll(e.target.checked)}
+                    checked={checkItems.length === cart.length ? true : false}
+                    value={cart || ''}
+                  />
+                  <span>상품정보</span>
+                  <span>수량</span>
+                  <span>주문금액</span>
+                </CartHeader>
+                {cart.map((cart) => (
+                  <CartList key={cart.id} cart={cart}>
+                    <input
+                      type="checkbox"
+                      name={`select-${cart.id}`}
+                      onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
+                      checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
+                      value={cart || ''}
+                    />
+                    <img src={cart.thumbnail} alt="상세이미지" />
+                    <p>{cart.title}</p>
+                    <div>
+                      <span>{cart.quantity}</span>
+                    </div>
+                    <span>${cart.price * cart.quantity}</span>
+                  </CartList>
+                ))}
               </div>
-              <span>${cart.price * cart.quantity}</span>
-            </CartList>
-          ))}
-        </Table>
-        <button type="button" onClick={() => handleCheckedDelete()}>
-          선택상품삭제
-        </button>
-        <Price>
+            )}
+          </Table>
+          <button type="button" onClick={() => handleCheckedDelete()}>
+            선택상품삭제
+          </button>
+        </ProductWrap>
+        <PriceWrap>
           <ol>
             <li>
               <div>총 금액</div>
@@ -113,26 +116,46 @@ const CartPage = () => {
           <Link to={'/order'}>
             <button onClick={() => setSsesionData(checkItems)}>주문하기</button>
           </Link>
-        </Price>
+        </PriceWrap>
       </Wrap>
     </div>
   );
 };
 
 const Wrap = styled.main`
-  padding: 0 220px;
+  padding: 0 50px 200px;
+
   button {
     padding: 10px 40px;
     border: 1px solid #000;
+    cursor: pointer;
   }
 `;
 
+const ProductWrap = styled.section``;
+
 const Table = styled.div`
+  margin-bottom: 40px;
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #000;
+`;
+
+const Blank = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
+  align-items: center;
+  gap: 40px;
+
+  padding: 100px 0;
+  p {
+    font-size: 30px;
+    text-align: center;
+  }
+  button {
+    padding: 20px 45px;
+    font-size: 25px;
+    font-weight: 700;
+  }
 `;
 
 const CartHeader = styled.div`
@@ -149,7 +172,7 @@ const CartList = styled.div`
   padding: 20px 30px;
 `;
 
-const Price = styled.div`
+const PriceWrap = styled.div`
   width: 300px;
   margin-right: 80px;
   margin-left: auto;

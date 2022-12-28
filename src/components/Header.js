@@ -23,7 +23,7 @@ const Header = React.memo(() => {
         },
       });
       const response = (await instance.post('/me')).data;
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.log(err);
       setIsLogin(false);
@@ -32,7 +32,7 @@ const Header = React.memo(() => {
 
   useEffect(() => {
     validLogin();
-    console.log('하이');
+    // console.log('하이');
   }, []);
 
   const logout = async () => {
@@ -49,7 +49,7 @@ const Header = React.memo(() => {
       });
       const response = (await instance.post('/logout')).data;
       window.localStorage.setItem('accessToken', '');
-      console.log(response);
+      // console.log(response);
       setIsLogin(false);
     } catch (err) {
       alert('로그아웃 실패.');
@@ -77,8 +77,12 @@ const Header = React.memo(() => {
           </>
         ) : (
           <>
-            <Link to={"/login"} className="nav-menu-side">Login/out</Link>
-            <Link to={"/Cart"} className="nav-menu-side">Chart</Link>        
+            <Link to={'/login'} className="nav-menu-side">
+              Login/out
+            </Link>
+            <Link to={'/Cart'} className="nav-menu-side">
+              Chart
+            </Link>
           </>
         )}
       </div>
