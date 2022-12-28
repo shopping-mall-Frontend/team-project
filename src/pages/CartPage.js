@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
@@ -40,6 +40,12 @@ const CartPage = () => {
     return (totalPrice += price);
   });
 
+  /////// 수량
+  // const [inputvalue, setInputvalue] = useState('');
+  // const handleQuantityInput = useCallback((e) => {
+  //   setInputvalue(e.target.value);
+  // });
+
   return (
     <div>
       <Header />
@@ -67,7 +73,7 @@ const CartPage = () => {
                     </Info>
                     <Quantity>
                       <button type="button">一</button>
-                      <span>{cart.quantity}</span>
+                      <input type="text" maxLength="3" step="1" defaultValue={cart.quantity} />
                       <button type="button">十</button>
                     </Quantity>
                     <span>${cart.price * cart.quantity}</span>
@@ -153,6 +159,7 @@ const Wrap = styled.div`
 //My Cart 스타일
 const MyCartWrap = styled.section`
   width: 670px;
+  min-width: 580px;
 `;
 
 const ProductsTable = styled.div`
@@ -183,22 +190,32 @@ const Info = styled.div`
     margin-bottom: 30px;
   }
 `;
+
 const Quantity = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
 
-  width: 80px;
-  height: 25px;
+  width: 95px;
+  height: 30px;
   border: 1px solid #000;
 
   font-size: 12px;
+
+  input {
+    width: 30px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 0 8px;
+  }
 `;
 
 //Order Summary 스타일
 const OrderSummaryWrap = styled.aside`
   width: 280px;
+  min-width: 180px;
 `;
 
 const Price = styled.ol`
