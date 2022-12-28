@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { signIn } from '../utils/useAPI';
+import {useForm} from 'react-hook-form';
+import {signIn} from '../utils/useAPI';
 import {Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
@@ -13,9 +13,9 @@ const Login = () => {
   });
 
   // react hook form 사용해보기(렌더링 비용 최소화)
-  const { register, handleSubmit } = useForm();
+  const {register, handleSubmit} = useForm();
   const onSubmit = async (data) => {
-    const { user } = await signIn(data);
+    const {user} = await signIn(data);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
@@ -56,7 +56,7 @@ heart_minus
             <input
               type="email"
               placeholder="example@gmail.com"
-              {...register('email', { required: true })}
+              {...register('email', {required: true})}
             />
           </div>
         </div>
@@ -67,7 +67,7 @@ heart_minus
             <input
               type="password"
               placeholder="********"
-              {...register('password', { required: true })}
+              {...register('password', {required: true})}
             />
           </div>
           <Link to={'/SignUp'} className="Login">
@@ -88,7 +88,7 @@ const Container = styled.div`
 
   font-family: 'Marcellus', serif;
 
-  ul{
+  ul {
 
     display: flex;
     justify-content: space-between;
@@ -101,22 +101,25 @@ const Container = styled.div`
     color: gray;
     font-family: 'Marcellus', serif;
   }
-  li{
+
+  li {
     width: 30%;
     box-sizing: border-box;
     height: 65.99px;
   }
+
   .go-back {
     padding-bottom: 20px;
-    height:100%;
+    height: 100%;
   }
 
-  .navbar-logo{
+  .navbar-logo {
     padding-bottom: 20px;
-    height:100%;
+    height: 100%;
   }
-  .material-symbols-outlined{
-    height:100%;
+
+  .material-symbols-outlined {
+    height: 100%;
     padding-right: 20px;
     padding-top: 20px;
   }
@@ -127,7 +130,8 @@ const Container = styled.div`
     font-weight: 300;
     font-family: 'Marcellus', serif;
   }
-  .Login{
+
+  .Login {
     font-family: 'Marcellus', serif;
 
   }
@@ -138,7 +142,7 @@ const LoginForm = styled.form`
   letter-spacing: 0.5px;
   margin: auto;
   width: 600px;
-  height:800px;
+  height: 800px;
   transform: translateY(10%);
 
   h1 {
@@ -167,10 +171,12 @@ const LoginForm = styled.form`
   }
 
 }
+
 .submit {
   margin-top: 50px;
   width: 90%;
 }
+
 .submit input {
   height: 50px;
   border-radius: 30px;
