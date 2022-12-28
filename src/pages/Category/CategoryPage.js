@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
@@ -7,7 +7,13 @@ import Product from '../../components/Product';
 
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
+  // 머지.. 이거 없으면 렌더링 안됩니다.
+  const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
+  useEffect(() => {
+    setCurrentCategory(pathname.split('/')[2]);
+  }, [pathname]);
+
   const category = [
     ['all', '전체보기'],
     ['clothes', '의류'],
@@ -45,7 +51,7 @@ const CategoryPage = React.memo(({ products }) => {
 
   useEffect(() => {
     getCategories(products);
-  }, [products]);
+  }, [products, currentCategory]);
 
   useEffect(() => {
     brand.forEach((ele) => {
