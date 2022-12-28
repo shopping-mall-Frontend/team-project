@@ -28,7 +28,7 @@ const ProductdetailsPage = () => {
     cart = getSsesionData;
   }
 
-  const setSsesionData = (cart) => {
+  const cartSsesionData = (cart) => {
     sessionStorage.setItem('cart', JSON.stringify(cart));
   };
 
@@ -69,7 +69,7 @@ const ProductdetailsPage = () => {
       };
 
       cart = [...cart.slice(0, index), cartItem, ...cart.slice(index + 1)];
-      setSsesionData(cart);
+      cartSsesionData(cart);
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
@@ -77,10 +77,16 @@ const ProductdetailsPage = () => {
       setQuantity(cartItem.id, foundDuplication.quantity + count);
     } else {
       cart.push(cartItem);
-      setSsesionData(cart);
+      cartSsesionData(cart);
     }
 
     moveTocart();
+  };
+
+  ////////// 결제 상품, 세션스토리지로 ////////
+  sessionStorage.setItem('order', JSON.stringify());
+  const orderSsesionData = (orderProducts) => {
+    sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
   return (
@@ -128,7 +134,7 @@ const ProductdetailsPage = () => {
 
           <Btns>
             <Link to={'/order'}>
-              <button>BUY NOW</button>
+              <button onClick={() => orderSsesionData(product)}>BUY NOW</button>
             </Link>
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>

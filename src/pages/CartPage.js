@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
@@ -49,7 +49,7 @@ const CartPage = () => {
 
   console.log(checkItems);
 
-  ////////// 주문 상품, 세션스토리지로 ////////
+  ////////// 결제 상품, 세션스토리지로 ////////
   sessionStorage.setItem('order', JSON.stringify());
   const setSsesionData = (orderProducts) => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
