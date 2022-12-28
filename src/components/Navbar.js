@@ -16,9 +16,6 @@ const Wrap = styled.div`
 const Links = ({}) => {
   return (
     <Wrap>
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
       <Link to={`/product`}>
         <button>제품목록</button>
       </Link>
