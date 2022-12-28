@@ -93,7 +93,9 @@ const CategoryPage = React.memo(({ products }) => {
             {brand.map((item) => {
               return currentBrand === item ? (
                 <CategoryMenuLi key={item} isCurrent={true}>
-                  {item}
+                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                    {item}
+                  </Link>
                 </CategoryMenuLi>
               ) : (
                 <CategoryMenuLi
@@ -103,7 +105,9 @@ const CategoryPage = React.memo(({ products }) => {
                   }}
                   logo={`/images/logo/${item.split(' ')[0]}_logo.png`}
                 >
-                  {item}
+                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                    {item}
+                  </Link>
                 </CategoryMenuLi>
               );
             })}
