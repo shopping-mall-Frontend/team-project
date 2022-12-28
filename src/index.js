@@ -5,6 +5,8 @@ import reset from 'styled-reset';
 import { createGlobalStyle } from 'styled-components';
 import App from './App';
 
+import { Provider } from 'react-redux';
+import store from './store/config';
 const GlobalStyle = createGlobalStyle`
   // reset css
   ${reset}
@@ -16,8 +18,10 @@ const GlobalStyle = createGlobalStyle`
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <GlobalStyle />
-    <App />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <GlobalStyle />
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
