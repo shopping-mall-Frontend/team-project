@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
@@ -8,32 +8,37 @@ import Step from '../components/Step';
 
 const CartPage = () => {
   /////////////// 세션 스토리지 조회 ///////////////
-  let cart = [];
-  const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
-  if (getSsesionData !== null) {
-    cart = getSsesionData;
-  }
+  const [cart, setCart] = useState([]);
 
-  ////////// 세션스토리지로 수정 ////////
+  useEffect(() => {
+    const getSsesionData = () => {
+      const json = JSON.parse(sessionStorage.getItem('cart'));
+      if (json !== null) {
+        setCart(json);
+      }
+    };
+    getSsesionData();
+  }, []);
+
+  ////////// 세션스토리지에 값 전달 //////////////////
   sessionStorage.setItem('order', JSON.stringify());
   const setSsesionData = (key, productArray) => {
     sessionStorage.setItem(key, JSON.stringify(productArray));
   };
 
-  /////////////// 총 금액 ///////////////////
-  const priceArray = cart.map((el) => el.price * el.quantity);
-  let totalPrice = 0;
-  priceArray.forEach((price) => {
-    totalPrice += price;
-  });
-
-  /////////////// 삭제 버튼 ///////////////////
-  const handleDeleteCart = (e) => {
-    e.target.parentElement.remove();
-    const deletedcart = cart.filter((element) => element.id !== e.target.parentElement.id);
-    cart = deletedcart;
-    setSsesionData('cart', cart);
+  /////////////// 삭제 버튼 //////////////////////
+  const handleDeleteCart = (event) => {
+    const deletedcart = cart.filter((element) => element.id !== event.target.parentElement.id);
+    setCart(deletedcart);
+    setSsesionData('cart', deletedcart);
   };
+
+  /////////////// 총 금액 ////////////////////////
+  let totalPrice = 0;
+  const priceArray = cart.map((el) => el.price * el.quantity);
+  priceArray.forEach((price) => {
+    return (totalPrice += price);
+  });
 
   return (
     <div>
@@ -66,7 +71,7 @@ const CartPage = () => {
                       <button type="button">十</button>
                     </Quantity>
                     <span>${cart.price * cart.quantity}</span>
-                    <button className="deleteBtn" onClick={(e) => handleDeleteCart(e)}>
+                    <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
                       ✕
                     </button>
                   </CartList>
