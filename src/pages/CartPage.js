@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import reset from '../css/reset-css.css';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import Step from '../components/Step';
 
 const CartPage = () => {
   /////////////// 세션 스토리지 ///////////////
@@ -59,7 +60,16 @@ const CartPage = () => {
     <div>
       <Header />
       <Navbar />
+      <Step />
       <Wrap>
+        {/* {cart.length === 0 ? (
+            <div>
+              <h2>장바구니에 상품이 없습니다.</h2>
+              <h2>상품을 담아주세요.</h2>
+            </div>
+          ) : (
+            
+          )} */}
         <Table>
           <CartHeader>
             <input
@@ -72,30 +82,23 @@ const CartPage = () => {
             <span>수량</span>
             <span>주문금액</span>
           </CartHeader>
-          {cart.length === 0 ? (
-            <div>
-              <h2>장바구니에 상품이 없습니다.</h2>
-              <h2>상품을 담아주세요.</h2>
-            </div>
-          ) : (
-            cart.map((cart) => (
-              <CartList key={cart.id} cart={cart}>
-                <input
-                  type="checkbox"
-                  name={`select-${cart.id}`}
-                  onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
-                  checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
-                  value={cart || ''}
-                />
-                <img src={cart.thumbnail} alt="상세이미지" />
-                <p>{cart.title}</p>
-                <div>
-                  <span>{cart.quantity}</span>
-                </div>
-                <span>${cart.price * cart.quantity}</span>
-              </CartList>
-            ))
-          )}
+          {cart.map((cart) => (
+            <CartList key={cart.id} cart={cart}>
+              <input
+                type="checkbox"
+                name={`select-${cart.id}`}
+                onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
+                checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
+                value={cart || ''}
+              />
+              <img src={cart.thumbnail} alt="상세이미지" />
+              <p>{cart.title}</p>
+              <div>
+                <span>{cart.quantity}</span>
+              </div>
+              <span>${cart.price * cart.quantity}</span>
+            </CartList>
+          ))}
         </Table>
         <button type="button" onClick={() => handleCheckedDelete()}>
           선택상품삭제
@@ -117,6 +120,7 @@ const CartPage = () => {
 };
 
 const Wrap = styled.main`
+  padding: 0 220px;
   button {
     padding: 10px 40px;
     border: 1px solid #000;
@@ -127,8 +131,6 @@ const Table = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-
-  margin: 0 50px 20px;
   border-top: 3px solid #000;
   border-bottom: 3px solid #000;
 `;
