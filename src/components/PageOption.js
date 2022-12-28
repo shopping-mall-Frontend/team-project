@@ -4,24 +4,52 @@ import styled from 'styled-components';
 const PageOption = ({ page, maxPage, setPage }) => {
   return (
     <OptionWrap>
-      <p> {page} Page</p>
-      <div>
-        <button onClick={() => setPage(1)}>Fir</button>
-        <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-          ◀
-        </button>
-        <button onClick={() => setPage(page + 1)} disabled={page === maxPage}>
-          ▶
-        </button>
-        <button onClick={() => setPage(maxPage)}>End</button>
-      </div>
+      <EndButton onClick={() => setPage(1)}>&laquo;</EndButton>
+      <ArrowButton onClick={() => setPage(page - 1)} disabled={page === 1}>
+        {'< '} Prev
+      </ArrowButton>
+      <div> {page} </div>
+      <ArrowButton onClick={() => setPage(page + 1)} disabled={page === maxPage}>
+        Next{' >'}
+      </ArrowButton>
+      <EndButton onClick={() => setPage(maxPage)}>&raquo;</EndButton>
     </OptionWrap>
   );
 };
 
 const OptionWrap = styled.div`
-  width: 50vw;
   display: flex;
   justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+  div {
+    padding: 2px 0px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 15px;
+    margin: 0px 10px;
+  }
+`;
+
+const EndButton = styled.button`
+  display: block;
+  font-size: 25px;
+  line-height: 0px;
+  cursor: pointer;
+`;
+
+const ArrowButton = styled.button`
+  display: block;
+  color: black;
+  border-radius: 5px;
+  padding: 2px 10px;
+  cursor: pointer;
+  font-size: 15px;
+  &:disabled {
+    border: none;
+    background-color: white;
+    color: #ced4da;
+    cursor: not-allowed;
+  }
 `;
 export default PageOption;

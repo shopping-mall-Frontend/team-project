@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { getAccount, auth, buyProduct } from "../utils/useAPI";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom'
+import Step from "../components/Step";
 
-const OrderPage = ({ cart }) => {
+const OrderPage = () => {
   const navigate = useNavigate();
-  console.log(cart)
+  let test = sessionStorage.getItem('order');
 
   const [user, setUser] = useState(false);
   // 전체 계좌 잔액, 리스트 확인
@@ -15,7 +16,9 @@ const OrderPage = ({ cart }) => {
   // 선택 가능 은행 리스트
   const [holdBankList, setHoldBankList] = useState([]);
   // 구매 제품 목록
-  const [product, setProduct] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(test));
+  // 구매 할 때 사용될 배열
+  const [buyProducts, setBuyProducts] = useState([]);
   // 토탈 구매 금액
   const [totalPrice, setTotalPrice] = useState(0);
   // 선택 계좌 아이디
@@ -30,18 +33,37 @@ const OrderPage = ({ cart }) => {
       setAllBankList(allBank)
       setUser(userInfo);
       setHoldBankList(selectBank.filter((e) => e.disabled === true));
-      setProduct(cart);
+
+      // 결제 할 때 필요한 배열 생성 (수량 체크)
+      let buy = cart.map(item => {
+        let arr = []
+  
+        if (item.quantity > 0){
+          for(let i = 0 ; i < item.quantity; i++){
+            arr.push(item)
+          }
+        }else arr.push(item)
+  
+        return arr 
+      })
+
+      let arr2 = [];
+      buy.forEach((element) => {
+        arr2 = [...arr2, ...element];
+      })
+      setBuyProducts(arr2)
+
+      // 토탈 금액 계산
       let price = 0;
 
       cart.forEach((e) => {
-        price += Number(e.price);
+        if(e.quantity > 0) price += Number(e.price * e.quantity);
+        else price += Number(e.price);
 
         return null;
       })
-
       setTotalPrice(price);
     };
-
     userBank();
   }, [cart]);
 
@@ -59,11 +81,11 @@ const OrderPage = ({ cart }) => {
 
   // 결제
   const payment = async () => {
-    if (window.confirm("정말 구매하시겠습니까 ?") && accountId !== '') {
+    if (window.confirm("정말 구매하시겠습니까?") && accountId !== '') {
       try{
         console.log('start')
 
-        for(const x of cart){
+        for(const x of buyProducts){
           let body = JSON.stringify({
             productId: x.id,
             accountId: accountId,
@@ -71,7 +93,7 @@ const OrderPage = ({ cart }) => {
           await buyProduct(body);
         }
         alert('결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요')
-        navigate('/');
+        // navigate('/');
       }catch(err){
         console.log('결제실패' , err)
       }finally{
@@ -89,17 +111,21 @@ const OrderPage = ({ cart }) => {
       <Header user={user} />
 
       <Container>
+        <Step />
         <section className="product-list">
           <ul>
-            {product.map((item) => {
+            {cart.map((item) => {
               return (
-                <li key={item.id}>
+                <li key={item.id} id={item.id}>
                   <div>
                     <img src={item.thumnail} alt="제품 이미지" />
                     <p className="item-title">{item.title}</p>
                   </div>
                   <p>
-                    상품 금액 : <span>{item.price} $</span>
+                    수량 : <span>{item.quantity}</span>
+                  </p>
+                  <p>
+                    상품 금액 : <span>{item.price * item.quantity} $</span>
                   </p>
                 </li>
               );
@@ -111,7 +137,10 @@ const OrderPage = ({ cart }) => {
           <div className="order-form">
             <p className="order-payment-method">결제 수단 선택</p>
             {holdBankList.length === 0 ? (
-              <AddAccount />
+              <>
+                <p>선택 가능한 계좌가 없습니다. 계좌를 등록하세요.</p>
+                <AddAccount />
+              </>
             ) : (
               <select onChange={(e) => setAccountId(e.target.value)}>
                 <option value="" key="100">
@@ -169,9 +198,14 @@ const Container = styled.main`
           display: flex;
           align-items: center;
           gap: 20px;
+          width:calc(100% / 2);
 
           img {
             width: 150px;
+          }
+
+          p {
+            width: 100%;
           }
         }
       }

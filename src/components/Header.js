@@ -1,55 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import '../css/reset-css.css';
+import { auth } from '../utils/useAPI';
 
 const Header = React.memo(() => {
-  const accessToken = window.localStorage.getItem('accessToken');
-
-  const [isLogin, setIsLogin] = useState(window.localStorage.getItem('accessToken') !== '');
-
-  // console.log(accessToken);
-
-  const validLogin = async () => {
-    try {
-      const instance = axios.create({
-        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
-        headers: {
-          'content-type': 'application/json',
-          apikey: 'FcKdtJs202209',
-          username: 'KDT3_teamOT',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const response = (await instance.post('/me')).data;
-      // console.log(response);
-    } catch (err) {
-      console.log(err);
-      setIsLogin(false);
-    }
-  };
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    validLogin();
-    // console.log('하이');
+    if (localStorage.getItem('accessToken')) {
+      setIsLogin(true);
+    }
   }, []);
 
   const logout = async () => {
     try {
-      console.log(isLogin);
-      const instance = axios.create({
-        baseURL: 'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
-        headers: {
-          'content-type': 'application/json',
-          apikey: 'FcKdtJs202209',
-          username: 'KDT3_teamOT',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const response = (await instance.post('/logout')).data;
-      window.localStorage.setItem('accessToken', '');
-      // console.log(response);
+      await auth('logout');
+      localStorage.removeItem('accessToken');
       setIsLogin(false);
     } catch (err) {
       alert('로그아웃 실패.');
@@ -59,22 +26,32 @@ const Header = React.memo(() => {
 
   return (
     <StyledHeader>
-      <nav className="navbar">
-        <div className="navbar-left">{<Link to={'/'}>SEARCH</Link>}</div>
+      <header>
+        <div className="search">
+          <Link to={'/'}>SEARCH</Link>
+        </div>
 
-        <div className="navbar-logo center"></div>
-        <Link to={'/'} className="navbar-logo">
-          N4
-        </Link>
-        <ul className="navbar-right">
-          <li>
-            <Link to={'/login'}>Login/out</Link>
-          </li>
-          <li>
-            <Link to={'/Cart'}>Chart</Link>{' '}
-          </li>
-        </ul>
-      </nav>
+        <div className="logo">
+          <Link to={'/'}>N4</Link>
+        </div>
+        <nav>
+          <ul className="nav__links">
+            <li>
+              {isLogin ? (
+                <Link to={'/'} onClick={() => logout()}>
+                  LogOut
+                </Link>
+              ) : (
+                <Link to={'/login'}>Login/out</Link>
+              )}
+            </li>
+            <li>
+              <Link to={'/Cart'}>Chart</Link>{' '}
+            </li>
+          </ul>
+        </nav>
+      </header>
+
       <StyledCategory>
         <ul className="category">
           <li>
@@ -93,69 +70,92 @@ const Header = React.memo(() => {
 });
 
 const StyledHeader = styled.div`
-  .navbar {
-    font-family: 'Marcellus', serif;
+  font-family: 'Marcellus', serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+  li,
+  .logo {
+    text-decoration: none;
+  }
+
+  header {
+    display: flex;
     justify-content: space-between;
-    display: flex;
     align-items: center;
-    padding: 22px 1px;
-    width: 90%;
-    margin: 0;
+    padding: 20px 10px 0px 15px;
   }
-  .navbar-logo {
-    padding-right: 10px;
-    font-size: 2rem;
+
+  .search {
+    color: dimgray;
   }
-  .navbar-right {
-    display: flex;
-    width: 15%;
-    justify-content: flex-end;
-    color: #302d2d;
+
+  .nav__links {
+    list-style: none;
   }
-  li {
-    padding: 20px;
+
+  .nav__links li {
+    display: inline-block;
+    padding: 0px 20px;
+    transition: all 0.3s ease 0s;
+    color: dimgray;
   }
-  .navbar-left {
-    margin-left: 100px;
-    color: #302d2d;
+
+  .logo {
+    padding: 9px 5px 9px 150px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    font-size: 3rem;
   }
+
   @media screen and (max-width: 768px) {
-    .navbar {
+    header {
       flex-direction: column;
       text-align: center;
       width: 100%;
     }
-    .navbar-left {
+
+    .search {
       display: none;
     }
-    li {
-      display: inline-block;
-      padding: 10px;
+
+    .logo {
+      padding: 0px 5px 9px 10px;
+      cursor: pointer;
+      transition: all 0.3s ease 0s;
+      font-size: 2.3rem;
     }
-    .navbar-logo {
-      align-items: center;
-      padding: 8px 24px;
-      text-align: center;
-      width: 100%;
-      height: 100%;
-    }
-    .navbar-right {
+
+    .nav__links {
       display: none;
-      justify-content: center;
-      width: 100%;
-      margin-right: 10px;
     }
   }
 `;
+
 const StyledCategory = styled.div`
+  font-family: 'Marcellus', serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
   .category {
+    list-style: none;
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    text-align: center;
-    margin-left: 100px;
-    font-size: 1.45rem;
+    align-items: center;
+    padding: 30px 10px;
   }
+
+  .category li {
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0px 20px;
+    transition: all 0.3s ease 0s;
+    color: black;
+  }
+
   @media screen and (max-width: 768px) {
     .category {
       display: none;

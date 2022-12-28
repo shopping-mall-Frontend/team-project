@@ -1,36 +1,17 @@
-const { REACT_APP_API_KEY, REACT_APP_USERNAME } = process.env;
-const requestUrl = 'api';
-
-export const headers = {
-  Accept: 'application/json',
-  'content-type': 'application/json',
-  apikey: REACT_APP_API_KEY,
-  username: REACT_APP_USERNAME,
-};
+import axios from '../api/axios';
 
 //로그인
 export const signIn = async (value) => {
   try {
-    // console.log(value);
-    const token = localStorage.getItem('accessToken');
     const { email, password } = value;
-    if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-    }
-
-    const data = await fetch(`${requestUrl}/auth/login`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        email,
-        password,
-      }),
+    const { data } = await axios.post(`/auth/login`, {
+      email,
+      password,
     });
-    const json = await data.json();
-    const { accessToken } = json;
-    console.log(json);
+    const { accessToken } = data;
+
     localStorage.setItem('accessToken', accessToken);
-    return json;
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -42,14 +23,10 @@ export const auth = async (type = 'me') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/auth/${type}`, {
-        method: 'POST',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.post(`/auth/${type}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -63,15 +40,10 @@ export const getAccount = async (type = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/account/${type}`, {
-        method: 'GET',
-        headers,
-      });
-      const json = await data.json();
-      // console.log(json);
-      console.log('호출');
-      return json;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.get(`/account/${type}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -83,14 +55,10 @@ export const getAccount = async (type = '') => {
 export const getAllProduct = async (key) => {
   try {
     if (key) {
-      headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products`, {
-        method: 'GET',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.get(`/products`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -98,41 +66,31 @@ export const getAllProduct = async (key) => {
   }
 };
 
+// ----------------건들지마---------------- ㅈㅅ 건들여버림..
 // 제품 추가
 export const addProduct = async (key, list) => {
   try {
-    list.price = parseInt(list.price);
-    list.tags = list.tags.split(' ');
+    list.price = parseInt(list.price, 10);
     if (key) {
-      headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(list),
-      });
-      console.log(data);
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.post(`/products`, JSON.stringify(list));
+      return data;
     }
     return false;
   } catch (err) {
     console.log(err);
   }
+  return true;
 };
 
 // 제품 삭제
 export const deleteProduct = async (key, id) => {
   try {
     if (key) {
-      headers.masterKey = true;
-      const data = await fetch(`${requestUrl}/products/${id}`, {
-        method: 'DELETE',
-        headers,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['masterKey'] = true;
+      const { data } = await axios.delete(`/products/${id}`);
+      console.log(data);
+      return data;
     }
     return false;
   } catch (err) {
@@ -143,13 +101,10 @@ export const deleteProduct = async (key, id) => {
 // 제품 상세 조회
 export const getProductDetail = async (id) => {
   try {
-    headers.masterKey = true;
-    const data = await fetch(`${requestUrl}/products/${id}`, {
-      method: 'GET',
-      headers,
-    });
-    const json = await data.json();
-    return json;
+    axios.defaults.headers.common['masterKey'] = true;
+    const { data } = await axios.get(`/products/${id}`);
+    console.log(data);
+    return data;
   } catch (err) {
     console.log(err);
   }
@@ -160,15 +115,9 @@ export const accountAdd = async (body = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/account`, {
-        method: 'POST',
-        headers,
-        body: body,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = axios.post(`/account`, body);
+      console.log(data);
     }
     return false;
   } catch (err) {
@@ -181,17 +130,28 @@ export const buyProduct = async (body = '') => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
-      headers.authorization = `Bearer ${token}`;
-      const data = await fetch(`${requestUrl}/products/buy `, {
-        method: 'POST',
-        headers,
-        body: body,
-      });
-      const json = await data.json();
-      console.log(json);
-      return json;
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const data = await axios.post(`/products/buy `, body);
+      console.log(data);
     }
     return false;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 계좌 해제
+export const delAccount = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.delete(`/account`, {
+        data: body,
+      });
+      console.log(data);
+      return data;
+    }
   } catch (err) {
     console.log(err);
   }

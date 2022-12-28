@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Step = ({}) => {
+const Step = () => {
   return (
     <StepEl>
       <li>01 SHOPPING BAG</li>

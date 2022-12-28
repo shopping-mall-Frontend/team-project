@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
@@ -7,12 +7,11 @@ import Product from '../../components/Product';
 
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
+  const brandPath = pathname.split('/')[3];
+
   // 머지.. 이거 없으면 렌더링 안됩니다.
   const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
-  useEffect(() => {
-    setCurrentCategory(pathname.split('/')[2]);
-  }, [pathname]);
 
   const category = [
     ['all', '전체보기'],
@@ -22,26 +21,38 @@ const CategoryPage = React.memo(({ products }) => {
   const [productList, setProductList] = useState([]);
 
   const brand = ['ALL', 'GUCCI', 'BOTTEGA VENETA', 'CHANEL', 'LOUIS VUITTON'];
-  const [currentBrand, setCurrentBrand] = useState([]);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [currentBrand, setCurrentBrand] = useState(brandPath);
+  const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(8);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
+  useEffect(() => {
+    setCurrentCategory(pathname.split('/')[2]);
+    setCurrentBrand(brandPath ? brandPath : '');
+  }, [pathname]);
+
   const getCategories = (data) => {
     category.forEach((ele) => {
+      let newData = data;
       if (currentCategory === 'all') {
-        const newData = data;
+        newData = data;
         setProductList(newData);
         setCategoryProducts(newData);
       } else if (ele[0] === currentCategory) {
-        const newData = data.filter((item) => item.tags[1] === ele[1]);
+        newData = data.filter((item) => item.tags[1] === ele[1]);
         setProductList(newData);
         setCategoryProducts(newData);
       }
+      brand.forEach((ele, i) => {
+        if (i !== 0 && ele.split(' ')[0] === currentBrand) {
+          newData = newData.filter((item) => item.tags[0] === ele);
+          setProductList(newData);
+        }
+      });
     });
   };
 
@@ -58,7 +69,7 @@ const CategoryPage = React.memo(({ products }) => {
       if (currentBrand === 'ALL') {
         const newData = categoryProducts;
         setProductList(newData);
-      } else if (ele === currentBrand) {
+      } else if (ele.split(' ')[0] === currentBrand) {
         const newData = categoryProducts.filter((item) => item.tags[0] === ele);
         setProductList(newData);
       }
@@ -68,22 +79,16 @@ const CategoryPage = React.memo(({ products }) => {
   return (
     <>
       <Header />
-      <Link to={'/category/all'} onClick={() => setCurrentCategory('all')}>
-        전체보기
-      </Link>
-      <Link to={'/category/clothes'} onClick={() => setCurrentCategory('clothes')}>
-        의류
-      </Link>
-      <Link to={'/category/bags'} onClick={() => setCurrentCategory('bags')}>
-        가방
-      </Link>
       <Container>
         <OptionDiv>
           <CategoryUl>
             {brand.map((item) => {
-              return currentBrand === item ? (
+              return currentBrand === item.split(' ')[0] ? (
                 <CategoryMenuLi key={item} isCurrent={true}>
-                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                  <Link
+                    to={`/category/${currentCategory}/${item.split(' ')[0]}`}
+                    onClick={() => setCurrentBrand(item.split(' ')[0])}
+                  >
                     {item}
                   </Link>
                 </CategoryMenuLi>
@@ -91,11 +96,14 @@ const CategoryPage = React.memo(({ products }) => {
                 <CategoryMenuLi
                   key={item}
                   onClick={() => {
-                    setCurrentBrand(item);
+                    setCurrentBrand(item.split(' ')[0]);
                   }}
                   logo={`/images/logo/${item.split(' ')[0]}_logo.png`}
                 >
-                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                  <Link
+                    to={`/category/${currentCategory}/${item.split(' ')[0]}`}
+                    onClick={() => setCurrentBrand(item.split(' ')[0])}
+                  >
                     {item}
                   </Link>
                 </CategoryMenuLi>
