@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
 import Product from '../../components/Product';
-import { getAllProduct } from '../../utils/useAPI';
 
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
+  // 머지.. 이거 없으면 렌더링 안됩니다.
+  const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
+  useEffect(() => {
+    setCurrentCategory(pathname.split('/')[2]);
+  }, [pathname]);
+
   const category = [
     ['all', '전체보기'],
     ['clothes', '의류'],
@@ -26,16 +31,6 @@ const CategoryPage = React.memo(({ products }) => {
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
-  const getProduct = async () => {
-    const newData = await getAllProduct(true);
-    setProductList(newData);
-    return newData;
-  };
-
-  useEffect(() => {
-    setCount((page - 1) * limit);
-  }, [page]);
-
   const getCategories = (data) => {
     category.forEach((ele) => {
       if (currentCategory === 'all') {
@@ -51,17 +46,12 @@ const CategoryPage = React.memo(({ products }) => {
   };
 
   useEffect(() => {
-    const test = async () => {
-      if (products.length === 0) {
-        console.log('아직 정보를 못불러왔나바요!');
-        const newData = await getProduct();
-        getCategories(newData);
-      } else {
-        getCategories(products);
-      }
-    };
-    test();
-  }, [currentCategory]);
+    setCount((page - 1) * limit);
+  }, [page]);
+
+  useEffect(() => {
+    getCategories(products);
+  }, [products, currentCategory]);
 
   useEffect(() => {
     brand.forEach((ele) => {
@@ -93,7 +83,9 @@ const CategoryPage = React.memo(({ products }) => {
             {brand.map((item) => {
               return currentBrand === item ? (
                 <CategoryMenuLi key={item} isCurrent={true}>
-                  {item}
+                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                    {item}
+                  </Link>
                 </CategoryMenuLi>
               ) : (
                 <CategoryMenuLi
@@ -103,7 +95,9 @@ const CategoryPage = React.memo(({ products }) => {
                   }}
                   logo={`/images/logo/${item.split(' ')[0]}_logo.png`}
                 >
-                  {item}
+                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                    {item}
+                  </Link>
                 </CategoryMenuLi>
               );
             })}
