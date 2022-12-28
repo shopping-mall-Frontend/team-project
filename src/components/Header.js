@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
-import styled from "styled-components";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import "../css/reset-css.css";
+import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+import '../css/reset-css.css';
 
-const Header = () => {
-  const accessToken = window.localStorage.getItem("accessToken");
+const Header = React.memo(() => {
+  const accessToken = window.localStorage.getItem('accessToken');
 
   const [isLogin, setIsLogin] = useState(
-    window.localStorage.getItem("accessToken") !== ""
+    window.localStorage.getItem('accessToken') !== ''
   );
 
   console.log(accessToken);
@@ -17,15 +17,15 @@ const Header = () => {
     try {
       const instance = axios.create({
         baseURL:
-          "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth",
+          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
-          "content-type": "application/json",
-          apikey: "FcKdtJs202209",
-          "username": "KDT3_teamOT",
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const response = (await instance.post("/me")).data;
+      const response = (await instance.post('/me')).data;
       console.log(response);
     } catch (err) {
       console.log(err);
@@ -35,7 +35,7 @@ const Header = () => {
 
   useEffect(() => {
     validLogin();
-    console.log("하이");
+    console.log('하이');
   }, []);
 
   const logout = async () => {
@@ -43,124 +43,149 @@ const Header = () => {
       console.log(isLogin);
       const instance = axios.create({
         baseURL:
-          "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth",
+          'https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth',
         headers: {
-          "content-type": "application/json",
-          apikey: "FcKdtJs202209",
-          "username": "KDT3_teamOT",
+          'content-type': 'application/json',
+          apikey: 'FcKdtJs202209',
+          username: 'KDT3_teamOT',
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const response = (await instance.post("/logout")).data;
-      window.localStorage.setItem("accessToken", "");
+      const response = (await instance.post('/logout')).data;
+      window.localStorage.setItem('accessToken', '');
       console.log(response);
       setIsLogin(false);
     } catch (err) {
-      alert("로그아웃 실패.");
-      console.log("실패");
+      alert('로그아웃 실패.');
+      console.log('실패');
     }
   };
 
-
   return (
     <StyledHeader>
-      <div className="header">
-        <div className='header-left'>
-          <input type="text" placeholder="Enter item to be searched" onChange={(e) => this.searchSpace(e)}/>
+      <nav className="navbar">
+        <div className="navbar-left">{
+          <input
+            type="text"
+            placeholder="Enter item to be searched"
+            onChange={(e) => this.searchSpace(e)}
+          />
+        }
         </div>
-        <div className="header-center">
-          <Link to={"/"} className="nav-logo-link">
-            N4
-          </Link>
-        </div>
-        {/* 요건 잠시만기다려주세용ㅎㅎㅎㅎ */}
-        {isLogin ? (
-          <>
-            <button type="button" onClick={logout}>
-              로그아웃
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to={"/login"} className="nav-menu-side">Login/out</Link>
-            <Link to={"/Cart"} className="nav-menu-side">Chart</Link>        </>
-        )}
-      </div>
 
-      <StyledCategory>
-        <ul>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
-          {/* {아직 아래 카테고리 미정} */}
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
-          <li><Link to={"/category"} className="nav-menu-category">Category</Link></li>
+        <div className="navbar-logo center"></div>
+        <Link to={'/'} className="navbar-logo">
+          N4
+        </Link>
+        <ul className="navbar-right">
+          <li>
+            <Link to={'/login'}>
+              Login/out
+            </Link>
+          </li>
+          <li>
+            <Link to={'/Cart'}>
+              Chart
+            </Link>{' '}
+          </li>
         </ul>
-        <div className="categoryList">
-
-        </div>
-
+      </nav>
+      <StyledCategory>
+        <ul className="category">
+          <li>
+            <Link to={'/category'}>category </Link>
+          </li>
+          <li>
+            <Link to={'/category'}>category </Link>
+          </li>
+          <li>
+            <Link to={'/category'}>category </Link>
+          </li>
+        </ul>
       </StyledCategory>
     </StyledHeader>
 
   );
-};
+});
 
 const StyledHeader = styled.div`
-  flex-wrap: wrap;
-  font-family: 'Marcellus', serif;
-  display: flex;
-  margin: 30px;
-  .header {
-    justify-content: space-between;
-    width: 100%;
-    margin: 0;
-    padding-right: 19rem;
-    padding-left: 10rem;
-    display: flex;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .nav-logo-link {
-    font-size: 50px;
-    margin-left: 2.5em;
-    padding-left: 2.50em;
-  }
-  input {
-    color: gray;
-    margin: 0 auto;
-    width: 11rem;
-    height: 3rem;
-    text-align: center;
-    font-size: 9px;
-    border: 0;
-    border-radius: 15px;
-    outline: none;
-    padding-left: 10px;
-    background-color: gainsboro;
-  }
-  .nav-menu-side {
-    font-weight: 400;
-    color: gray;
-  }
-`;
-
-const StyledCategory = styled.div`
-  ul {
+  .navbar {
     font-family: 'Marcellus', serif;
+    justify-content: space-between;
     display: flex;
-    justify-content: center;
-    margin: 0rem 0rem 0rem 0rem;
-    padding: 2rem 40rem;
-    text-decoration: none;
-    @media screen and (max-width: 500px) {
+    align-items: center;
+    padding: 22px 1px;
+    width: 90%;
+    margin: 0;
+
+  }
+
+  .navbar-logo {
+    padding-right: 200px;
+    font-size: 2rem;
+  }
+
+  .navbar-right {
+    display: flex;
+    width: 15%;
+    justify-content: flex-end;
+    color:#302d2d;
+  }
+
+  li {
+    padding: 20px;
+  }
+
+  .navbar-left {
+    margin-left: 100px;
+    color:#302d2d;
+  }
+
+  @media screen and (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+    }
+
+    .navbar-left {
       display: none;
     }
+
     li {
-      padding-left: 40px;
-      color: darkGray;
+      display: inline-block;
+      padding: 10px;
+    }
+
+    .navbar-logo {
+      align-items: center;
+      padding: 8px 24px;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .navbar-right {
+      display: none;
+      justify-content: center;
+      width: 100%;
+      margin-right: 10px;
     }
   }
+`;
+const StyledCategory = styled.div`
+  .category {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    margin-left: 100px;
+    font-size: 1.45rem;
+  }
+  @media screen and (max-width: 768px) {
+    .category {
+      display: none;
+    }
 `;
 
 export default Header;
