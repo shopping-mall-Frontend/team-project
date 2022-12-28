@@ -22,8 +22,8 @@ const CategoryPage = React.memo(({ products }) => {
   const [productList, setProductList] = useState([]);
 
   const brand = ['ALL', 'GUCCI', 'BOTTEGA VENETA', 'CHANEL', 'LOUIS VUITTON'];
-  const [currentBrand, setCurrentBrand] = useState([]);
-  const [categoryProducts, setCategoryProducts] = useState([]);
+  const [currentBrand, setCurrentBrand] = useState('ALL');
+  const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
   const [limit, setLimit] = useState(10);
@@ -50,6 +50,7 @@ const CategoryPage = React.memo(({ products }) => {
   }, [page]);
 
   useEffect(() => {
+    console.log('!!');
     getCategories(products);
   }, [products, currentCategory]);
 
@@ -68,15 +69,6 @@ const CategoryPage = React.memo(({ products }) => {
   return (
     <>
       <Header />
-      <Link to={'/category/all'} onClick={() => setCurrentCategory('all')}>
-        전체보기
-      </Link>
-      <Link to={'/category/clothes'} onClick={() => setCurrentCategory('clothes')}>
-        의류
-      </Link>
-      <Link to={'/category/bags'} onClick={() => setCurrentCategory('bags')}>
-        가방
-      </Link>
       <Container>
         <OptionDiv>
           <CategoryUl>
