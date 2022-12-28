@@ -52,7 +52,7 @@ const ProductdetailsPage = () => {
       id: product.id,
       title: product.title,
       price: product.price,
-      thumnail: product.thumbnail,
+      thumbnail: product.thumbnail,
       quantity: count,
     };
 
@@ -64,7 +64,7 @@ const ProductdetailsPage = () => {
         id: product.id,
         title: product.title,
         price: product.price,
-        thumnail: product.thumbnail,
+        thumbnail: product.thumbnail,
         quantity: quantity,
       };
 
