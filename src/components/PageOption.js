@@ -6,11 +6,11 @@ const PageOption = ({ page, maxPage, setPage }) => {
     <OptionWrap>
       <EndButton onClick={() => setPage(1)}>&laquo;</EndButton>
       <ArrowButton onClick={() => setPage(page - 1)} disabled={page === 1}>
-        {'<'}Prev
+        {'< '} Prev
       </ArrowButton>
       <div> {page} </div>
       <ArrowButton onClick={() => setPage(page + 1)} disabled={page === maxPage}>
-        Next{'>'}
+        Next{' >'}
       </ArrowButton>
       <EndButton onClick={() => setPage(maxPage)}>&raquo;</EndButton>
     </OptionWrap>
@@ -20,13 +20,14 @@ const PageOption = ({ page, maxPage, setPage }) => {
 const OptionWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
   div {
-    padding: 0px 12px;
+    padding: 2px 0px;
     text-align: center;
-    border: 3px solid black;
-    border-radius: 5px;
-    font-size: 20px;
-    margin: 10px 0;
+    font-weight: bolder;
+    font-size: 15px;
+    margin: 0px 10px;
   }
 `;
 
@@ -39,7 +40,16 @@ const EndButton = styled.button`
 
 const ArrowButton = styled.button`
   display: block;
+  color: black;
+  border-radius: 5px;
+  padding: 2px 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 15px;
+  &:disabled {
+    border: none;
+    background-color: white;
+    color: #ced4da;
+    cursor: not-allowed;
+  }
 `;
 export default PageOption;
