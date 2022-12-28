@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
@@ -7,9 +7,11 @@ import Product from '../../components/Product';
 
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
+  const brandPath = pathname.split('/')[3];
   // 머지.. 이거 없으면 렌더링 안됩니다.
   const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
+
   useEffect(() => {
     setCurrentCategory(pathname.split('/')[2]);
   }, [pathname]);
@@ -22,7 +24,7 @@ const CategoryPage = React.memo(({ products }) => {
   const [productList, setProductList] = useState([]);
 
   const brand = ['ALL', 'GUCCI', 'BOTTEGA VENETA', 'CHANEL', 'LOUIS VUITTON'];
-  const [currentBrand, setCurrentBrand] = useState('ALL');
+  const [currentBrand, setCurrentBrand] = useState(brandPath);
   const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
@@ -41,6 +43,12 @@ const CategoryPage = React.memo(({ products }) => {
         const newData = data.filter((item) => item.tags[1] === ele[1]);
         setProductList(newData);
         setCategoryProducts(newData);
+        brand.forEach((ele, i) => {
+          if (i !== 0 && ele.split(' ')[0] === currentBrand) {
+            const k = newData.filter((item) => item.tags[0] === ele);
+            setProductList(k);
+          }
+        });
       }
     });
   };
@@ -50,7 +58,6 @@ const CategoryPage = React.memo(({ products }) => {
   }, [page]);
 
   useEffect(() => {
-    console.log('!!');
     getCategories(products);
   }, [products, currentCategory]);
 
@@ -59,7 +66,7 @@ const CategoryPage = React.memo(({ products }) => {
       if (currentBrand === 'ALL') {
         const newData = categoryProducts;
         setProductList(newData);
-      } else if (ele === currentBrand) {
+      } else if (ele.split(' ')[0] === currentBrand) {
         const newData = categoryProducts.filter((item) => item.tags[0] === ele);
         setProductList(newData);
       }
@@ -73,9 +80,12 @@ const CategoryPage = React.memo(({ products }) => {
         <OptionDiv>
           <CategoryUl>
             {brand.map((item) => {
-              return currentBrand === item ? (
+              return currentBrand === item.split(' ')[0] ? (
                 <CategoryMenuLi key={item} isCurrent={true}>
-                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                  <Link
+                    to={`/category/${currentCategory}/${item.split(' ')[0]}`}
+                    onClick={() => setCurrentBrand(item.split(' ')[0])}
+                  >
                     {item}
                   </Link>
                 </CategoryMenuLi>
@@ -83,11 +93,14 @@ const CategoryPage = React.memo(({ products }) => {
                 <CategoryMenuLi
                   key={item}
                   onClick={() => {
-                    setCurrentBrand(item);
+                    setCurrentBrand(item.split(' ')[0]);
                   }}
                   logo={`/images/logo/${item.split(' ')[0]}_logo.png`}
                 >
-                  <Link to={`/category/${currentCategory}/${item.split(' ')[0]}`} onClick={() => setCurrentBrand(item)}>
+                  <Link
+                    to={`/category/${currentCategory}/${item.split(' ')[0]}`}
+                    onClick={() => setCurrentBrand(item.split(' ')[0])}
+                  >
                     {item}
                   </Link>
                 </CategoryMenuLi>
