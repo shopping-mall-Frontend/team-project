@@ -91,7 +91,7 @@ const CartPage = () => {
                     <img src={cart.thumbnail} alt="상세이미지" />
                     <Info>
                       <p>{cart.title}</p>
-                      <span>${cart.price}</span>
+                      <span>${cart.price.toLocaleString()}</span>
                     </Info>
                     <Quantity>
                       <button type="button" onClick={handleQuantityDecrease}>
@@ -102,7 +102,7 @@ const CartPage = () => {
                         十
                       </button>
                     </Quantity>
-                    <span>${cart.price * cart.quantity}</span>
+                    <span>${(cart.price * cart.quantity).toLocaleString()}</span>
                     <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
                       ✕
                     </button>
@@ -115,7 +115,7 @@ const CartPage = () => {
               <Price>
                 <li>
                   <span>Subtotal</span>
-                  <span>${totalPrice}</span>
+                  <span>${totalPrice.toLocaleString()}</span>
                 </li>
                 <li>
                   <span>Shipping </span>
@@ -124,7 +124,7 @@ const CartPage = () => {
               </Price>
               <Total>
                 <span>Total</span>
-                <span>${totalPrice}</span>
+                <span>${totalPrice.toLocaleString()}</span>
               </Total>
               <LinkWrap>
                 <Link to={'/order'}>
