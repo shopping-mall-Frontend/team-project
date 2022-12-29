@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
+import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Step from '../components/Step';
@@ -53,6 +54,11 @@ const CartPage = () => {
     onChangeQuantity(e.target.closest('li').id, e.target.value);
   };
 
+  const characterCheck = useCallback((e) => {
+    console.log(e);
+    if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e') e.preventDefault();
+  }, []);
+
   //수량 증가
   const handleQuantityIncrease = (e) => {
     e.target.previousElementSibling.value = parseInt(e.target.previousElementSibling.value) + 1;
@@ -67,6 +73,27 @@ const CartPage = () => {
     }
     e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
     onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+  };
+
+  /////////////// 비회원 주문하기 차단 //////////////////////
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const getUserauth = async () => {
+      const json = await auth();
+      setUser(json);
+    };
+    getUserauth();
+  }, []);
+
+  const confirmAuth = () => {
+    setSsesionData('order', cart);
+    if (user) {
+      navigate('/order');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -100,7 +127,14 @@ const CartPage = () => {
                       <button type="button" onClick={handleQuantityDecrease}>
                         一
                       </button>
-                      <input type="text" maxLength="3" defaultValue={cart.quantity} onChange={handleQuantityInput} />
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        defaultValue={cart.quantity}
+                        onChange={handleQuantityInput}
+                        onKeyDown={characterCheck}
+                      />
                       <button type="button" onClick={handleQuantityIncrease}>
                         十
                       </button>
@@ -129,11 +163,9 @@ const CartPage = () => {
                 <span>Total</span>
                 <span>${totalPrice.toLocaleString()}</span>
               </Total>
-              <LinkWrap>
-                <Link to={'/order'}>
-                  <button onClick={() => setSsesionData('order', cart)}>CHECK OUT</button>
-                </Link>
-              </LinkWrap>
+              <OrderBtn>
+                <button onClick={confirmAuth}>CHECK OUT</button>
+              </OrderBtn>
             </OrderSummaryWrap>
           </Wrap>
         )}
@@ -236,6 +268,16 @@ const Quantity = styled.div`
     font-size: 14px;
   }
 
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input:invalid {
+    border: 3px solid red;
+  }
+
   button {
     padding: 0 8px;
   }
@@ -280,7 +322,7 @@ const Total = styled.div`
   font-size: 20px;
 `;
 
-const LinkWrap = styled.div`
+const OrderBtn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;
