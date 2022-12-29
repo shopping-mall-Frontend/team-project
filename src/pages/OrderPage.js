@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { AddAccount } from "../components/AddAccount";
 import React, { useEffect, useState } from "react";
 import { getAccount, auth, buyProduct } from "../utils/useAPI";
@@ -82,24 +83,15 @@ const OrderPage = () => {
   // 결제
   const payment = async () => {
     if (window.confirm("정말 구매하시겠습니까?") && accountId !== '') {
-      try{
-        console.log('start')
-
-        for(const x of buyProducts){
-          let body = JSON.stringify({
-            productId: x.id,
-            accountId: accountId,
-          });
-          await buyProduct(body);
-        }
-        alert('결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요')
-        // navigate('/');
-      }catch(err){
-        console.log('결제실패' , err)
-      }finally{
-        console.log('done')
-        console.log(allBankList)
+      for(const x of buyProducts){
+        let body = JSON.stringify({
+          productId: x.id,
+          accountId: accountId,
+        });
+        let res = await buyProduct(body);
+        if(typeof res === 'string') return alert(res);
       }
+      alert('결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요')
 
     } else if(accountId === '') {
       alert('결제 계좌를 선택하세요.')
@@ -173,6 +165,7 @@ const OrderPage = () => {
           </div>
         </section>
       </Container>
+      <Footer/>
     </>
   );
 };

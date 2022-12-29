@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Product from "../components/Product";
 import { auth } from "../utils/useAPI";
 import { getAllProduct } from "../utils/useAPI";
@@ -145,7 +146,7 @@ const MainPage = ({ products, setProducts }) => {
                     <div className="item-info-wrap">
                       <p className="item-brand">[{item.tags[0]}]</p>
                       <p className="item-title">{item.title}</p>
-                      <p className="item-price">{`${item.price.toLocaleString()}$`}</p>
+                      <p className="item-price">{`$${item.price.toLocaleString()}`}</p>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -252,6 +253,7 @@ const MainPage = ({ products, setProducts }) => {
           </Swiper>
         </BrandInfo>
       </Container>
+      <Footer/>
     </>
   );
 };
