@@ -44,6 +44,7 @@ const CartPage = () => {
   const onChangeQuantity = (id, value, key = 'quantity') => {
     const product = cart.filter((element) => element.id === id);
     product[0].quantity = value;
+    setCart(cart);
     setSsesionData('cart', cart);
   };
 
@@ -104,7 +105,7 @@ const CartPage = () => {
                         十
                       </button>
                     </Quantity>
-                    <span>${(cart.price * cart.quantity).toLocaleString()}</span>
+                    <Calculated>${(cart.price * cart.quantity).toLocaleString()}</Calculated>
                     <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
                       ✕
                     </button>
@@ -242,6 +243,11 @@ const Quantity = styled.div`
   .btn-disabled {
     color: #dfdfdf;
   }
+`;
+
+const Calculated = styled.div`
+  width: 60px;
+  text-align: center;
 `;
 
 //Order Summary 스타일
