@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
   /////////////// 단일 제품상세 불러오기 ///////////////
@@ -94,7 +95,7 @@ const ProductdetailsPage = () => {
     <div>
       <Header />
       <Navbar />
-      <Wrap>
+      <Container>
         <ImageWrap>
           <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
@@ -164,12 +165,13 @@ const ProductdetailsPage = () => {
             )}
           </Btns>
         </Sidebar>
-      </Wrap>
+      </Container>
+      <Footer />
     </div>
   );
 };
 
-const Wrap = styled.main`
+const Container = styled.main`
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`

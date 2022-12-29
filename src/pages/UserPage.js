@@ -8,6 +8,7 @@ import CancleHistory from '../components/Userpage/CancleHistory';
 import Account from '../components/Userpage/Account';
 import EditMemberInfo from '../components/Userpage/EditMemberInfo';
 import InputPassword from '../components/Userpage/InputPassword';
+import Footer from '../components/Footer';
 
 const UserPage = () => {
   //유저 정보
@@ -31,52 +32,55 @@ const UserPage = () => {
   const [title, setTitle] = useState('나의 주문내역');
 
   return (
-    <Container>
+    <div>
       <Header />
       <Navbar />
-      <Main>
-        <Menu>
-          <div>{user.displayName}님</div>
-          <ul>
-            {array.map((item) => (
-              <li key={item.id} onClick={() => setTitle(item.title)}>
-                <button>{item.title}</button>
-              </li>
-            ))}
-          </ul>
-        </Menu>
-        <Transactions>
-          <UserInfo>
-            <div>
-              회원등급<span>ORANGE</span>
-              <button>할인혜택 보기</button>
-            </div>
-            <div>
-              사용가능한 계좌 잔액<span>000,000원</span>
-            </div>
-            <div>
-              배송중<span>0개</span>
-            </div>
-          </UserInfo>
-          <Details>
-            <Title>
-              {array
-                .filter((item) => title === item.title)
-                .map((item) => (
-                  <div key={item.id}>{item.title}</div>
-                ))}
-            </Title>
-            <div>
-              {array
-                .filter((item) => title === item.title)
-                .map((item) => (
-                  <div key={item.id}>{item.description}</div>
-                ))}
-            </div>
-          </Details>
-        </Transactions>
-      </Main>
-    </Container>
+      <Container>
+        <Main>
+          <Menu>
+            <div>{user.displayName}님</div>
+            <ul>
+              {array.map((item) => (
+                <li key={item.id} onClick={() => setTitle(item.title)}>
+                  <button>{item.title}</button>
+                </li>
+              ))}
+            </ul>
+          </Menu>
+          <Transactions>
+            <UserInfo>
+              <div>
+                회원등급<span>ORANGE</span>
+                <button>할인혜택 보기</button>
+              </div>
+              <div>
+                사용가능한 계좌 잔액<span>000,000원</span>
+              </div>
+              <div>
+                배송중<span>0개</span>
+              </div>
+            </UserInfo>
+            <Details>
+              <Title>
+                {array
+                  .filter((item) => title === item.title)
+                  .map((item) => (
+                    <div key={item.id}>{item.title}</div>
+                  ))}
+              </Title>
+              <div>
+                {array
+                  .filter((item) => title === item.title)
+                  .map((item) => (
+                    <div key={item.id}>{item.description}</div>
+                  ))}
+              </div>
+            </Details>
+          </Transactions>
+        </Main>
+      </Container>
+      <Footer />
+    </div>
   );
 };
 

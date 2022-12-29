@@ -6,6 +6,7 @@ import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Step from '../components/Step';
+import Footer from '../components/Footer';
 
 const CartPage = () => {
   /////////////// 세션 스토리지 조회 ///////////////
@@ -170,6 +171,7 @@ const CartPage = () => {
           </Wrap>
         )}
       </Container>
+      <Footer />
     </div>
   );
 };
