@@ -25,8 +25,7 @@ const FooterWrap = styled.footer`
     display:flex;
     flex-direction:column;
     gap:8px;
-    font-size:.95rem;
-    font-weight:600;
+    font-size:.90rem;
     color:#333;
   }
 
