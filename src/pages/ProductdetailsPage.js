@@ -97,17 +97,24 @@ const ProductdetailsPage = () => {
       <Navbar />
       <Wrap>
         <ImageWrap>
+          <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
+          <div>
+            <h3>details</h3>
+          </div>
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
         </ImageWrap>
 
         <Sidebar>
           <Category>
-            <li>{copyTags[0]}</li>
+            <li>Shop</li>
             <li>{copyTags[1]}</li>
+            <li>{copyTags[0]}</li>
           </Category>
 
           <Info>
-            <li>{product.title}</li>
+            <li>
+              <h2>{product.title}</h2>
+            </li>
             <li>${product.price}</li>
           </Info>
 
@@ -151,9 +158,25 @@ const Wrap = styled.main`
 `;
 const ImageWrap = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   img {
     width: 500px;
+  }
+
+  img:first-child {
+    margin-bottom: 150px;
+    border: 1px solid #000;
+  }
+
+  img:last-child {
+    padding-top: 50px;
+    border-top: 1px solid #000;
+  }
+
+  h3 {
+    padding-bottom: 20px;
+    text-align: left;
   }
 `;
 const Sidebar = styled.aside`
