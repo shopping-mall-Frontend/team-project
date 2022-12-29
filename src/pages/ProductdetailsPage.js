@@ -88,6 +88,8 @@ const ProductdetailsPage = () => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
+  ////////// 매진 여부에 따른 출력 변경 ////////
+  console.log(product);
   return (
     <div>
       <Header />
@@ -150,10 +152,16 @@ const ProductdetailsPage = () => {
           </Tab>
 
           <Btns>
-            <Link to={'/order'}>
-              <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
-            </Link>
-            <button onClick={handleCart}>ADD TO CART</button>
+            {product.isSoldOut ? (
+              <button>SOLD OUT</button>
+            ) : (
+              <div>
+                <Link to={'/order'}>
+                  <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
+                </Link>
+                <button onClick={handleCart}>ADD TO CART</button>
+              </div>
+            )}
           </Btns>
         </Sidebar>
       </Wrap>
@@ -240,11 +248,9 @@ const Tab = styled.dl`
 `;
 
 const Btns = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   button {
     width: 100%;
+    margin-top: 10px;
     padding: 10px 0;
     border: 1px solid #000;
     cursor: pointer;
