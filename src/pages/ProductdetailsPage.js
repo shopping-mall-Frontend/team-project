@@ -38,10 +38,7 @@ const ProductdetailsPage = () => {
   //confirm창(상품 담기 확인 및 장바구니 이동)
   const navigate = useNavigate();
   const moveTocart = () => {
-    if (
-      window.confirm(`상품을 장바구니에 담았습니다. 
-    장바구니로 이동하시겠습니까?`)
-    ) {
+    if (window.confirm(`상품을 장바구니에 담았습니다. \n장바구니로 이동하시겠습니까?`)) {
       navigate('/cart');
     }
   };

@@ -88,7 +88,9 @@ const CartPage = () => {
               <ProductsTable>
                 {cart.map((cart) => (
                   <CartList key={cart.id} id={cart.id}>
-                    <img src={cart.thumbnail} alt="상세이미지" />
+                    <Link to={`/product/${cart.id}`}>
+                      <img src={cart.thumbnail} alt="상세이미지" />
+                    </Link>
                     <Info>
                       <p>{cart.title}</p>
                       <span>${cart.price.toLocaleString()}</span>
