@@ -116,12 +116,12 @@ export const accountAdd = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/account`, body);
-      console.log(data)
-      return data
+      console.log(data);
+      return data;
     }
-  }catch(err) {
-    return err.response.data + ''
-  }  
+  } catch (err) {
+    return err.response.data + '';
+  }
 };
 
 // 제품 구매
@@ -135,7 +135,21 @@ export const buyProduct = async (body = '') => {
     }
     return false;
   } catch (err) {
-    return err.response.data + ''
+    return err.response.data + '';
+  }
+};
+
+// 제품 검색
+export const searchProduct = async (searchText = '', searchTags = []) => {
+  try {
+    const { data } = await axios.post(`/products/search`, {
+      searchText,
+      searchTags,
+    });
+    console.log(data);
+    return data;
+  } catch (err) {
+    return console.log(err.message);
   }
 };
 
@@ -151,7 +165,7 @@ export const delAccount = async (body = '') => {
       console.log(data);
       return data;
     }
-  } catch(err) {
-    return err.response.data + ''
-  }  
+  } catch (err) {
+    return err.response.data + '';
+  }
 };
