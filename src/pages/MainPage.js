@@ -62,7 +62,7 @@ const MainPage = ({ products, setProducts }) => {
             centeredSlides={true}
             loop={true}
             autoplay={{
-              delay: 4000,
+              delay: 5000,
               disableOnInteraction: false,
             }}
             speed={1500}
@@ -106,7 +106,11 @@ const MainPage = ({ products, setProducts }) => {
         </BannerWrap>
 
         <ItemsContainer className="items-wrap">
-          <Swiper modules={[Navigation, A11y, Autoplay]} slidesPerView={1} speed={700} navigation>
+          <Swiper
+            modules={[Navigation, A11y]}
+            slidesPerView={1}
+            speed={700}
+          >
             {sliceBrand.map((items, index) => {
               return (
                 <SwiperSlide key={index}>
@@ -164,7 +168,7 @@ const MainPage = ({ products, setProducts }) => {
               clickable: true,
             }}
             autoplay={{
-              delay:3000,
+              delay: 3000,
               disableOnInteraction: false,
             }}
             touchRatio={0}
@@ -188,7 +192,7 @@ const MainPage = ({ products, setProducts }) => {
                   구찌는 케어링 그룹 산하 브랜드입니다. 글로벌 럭셔리 그룹인 케어링은 패션, 가죽 제품, 주얼리 및 시계
                   분야의 여러 유명 하우스들을 관리하고 있습니다.
                 </p>
-                <Link to="/">브랜드 바로가기</Link>
+                <Link to="/category/all/GUCCI">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -209,7 +213,7 @@ const MainPage = ({ products, setProducts }) => {
                   <br />이 처럼 루이비통은 단순한 제품 홍보가 아닌 브랜드 핵심가치에 부합하는 다양하고 확장적인 마케팅
                   활동을 전개함으로서 소비자에게 일관된 브랜드 아이덴티티를 전달합니다.
                 </p>
-                <Link to="/">브랜드 바로가기</Link>
+                <Link to="/category/all/BOTTEGA">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -226,7 +230,7 @@ const MainPage = ({ products, setProducts }) => {
                   <br />
                   2001년, 보테가 베네타는 구찌 그룹에 인수되었고, 지금의 프랑스 다국적 그룹 케어링에 속해있습니다.
                 </p>
-                <Link to="/">브랜드 바로가기</Link>
+                <Link to="/category/all/CHANEL">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -247,13 +251,13 @@ const MainPage = ({ products, setProducts }) => {
                   "내 손끝에서 피어난 전설이 더 발전하고 번성하기를 꿈꾸며, 샤넬이 오랫동안 행복한 브랜드로 남기를
                   바란다."
                 </p>
-                <Link to="/">브랜드 바로가기</Link>
+                <Link to="/category/all/LOUIS">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
           </Swiper>
         </BrandInfo>
       </Container>
-      <Footer/>
+      <Footer />
     </>
   );
 };

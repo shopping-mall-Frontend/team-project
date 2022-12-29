@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
 import Product from '../../components/Product';
@@ -25,7 +26,7 @@ const CategoryPage = React.memo(({ products }) => {
   const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
-  const [limit, setLimit] = useState(8);
+  const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
@@ -80,6 +81,7 @@ const CategoryPage = React.memo(({ products }) => {
     <>
       <Header />
       <Container>
+        <h2>{currentCategory.toUpperCase()} Category</h2>
         <OptionDiv>
           <CategoryUl>
             {brand.map((item) => {
@@ -121,13 +123,21 @@ const CategoryPage = React.memo(({ products }) => {
           ))}
         </ol>
       </Container>
+      <Footer />
     </>
   );
 });
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 300px;
+  h2 {
+    font-family: 'Marcellus', serif;
+    font-size: 20px;
+    padding: 0 20px;
+  }
   ol {
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -151,7 +161,7 @@ const CategoryUl = styled.ul`
 const OptionDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 30px;
+  padding: 20px;
 `;
 
 const PageSectionWrap = styled.div``;
