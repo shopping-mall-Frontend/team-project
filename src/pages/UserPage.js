@@ -7,6 +7,7 @@ import OrderHistory from '../components/Userpage/OrderHistory';
 import CancleHistory from '../components/Userpage/CancleHistory';
 import Account from '../components/Userpage/Account';
 import EditMemberInfo from '../components/Userpage/EditMemberInfo';
+import InputPassword from '../components/Userpage/InputPassword';
 
 const UserPage = () => {
   //유저 정보
@@ -18,15 +19,16 @@ const UserPage = () => {
     };
     authUser();
   }, []);
+  console.log(user);
 
   //내비게이션 탭별 화면 전환
   const array = [
     { id: 0, title: '나의 주문내역', description: <OrderHistory /> },
     { id: 1, title: '취소 내역', description: <CancleHistory /> },
-    { id: 2, title: '내 계좌', description: <Account /> },
-    { id: 3, title: '내정보 수정', description: <EditMemberInfo /> },
+    { id: 2, title: '내 계좌', description: <InputPassword user={user} /> },
+    { id: 3, title: '내정보 수정', description: <InputPassword user={user} /> },
   ];
-  const [title, setTitle] = useState(0);
+  const [title, setTitle] = useState('나의 주문내역');
 
   return (
     <Container>
@@ -37,7 +39,7 @@ const UserPage = () => {
           <div>{user.displayName}님</div>
           <ul>
             {array.map((item) => (
-              <li key={item.id} onClick={() => setTitle(item.id)}>
+              <li key={item.id} onClick={() => setTitle(item.title)}>
                 <button>{item.title}</button>
               </li>
             ))}
@@ -59,14 +61,14 @@ const UserPage = () => {
           <Details>
             <Title>
               {array
-                .filter((item) => title === item.id)
+                .filter((item) => title === item.title)
                 .map((item) => (
                   <div key={item.id}>{item.title}</div>
                 ))}
             </Title>
             <div>
               {array
-                .filter((item) => title === item.id)
+                .filter((item) => title === item.title)
                 .map((item) => (
                   <div key={item.id}>{item.description}</div>
                 ))}
@@ -155,7 +157,7 @@ const UserInfo = styled.div`
 const Details = styled.div`
   margin-top: 40px;
 `;
-const Title = styled.div`
+const Title = styled.h2`
   padding-bottom: 10px;
   border-bottom: 4px solid #000;
   font-size: 25px;
