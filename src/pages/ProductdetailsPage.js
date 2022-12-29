@@ -153,7 +153,7 @@ const ProductdetailsPage = () => {
 
           <Btns>
             {product.isSoldOut ? (
-              <button>SOLD OUT</button>
+              <button className="soldout">SOLD OUT</button>
             ) : (
               <div>
                 <Link to={'/order'}>
@@ -254,6 +254,10 @@ const Btns = styled.div`
     padding: 10px 0;
     border: 1px solid #000;
     cursor: pointer;
+  }
+
+  .soldout {
+    color: #a6a6a6;
   }
 `;
 
