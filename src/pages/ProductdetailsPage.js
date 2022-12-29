@@ -28,8 +28,8 @@ const ProductdetailsPage = () => {
     cart = getSsesionData;
   }
 
-  const setSsesionData = (cart) => {
-    sessionStorage.setItem('cart', JSON.stringify(cart));
+  const cartSsesionData = (cartProducts) => {
+    sessionStorage.setItem('cart', JSON.stringify(cartProducts));
   };
 
   //수량
@@ -38,11 +38,11 @@ const ProductdetailsPage = () => {
   //confirm창(상품 담기 확인 및 장바구니 이동)
   const navigate = useNavigate();
   const moveTocart = () => {
-    {
+    if (
       window.confirm(`상품을 장바구니에 담았습니다. 
-장바구니로 이동하시겠습니까?`)
-        ? navigate('/cart')
-        : console.log(false);
+    장바구니로 이동하시겠습니까?`)
+    ) {
+      navigate('/cart');
     }
   };
 
@@ -52,7 +52,7 @@ const ProductdetailsPage = () => {
       id: product.id,
       title: product.title,
       price: product.price,
-      thumnail: product.thumbnail,
+      thumbnail: product.thumbnail,
       quantity: count,
     };
 
@@ -64,12 +64,12 @@ const ProductdetailsPage = () => {
         id: product.id,
         title: product.title,
         price: product.price,
-        thumnail: product.thumbnail,
+        thumbnail: product.thumbnail,
         quantity: quantity,
       };
 
       cart = [...cart.slice(0, index), cartItem, ...cart.slice(index + 1)];
-      setSsesionData(cart);
+      cartSsesionData(cart);
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
@@ -77,10 +77,16 @@ const ProductdetailsPage = () => {
       setQuantity(cartItem.id, foundDuplication.quantity + count);
     } else {
       cart.push(cartItem);
-      setSsesionData(cart);
+      cartSsesionData(cart);
     }
 
     moveTocart();
+  };
+
+  ////////// 결제 상품, 세션스토리지로 ////////
+  sessionStorage.setItem('order', JSON.stringify());
+  const orderSsesionData = (orderProducts) => {
+    sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
   return (
@@ -128,7 +134,7 @@ const ProductdetailsPage = () => {
 
           <Btns>
             <Link to={'/order'}>
-              <button>BUY NOW</button>
+              <button onClick={() => orderSsesionData(product)}>BUY NOW</button>
             </Link>
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>
