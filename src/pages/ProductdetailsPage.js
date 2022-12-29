@@ -196,8 +196,7 @@ const Sidebar = styled.aside`
   position: fixed;
   top: 190px;
   right: 0;
-  width: 25%;
-  min-width: 300px;
+  width: 400px;
   padding-right: 20px;
 
   background-color: #fff;
