@@ -84,6 +84,8 @@ const ProductdetailsPage = () => {
   };
 
   ////////// 결제 상품, 세션스토리지로 ////////
+  let order = [];
+  order.push(product);
   sessionStorage.setItem('order', JSON.stringify());
   const orderSsesionData = (orderProducts) => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
@@ -134,7 +136,7 @@ const ProductdetailsPage = () => {
 
           <Btns>
             <Link to={'/order'}>
-              <button onClick={() => orderSsesionData(product)}>BUY NOW</button>
+              <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
             </Link>
             <button onClick={handleCart}>ADD TO CART</button>
           </Btns>
