@@ -115,12 +115,13 @@ export const accountAdd = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-      const { data } = axios.post(`/account`, body);
-      console.log(data);
+      const { data } = await axios.post(`/account`, body);
+      console.log(data)
+      return data
     }
-  } catch (err) {
-    return 'string'
-  }
+  }catch(err) {
+    return err.response.data + ''
+  }  
 };
 
 // 제품 구매
@@ -129,12 +130,12 @@ export const buyProduct = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-      const data = await axios.post(`/products/buy `, body);
+      const { data } = await axios.post(`/products/buy `, body);
       console.log(data);
     }
     return false;
   } catch (err) {
-    console.log(err);
+    return err.response.data + ''
   }
 };
 

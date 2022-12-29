@@ -146,7 +146,7 @@ const MainPage = ({ products, setProducts }) => {
                     <div className="item-info-wrap">
                       <p className="item-brand">[{item.tags[0]}]</p>
                       <p className="item-title">{item.title}</p>
-                      <p className="item-price">{`${item.price.toLocaleString()}$`}</p>
+                      <p className="item-price">{`$${item.price.toLocaleString()}`}</p>
                     </div>
                   </div>
                 </SwiperSlide>
