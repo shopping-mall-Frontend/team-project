@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import '../css/reset-css.css';
 import { auth } from '../utils/useAPI';
+import Search from './search/Search';
 
 const Header = React.memo(() => {
   const [isLogin, setIsLogin] = useState(false);
@@ -28,7 +29,7 @@ const Header = React.memo(() => {
     <StyledHeader>
       <header>
         <div className="search">
-          <Link to={'/'}>SEARCH</Link>
+          <Search />
         </div>
 
         <div className="logo">
@@ -103,7 +104,7 @@ const StyledHeader = styled.div`
   }
 
   .logo {
-    padding: 9px 5px 9px 150px;
+    padding: 9px 5px 9px 200px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
     font-size: 3rem;
