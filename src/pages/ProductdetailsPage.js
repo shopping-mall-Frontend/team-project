@@ -98,17 +98,28 @@ const ProductdetailsPage = () => {
       <Wrap>
         <ImageWrap>
           <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
-          <div>
-            <h3>details</h3>
-          </div>
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
         </ImageWrap>
 
         <Sidebar>
           <Category>
-            <li>Shop</li>
-            <li>{copyTags[1]}</li>
-            <li>{copyTags[0]}</li>
+            <li>
+              <Link to={'/category/all'}>Category</Link>
+            </li>
+            <li>
+              {copyTags[1] === '가방' ? (
+                <Link to={'/category/bags'}>{copyTags[1]}</Link>
+              ) : (
+                <Link to={'/category/clothes'}>{copyTags[1]}</Link>
+              )}
+            </li>
+            <li>
+              {copyTags[0] === 'LOUIS VUITTON' ? (
+                <Link to={`/category/all/LOUIS`}>{copyTags[0]}</Link>
+              ) : (
+                <Link to={`/category/all/${copyTags[0]}`}>{copyTags[0]}</Link>
+              )}
+            </li>
           </Category>
 
           <Info>
