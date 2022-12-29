@@ -15,7 +15,6 @@ import { getAllProduct } from './utils/useAPI';
 const App = () => {
   const [products, setProducts] = useState([]);
   const [categoryItems, setCategoryItems] = useState([]);
-  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -34,7 +33,7 @@ const App = () => {
       <Route path="/category/:category" element={<CategoryPage products={categoryItems} />} />
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/order" element={<OrderPage/>} />
+      <Route path="/order" element={<OrderPage />} />
       <Route path="/user" element={<UserPage />} />
     </Routes>
   );
