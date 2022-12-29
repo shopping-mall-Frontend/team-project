@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { auth } from '../utils/useAPI';
 
 const Wrap = styled.div`
   display: flex;
@@ -14,19 +15,18 @@ const Wrap = styled.div`
 `;
 
 const Links = ({}) => {
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const authUser = async () => {
+      const userInfo = await auth();
+      setUser(userInfo);
+    };
+    authUser();
+  }, []);
   return (
     <Wrap>
-      <Link to={`/`}>
-        <button>메인</button>
-      </Link>
-      <Link to={`/product`}>
-        <button>제품목록</button>
-      </Link>
-      <Link to={`/cart`}>
-        <button>장바구니</button>
-      </Link>
       <Link to={`/user`}>
-        <button>user님</button>
+        <button>안녕하세요. {user.displayName}님</button>
       </Link>
     </Wrap>
   );
