@@ -126,7 +126,7 @@ const ProductdetailsPage = () => {
             <li>
               <h2>{product.title}</h2>
             </li>
-            <li>${product.price}</li>
+            <li>${parseInt(product.price).toLocaleString()}</li>
           </Info>
 
           <Tab>
