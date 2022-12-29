@@ -126,7 +126,7 @@ const ProductdetailsPage = () => {
             <li>
               <h2>{product.title}</h2>
             </li>
-            <li>${product.price.toLocaleString()}</li>
+            <li>${product.price}</li>
           </Info>
 
           <Tab>
@@ -196,14 +196,18 @@ const Sidebar = styled.aside`
   position: fixed;
   top: 190px;
   right: 0;
-  width: 400px;
+  width: 25%;
+  min-width: 300px;
   padding-right: 20px;
+
+  background-color: #fff;
 `;
 
 const Category = styled.ol`
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+
   color: rgb(137, 137, 137);
   font-size: 12px;
   li {
