@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
+import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 import Step from '../components/Step';
+import Footer from '../components/Footer';
 
 const CartPage = () => {
   /////////////// 세션 스토리지 조회 ///////////////
@@ -44,6 +46,7 @@ const CartPage = () => {
   const onChangeQuantity = (id, value, key = 'quantity') => {
     const product = cart.filter((element) => element.id === id);
     product[0].quantity = value;
+    setCart(cart);
     setSsesionData('cart', cart);
   };
 
@@ -51,6 +54,11 @@ const CartPage = () => {
   const handleQuantityInput = (e) => {
     onChangeQuantity(e.target.closest('li').id, e.target.value);
   };
+
+  const characterCheck = useCallback((e) => {
+    console.log(e);
+    if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e') e.preventDefault();
+  }, []);
 
   //수량 증가
   const handleQuantityIncrease = (e) => {
@@ -66,6 +74,27 @@ const CartPage = () => {
     }
     e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
     onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+  };
+
+  /////////////// 비회원 주문하기 차단 //////////////////////
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const getUserauth = async () => {
+      const json = await auth();
+      setUser(json);
+    };
+    getUserauth();
+  }, []);
+
+  const confirmAuth = () => {
+    setSsesionData('order', cart);
+    if (user) {
+      navigate('/order');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -88,21 +117,30 @@ const CartPage = () => {
               <ProductsTable>
                 {cart.map((cart) => (
                   <CartList key={cart.id} id={cart.id}>
-                    <img src={cart.thumbnail} alt="상세이미지" />
+                    <Link to={`/product/${cart.id}`}>
+                      <img src={cart.thumbnail} alt="상세이미지" />
+                    </Link>
                     <Info>
                       <p>{cart.title}</p>
-                      <span>${cart.price}</span>
+                      <span>${cart.price.toLocaleString()}</span>
                     </Info>
                     <Quantity>
                       <button type="button" onClick={handleQuantityDecrease}>
                         一
                       </button>
-                      <input type="text" maxLength="3" defaultValue={cart.quantity} onChange={handleQuantityInput} />
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        defaultValue={cart.quantity}
+                        onChange={handleQuantityInput}
+                        onKeyDown={characterCheck}
+                      />
                       <button type="button" onClick={handleQuantityIncrease}>
                         十
                       </button>
                     </Quantity>
-                    <span>${cart.price * cart.quantity}</span>
+                    <Calculated>${(cart.price * cart.quantity).toLocaleString()}</Calculated>
                     <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
                       ✕
                     </button>
@@ -115,7 +153,7 @@ const CartPage = () => {
               <Price>
                 <li>
                   <span>Subtotal</span>
-                  <span>${totalPrice}</span>
+                  <span>${totalPrice.toLocaleString()}</span>
                 </li>
                 <li>
                   <span>Shipping </span>
@@ -124,17 +162,16 @@ const CartPage = () => {
               </Price>
               <Total>
                 <span>Total</span>
-                <span>${totalPrice}</span>
+                <span>${totalPrice.toLocaleString()}</span>
               </Total>
-              <LinkWrap>
-                <Link to={'/order'}>
-                  <button onClick={() => setSsesionData('order', cart)}>CHECK OUT</button>
-                </Link>
-              </LinkWrap>
+              <OrderBtn>
+                <button onClick={confirmAuth}>CHECK OUT</button>
+              </OrderBtn>
             </OrderSummaryWrap>
           </Wrap>
         )}
       </Container>
+      <Footer />
     </div>
   );
 };
@@ -233,6 +270,16 @@ const Quantity = styled.div`
     font-size: 14px;
   }
 
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input:invalid {
+    border: 3px solid red;
+  }
+
   button {
     padding: 0 8px;
   }
@@ -240,6 +287,11 @@ const Quantity = styled.div`
   .btn-disabled {
     color: #dfdfdf;
   }
+`;
+
+const Calculated = styled.div`
+  width: 60px;
+  text-align: center;
 `;
 
 //Order Summary 스타일
@@ -272,7 +324,7 @@ const Total = styled.div`
   font-size: 20px;
 `;
 
-const LinkWrap = styled.div`
+const OrderBtn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;

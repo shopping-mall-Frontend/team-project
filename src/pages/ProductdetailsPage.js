@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
   /////////////// 단일 제품상세 불러오기 ///////////////
@@ -38,10 +39,7 @@ const ProductdetailsPage = () => {
   //confirm창(상품 담기 확인 및 장바구니 이동)
   const navigate = useNavigate();
   const moveTocart = () => {
-    if (
-      window.confirm(`상품을 장바구니에 담았습니다. 
-    장바구니로 이동하시겠습니까?`)
-    ) {
+    if (window.confirm(`상품을 장바구니에 담았습니다. \n장바구니로 이동하시겠습니까?`)) {
       navigate('/cart');
     }
   };
@@ -91,24 +89,44 @@ const ProductdetailsPage = () => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
+  ////////// 매진 여부에 따른 출력 변경 ////////
+  console.log(product);
   return (
     <div>
       <Header />
       <Navbar />
-      <Wrap>
+      <Container>
         <ImageWrap>
+          <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
           <img src={product.photo} alt={`${product.title} 상세이미지`} />
         </ImageWrap>
 
         <Sidebar>
           <Category>
-            <li>{copyTags[0]}</li>
-            <li>{copyTags[1]}</li>
+            <li>
+              <Link to={'/category/all'}>Category</Link>
+            </li>
+            <li>
+              {copyTags[1] === '가방' ? (
+                <Link to={'/category/bags'}>{copyTags[1]}</Link>
+              ) : (
+                <Link to={'/category/clothes'}>{copyTags[1]}</Link>
+              )}
+            </li>
+            <li>
+              {copyTags[0] === 'LOUIS VUITTON' ? (
+                <Link to={`/category/all/LOUIS`}>{copyTags[0]}</Link>
+              ) : (
+                <Link to={`/category/all/${copyTags[0]}`}>{copyTags[0]}</Link>
+              )}
+            </li>
           </Category>
 
           <Info>
-            <li>{product.title}</li>
-            <li>${product.price}</li>
+            <li>
+              <h2>{product.title}</h2>
+            </li>
+            <li>${parseInt(product.price).toLocaleString()}</li>
           </Info>
 
           <Tab>
@@ -135,25 +153,48 @@ const ProductdetailsPage = () => {
           </Tab>
 
           <Btns>
-            <Link to={'/order'}>
-              <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
-            </Link>
-            <button onClick={handleCart}>ADD TO CART</button>
+            {product.isSoldOut ? (
+              <button className="soldout">SOLD OUT</button>
+            ) : (
+              <div>
+                <Link to={'/order'}>
+                  <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
+                </Link>
+                <button onClick={handleCart}>ADD TO CART</button>
+              </div>
+            )}
           </Btns>
         </Sidebar>
-      </Wrap>
+      </Container>
+      <Footer />
     </div>
   );
 };
 
-const Wrap = styled.main`
+const Container = styled.main`
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   img {
     width: 500px;
+  }
+
+  img:first-child {
+    margin-bottom: 150px;
+    border: 1px solid #000;
+  }
+
+  img:last-child {
+    padding-top: 50px;
+    border-top: 1px solid #000;
+  }
+
+  h3 {
+    padding-bottom: 20px;
+    text-align: left;
   }
 `;
 const Sidebar = styled.aside`
@@ -164,12 +205,15 @@ const Sidebar = styled.aside`
   right: 0;
   width: 400px;
   padding-right: 20px;
+
+  background-color: #fff;
 `;
 
 const Category = styled.ol`
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+
   color: rgb(137, 137, 137);
   font-size: 12px;
   li {
@@ -206,14 +250,16 @@ const Tab = styled.dl`
 `;
 
 const Btns = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
   button {
     width: 100%;
+    margin-top: 10px;
     padding: 10px 0;
     border: 1px solid #000;
     cursor: pointer;
+  }
+
+  .soldout {
+    color: #a6a6a6;
   }
 `;
 

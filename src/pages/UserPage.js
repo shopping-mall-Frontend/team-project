@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
@@ -7,6 +8,8 @@ import OrderHistory from '../components/Userpage/OrderHistory';
 import CancleHistory from '../components/Userpage/CancleHistory';
 import Account from '../components/Userpage/Account';
 import EditMemberInfo from '../components/Userpage/EditMemberInfo';
+import AuthPassword from '../components/Userpage/AuthPassword';
+import Footer from '../components/Footer';
 
 const UserPage = () => {
   //유저 정보
@@ -21,60 +24,79 @@ const UserPage = () => {
 
   //내비게이션 탭별 화면 전환
   const array = [
-    { id: 0, title: '나의 주문내역', description: <OrderHistory /> },
-    { id: 1, title: '취소 내역', description: <CancleHistory /> },
-    { id: 2, title: '내 계좌', description: <Account /> },
-    { id: 3, title: '내정보 수정', description: <EditMemberInfo /> },
+    { id: 'OrderHistory', title: '나의 주문내역', description: <OrderHistory /> },
+    { id: 'CancleHistory', title: '취소 내역', description: <CancleHistory /> },
+    { id: 'Account', title: '내 계좌', description: <Account user={user} /> },
+    { id: 'EditMemberInfo', title: '내정보 수정', description: <EditMemberInfo user={user} /> },
+    { id: 'Auth', title: '비밀번호 재확인', description: <AuthPassword user={user} /> },
   ];
-  const [title, setTitle] = useState(0);
+
+  const { menu } = useParams();
 
   return (
-    <Container>
+    <div>
       <Header />
       <Navbar />
-      <Main>
-        <Menu>
-          <div>{user.displayName}님</div>
-          <ul>
-            {array.map((item) => (
-              <li key={item.id} onClick={() => setTitle(item.id)}>
-                <button>{item.title}</button>
-              </li>
-            ))}
-          </ul>
-        </Menu>
-        <Transactions>
-          <UserInfo>
-            <div>
-              회원등급<span>ORANGE</span>
-              <button>할인혜택 보기</button>
-            </div>
-            <div>
-              사용가능한 계좌 잔액<span>000,000원</span>
-            </div>
-            <div>
-              배송중<span>0개</span>
-            </div>
-          </UserInfo>
-          <Details>
-            <Title>
+      <Container>
+        <Main>
+          <Menu>
+            <div>{user.displayName}님</div>
+            <ul>
               {array
-                .filter((item) => title === item.id)
+                .filter((item) => item.id !== 'Auth')
                 .map((item) => (
-                  <div key={item.id}>{item.title}</div>
+                  <div key={item.id}>
+                    {item.id === 'Account' ? (
+                      <Link to={`/user/Auth`}>
+                        <li>
+                          <button>{item.title}</button>
+                        </li>
+                      </Link>
+                    ) : (
+                      <Link to={`/user/${item.id}`}>
+                        <li>
+                          <button>{item.title}</button>
+                        </li>
+                      </Link>
+                    )}
+                  </div>
                 ))}
-            </Title>
-            <div>
-              {array
-                .filter((item) => title === item.id)
-                .map((item) => (
-                  <div key={item.id}>{item.description}</div>
-                ))}
-            </div>
-          </Details>
-        </Transactions>
-      </Main>
-    </Container>
+            </ul>
+          </Menu>
+          <Transactions>
+            <UserInfo>
+              <div>
+                회원등급<span>ORANGE</span>
+                <button>할인혜택 보기</button>
+              </div>
+              <div>
+                사용가능한 계좌 잔액<span>000,000원</span>
+              </div>
+              <div>
+                배송중<span>0개</span>
+              </div>
+            </UserInfo>
+            <Details>
+              <Title>
+                {array
+                  .filter((item) => menu === item.id)
+                  .map((item) => (
+                    <div key={item.id}>{item.title}</div>
+                  ))}
+              </Title>
+              <div>
+                {array
+                  .filter((item) => menu === item.id)
+                  .map((item) => (
+                    <div key={item.id}>{item.description}</div>
+                  ))}
+              </div>
+            </Details>
+          </Transactions>
+        </Main>
+      </Container>
+      <Footer />
+    </div>
   );
 };
 
@@ -98,20 +120,11 @@ const Menu = styled.nav`
   gap: 30px;
   min-width: 250px;
 
-  div {
-    padding: 45px 0;
-    font-weight: 700;
-    font-size: 40px;
-  }
-
   ul li {
+    margin-top: 5px;
     padding: 15px 10px;
     border: 1px solid #000;
     cursor: pointer;
-  }
-
-  ul li + li {
-    margin-top: 5px;
   }
 
   ul li button {
@@ -155,7 +168,7 @@ const UserInfo = styled.div`
 const Details = styled.div`
   margin-top: 40px;
 `;
-const Title = styled.div`
+const Title = styled.h2`
   padding-bottom: 10px;
   border-bottom: 4px solid #000;
   font-size: 25px;
