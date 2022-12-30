@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { signIn } from '../../utils/useAPI';
-import Account from './Account';
 
 const AuthPassword = ({ user }) => {
   const navigate = useNavigate();

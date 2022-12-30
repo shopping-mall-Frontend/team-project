@@ -164,19 +164,19 @@ export const buyProduct = async (body = '') => {
 };
 
 // 제품 거래(구매) 취소
-// export const refundProduct = async (body = '') => {
-//   try {
-//     const token = localStorage.getItem('accessToken');
-//     if (token !== null) {
-//       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-//       const { data } = await axios.post(`/products/cancel`, body);
-//       console.log(data);
-//     }
-//     return false;
-//   } catch (err) {
-//     return err.response.data + '';
-//   }
-// };
+export const refundProduct = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.post(`/products/cancel`, body);
+      console.log(data);
+    }
+    return false;
+  } catch (err) {
+    return err.response.data + '';
+  }
+};
 
 // 제품 거래(구매) 확정
 export const confirmProduct = async (body = '') => {
