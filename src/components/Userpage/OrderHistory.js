@@ -14,6 +14,15 @@ const OrderHistory = () => {
     getTransaction();
   }, []);
   console.log(history);
+
+  const handleConfirm = (id) => {
+    // const confirm = async (id) => {
+    //   const json = await confirmProduct(id);
+    //   return json;
+    // };
+    // confirm();
+  };
+
   return (
     <Container>
       <ol>
@@ -46,7 +55,7 @@ const OrderHistory = () => {
                 </div>
               </ProductInfo>
               <CancleOk>
-                <button>거래확정</button>
+                <button onClick={handleConfirm(list.detailId)}>거래확정</button>
                 <button>취소</button>
               </CancleOk>
             </Details>
