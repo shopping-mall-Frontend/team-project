@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
 import { transaction } from '../../utils/useAPI';
@@ -20,7 +21,9 @@ const OrderHistory = () => {
           <li key={list.detailId}>
             <div>{list.timePaid}</div>
             <ProductInfo>
-              <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
+              <Link to={`/product/${list.product.productId}`}>
+                <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
+              </Link>
               <div>
                 <dl>
                   <dt>상품명</dt>
