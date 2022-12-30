@@ -179,22 +179,22 @@ export const buyProduct = async (body = '') => {
 // };
 
 // 제품 거래(구매) 확정
-// export const confirmProduct = async (body = '') => {
-//   try {
-//     const token = localStorage.getItem('accessToken');
-//     if (token !== null) {
-//       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-//       const { data } = await axios.post(`/products/ok`, body);
-//       console.log(data);
-//     }
-//     return false;
-//   } catch (err) {
-//     return err.response.data + '';
-//   }
-// };
+export const confirmProduct = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.post(`/products/ok`, body);
+      console.log(data);
+    }
+    return false;
+  } catch (err) {
+    return err.response.data + '';
+  }
+};
 
 // 전체 제품 거래(구매) 내역
-export const transaction = async () => {
+export const orderedProducts = async () => {
   try {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
@@ -209,7 +209,7 @@ export const transaction = async () => {
 };
 
 // 단일 제품 상세 거래(구매) 내역
-// export const transactionDetails = async (body = '') => {
+// export const orderedProduct = async (body = '') => {
 //   try {
 //     const token = localStorage.getItem('accessToken');
 //     if (token !== null) {

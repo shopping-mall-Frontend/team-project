@@ -2,31 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
-import { transaction } from '../../utils/useAPI';
+import { orderedProducts, confirmProduct } from '../../utils/useAPI';
 
 const OrderHistory = () => {
-  const [history, setHistory] = useState([]);
-  useEffect(() => {
-    const getTransaction = async () => {
-      const json = await transaction();
-      setHistory(json);
-    };
-    getTransaction();
-  }, []);
-  console.log(history);
+  const [ordered, setOdered] = useState([]);
+  const [confirmed, setConfirmed] = useState('');
 
-  const handleConfirm = (id) => {
-    // const confirm = async (id) => {
-    //   const json = await confirmProduct(id);
-    //   return json;
-    // };
-    // confirm();
+  useEffect(() => {
+    const getorderedProducts = async () => {
+      const json = await orderedProducts();
+      setOdered(json);
+    };
+    getorderedProducts();
+    console.log(ordered);
+  }, []);
+
+  const orderConfirm = async (detailId) => {
+    let body = JSON.stringify({
+      detailId: detailId,
+    });
+    const json = await confirmProduct(body);
+    setConfirmed(json);
   };
+
+  const handelOrderConfirm = (detailId) => {
+    orderConfirm(detailId);
+  };
+  //
 
   return (
     <Container>
       <ol>
-        {history.map((list) => (
+        {ordered.map((list) => (
           <li key={list.detailId}>
             <Title>
               <h4>{list.timePaid}</h4>
@@ -55,8 +62,17 @@ const OrderHistory = () => {
                 </div>
               </ProductInfo>
               <CancleOk>
-                <button onClick={handleConfirm(list.detailId)}>거래확정</button>
-                <button>취소</button>
+                {list.done ? (
+                  <button type="button" className="confirmtrue">
+                    확정완료
+                  </button>
+                ) : (
+                  <button type="button" onClick={() => handelOrderConfirm(list.detailId)}>
+                    거래 확정
+                  </button>
+                )}
+
+                <button>거래 취소</button>
               </CancleOk>
             </Details>
           </li>
@@ -109,12 +125,17 @@ const CancleOk = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
+
   button {
     padding: 0 30px;
     height: 40px;
-    border: 1px solid #000;
+    border: 1px solid #dfdfdf;
     border-radius: 5px;
     cursor: pointer;
+  }
+
+  .confirmtrue {
+    background-color: #eaeaea;
   }
 `;
 
