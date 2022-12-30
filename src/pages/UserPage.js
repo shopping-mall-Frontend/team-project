@@ -21,7 +21,6 @@ const UserPage = () => {
     };
     authUser();
   }, []);
-  console.log(user);
 
   //내비게이션 탭별 화면 전환
   const array = [
@@ -33,7 +32,6 @@ const UserPage = () => {
   ];
 
   const { menu } = useParams();
-  const [title, setTitle] = useState('나의 주문내역');
 
   return (
     <div>
@@ -45,7 +43,21 @@ const UserPage = () => {
             <div>{user.displayName}님</div>
             <ul>
               {array.map((item) => (
-                {(item.id) === 'Account' ? console.log('비밀번호 재확인 페이지로 이동') : ''}
+                <>
+                  {item.id === 'Account' || item.id === 'EditMemberInfo' ? (
+                    <Link to={`/user/Auth`}>
+                      <li key={item.id}>
+                        <button>{item.title}</button>
+                      </li>
+                    </Link>
+                  ) : (
+                    <Link to={`/user/${item.id}`}>
+                      <li key={item.id}>
+                        <button>{item.title}</button>
+                      </li>
+                    </Link>
+                  )}
+                </>
               ))}
             </ul>
           </Menu>
@@ -71,7 +83,6 @@ const UserPage = () => {
                   ))}
               </Title>
               <div>
-                {console.log(menu)}
                 {array
                   .filter((item) => menu === item.id)
                   .map((item) => (
