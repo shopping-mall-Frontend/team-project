@@ -45,21 +45,21 @@ const UserPage = () => {
               {array
                 .filter((item) => item.id !== 'Auth')
                 .map((item) => (
-                  <>
+                  <div key={item.id}>
                     {item.id === 'Account' ? (
                       <Link to={`/user/Auth`}>
-                        <li key={item.id}>
+                        <li>
                           <button>{item.title}</button>
                         </li>
                       </Link>
                     ) : (
                       <Link to={`/user/${item.id}`}>
-                        <li key={item.id}>
+                        <li>
                           <button>{item.title}</button>
                         </li>
                       </Link>
                     )}
-                  </>
+                  </div>
                 ))}
             </ul>
           </Menu>
@@ -119,12 +119,6 @@ const Menu = styled.nav`
   flex-direction: column;
   gap: 30px;
   min-width: 250px;
-
-  div {
-    padding: 45px 0;
-    font-weight: 700;
-    font-size: 40px;
-  }
 
   ul li {
     margin-top: 5px;
