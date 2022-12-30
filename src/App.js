@@ -36,7 +36,6 @@ const App = () => {
 
   return (
     <Routes>
-<<<<<<< HEAD
       <Route path="/" element={<MainPage products={products} setProducts={setProducts} />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
@@ -46,20 +45,6 @@ const App = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
       <Route path="/user/:menu" element={<UserPage />} />
-=======
-      <Route path="/" element={<Layout />}>
-        <Route index element={<MainPage products={products} setProducts={setProducts} />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignUpPage />} />
-        <Route path="search" element={<SearchPage />} />
-        <Route path="category/:category/:brand" element={<CategoryPage products={categoryItems} />} />
-        <Route path="category/:category" element={<CategoryPage products={categoryItems} />} />
-        <Route path="product/:id" element={<ProductdetailsPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="order" element={<OrderPage />} />
-        <Route path="user" element={<UserPage />} />
-      </Route>
->>>>>>> c482b417b6420b33de8389ad9a7ec626c0504b03
     </Routes>
   );
 };

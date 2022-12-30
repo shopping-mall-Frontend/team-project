@@ -148,6 +148,20 @@ export const getProductDetail = async (id) => {
   }
 };
 
+// 제품 검색
+export const searchProduct = async (searchText = '', searchTags = []) => {
+  try {
+    const { data } = await axios.post(`/products/search`, {
+      searchText,
+      searchTags,
+    });
+    console.log(data);
+    return data;
+  } catch (err) {
+    return console.log(err.message);
+  }
+};
+
 // 제품 구매 신청
 export const buyProduct = async (body = '') => {
   try {
