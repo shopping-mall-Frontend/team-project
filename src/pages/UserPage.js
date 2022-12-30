@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
@@ -7,7 +8,7 @@ import OrderHistory from '../components/Userpage/OrderHistory';
 import CancleHistory from '../components/Userpage/CancleHistory';
 import Account from '../components/Userpage/Account';
 import EditMemberInfo from '../components/Userpage/EditMemberInfo';
-import InputPassword from '../components/Userpage/InputPassword';
+import AuthPassword from '../components/Userpage/AuthPassword';
 import Footer from '../components/Footer';
 
 const UserPage = () => {
@@ -24,10 +25,11 @@ const UserPage = () => {
 
   //내비게이션 탭별 화면 전환
   const array = [
-    { id: 0, title: '나의 주문내역', description: <OrderHistory /> },
-    { id: 1, title: '취소 내역', description: <CancleHistory /> },
-    { id: 2, title: '내 계좌', description: <InputPassword user={user} /> },
-    { id: 3, title: '내정보 수정', description: <InputPassword user={user} /> },
+    { id: 'orderHistory', title: '나의 주문내역', description: <OrderHistory /> },
+    { id: 'cancleHistory', title: '취소 내역', description: <CancleHistory /> },
+    { id: 'account', title: '내 계좌', description: <Account user={user} /> },
+    { id: 'editMemberInfo', title: '내정보 수정', description: <EditMemberInfo user={user} /> },
+    { id: 'auth', title: '비밀번호 확인', description: <AuthPassword user={user} /> },
   ];
   const [title, setTitle] = useState('나의 주문내역');
 
@@ -41,9 +43,11 @@ const UserPage = () => {
             <div>{user.displayName}님</div>
             <ul>
               {array.map((item) => (
-                <li key={item.id} onClick={() => setTitle(item.title)}>
-                  <button>{item.title}</button>
-                </li>
+                <Link to={`/user/${item.id}`}>
+                  <li key={item.id} onClick={() => setTitle(item.title)}>
+                    <button>{item.title}</button>
+                  </li>
+                </Link>
               ))}
             </ul>
           </Menu>
@@ -111,13 +115,10 @@ const Menu = styled.nav`
   }
 
   ul li {
+    margin-top: 5px;
     padding: 15px 10px;
     border: 1px solid #000;
     cursor: pointer;
-  }
-
-  ul li + li {
-    margin-top: 5px;
   }
 
   ul li button {
