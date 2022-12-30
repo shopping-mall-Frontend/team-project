@@ -14,7 +14,8 @@ const AuthPassword = ({ user }) => {
     if (!user) {
       alert('비밀번호가 일치하지 않습니다.');
     } else {
-      //   navigate('/editMemberInfo/modify');
+      console.log('완료');
+      navigate('/user/EditMemberInfo');
     }
   };
 

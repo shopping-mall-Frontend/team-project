@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
@@ -25,12 +25,14 @@ const UserPage = () => {
 
   //내비게이션 탭별 화면 전환
   const array = [
-    { id: 'orderHistory', title: '나의 주문내역', description: <OrderHistory /> },
-    { id: 'cancleHistory', title: '취소 내역', description: <CancleHistory /> },
-    { id: 'account', title: '내 계좌', description: <Account user={user} /> },
-    { id: 'editMemberInfo', title: '내정보 수정', description: <EditMemberInfo user={user} /> },
-    { id: 'auth', title: '비밀번호 확인', description: <AuthPassword user={user} /> },
+    { id: 'OrderHistory', title: '나의 주문내역', description: <OrderHistory /> },
+    { id: 'CancleHistory', title: '취소 내역', description: <CancleHistory /> },
+    { id: 'Account', title: '내 계좌', description: <Account user={user} /> },
+    { id: 'EditMemberInfo', title: '내정보 수정', description: <EditMemberInfo user={user} /> },
+    { id: 'Auth', title: '비밀번호 재확인', description: <AuthPassword user={user} /> },
   ];
+
+  const { menu } = useParams();
   const [title, setTitle] = useState('나의 주문내역');
 
   return (
@@ -43,11 +45,7 @@ const UserPage = () => {
             <div>{user.displayName}님</div>
             <ul>
               {array.map((item) => (
-                <Link to={`/user/${item.id}`}>
-                  <li key={item.id} onClick={() => setTitle(item.title)}>
-                    <button>{item.title}</button>
-                  </li>
-                </Link>
+                {(item.id) === 'Account' ? console.log('비밀번호 재확인 페이지로 이동') : ''}
               ))}
             </ul>
           </Menu>
@@ -67,14 +65,15 @@ const UserPage = () => {
             <Details>
               <Title>
                 {array
-                  .filter((item) => title === item.title)
+                  .filter((item) => menu === item.id)
                   .map((item) => (
                     <div key={item.id}>{item.title}</div>
                   ))}
               </Title>
               <div>
+                {console.log(menu)}
                 {array
-                  .filter((item) => title === item.title)
+                  .filter((item) => menu === item.id)
                   .map((item) => (
                     <div key={item.id}>{item.description}</div>
                   ))}
