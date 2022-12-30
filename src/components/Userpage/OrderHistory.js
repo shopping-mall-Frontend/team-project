@@ -88,7 +88,7 @@ const OrderHistory = () => {
                 ) : list.done ? (
                   <>
                     <button type="button" className="confirmtrue">
-                      확정완료
+                      배송완료
                     </button>
                   </>
                 ) : list.isCanceled ? (
@@ -96,7 +96,6 @@ const OrderHistory = () => {
                     <button type="button" className="confirmtrue">
                       취소완료
                     </button>
-                    {console.log(ddEl)}
                   </>
                 ) : (
                   ''
