@@ -69,7 +69,20 @@ const Header = React.memo(() => {
             SEARCH
           </Link>
         </div>
-
+        <nav>
+          <ul className="nav__links">
+            <li>
+              <Link to={'/login'}>
+                Login/out
+              </Link>
+            </li>
+            <li>
+              <Link to={'/Cart'}>
+                Chart
+              </Link>{' '}
+            </li>
+          </ul>
+        </nav>
         <div className="logo">
           <Link to={'/'}>
             N4
