@@ -42,23 +42,25 @@ const UserPage = () => {
           <Menu>
             <div>{user.displayName}님</div>
             <ul>
-              {array.map((item) => (
-                <>
-                  {item.id === 'Account' || item.id === 'EditMemberInfo' ? (
-                    <Link to={`/user/Auth`}>
-                      <li key={item.id}>
-                        <button>{item.title}</button>
-                      </li>
-                    </Link>
-                  ) : (
-                    <Link to={`/user/${item.id}`}>
-                      <li key={item.id}>
-                        <button>{item.title}</button>
-                      </li>
-                    </Link>
-                  )}
-                </>
-              ))}
+              {array
+                .filter((item) => item.id !== 'Auth')
+                .map((item) => (
+                  <>
+                    {item.id === 'Account' ? (
+                      <Link to={`/user/Auth`}>
+                        <li key={item.id}>
+                          <button>{item.title}</button>
+                        </li>
+                      </Link>
+                    ) : (
+                      <Link to={`/user/${item.id}`}>
+                        <li key={item.id}>
+                          <button>{item.title}</button>
+                        </li>
+                      </Link>
+                    )}
+                  </>
+                ))}
             </ul>
           </Menu>
           <Transactions>

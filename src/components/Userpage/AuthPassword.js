@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { signIn } from '../../utils/useAPI';
 import Account from './Account';
 
-const AuthPassword = ({ user, id }) => {
+const AuthPassword = ({ user }) => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const OnSubmit = async (data) => {
@@ -14,8 +14,7 @@ const AuthPassword = ({ user, id }) => {
     if (!user) {
       alert('비밀번호가 일치하지 않습니다.');
     } else {
-      console.log(id.id);
-      navigate('/user/EditMemberInfo');
+      navigate('/user/Account');
     }
   };
 
