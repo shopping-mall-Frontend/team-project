@@ -55,13 +55,6 @@ const Header = React.memo(() => {
             <li>
               <Link to={'/Cart'}>Chart</Link>{' '}
             </li>
-            {isLogin ? (
-              <Link to={'/'} onClick={() => logout()} title="로그아웃">
-                <span className="material-symbols-outlined">logout</span>
-              </Link>
-            ) : (
-              <Link to={'/login'}></Link>
-            )}
           </ul>
         </nav>
         <div className="logo">
