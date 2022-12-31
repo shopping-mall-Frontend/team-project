@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
 import { orderedProducts, confirmProduct, refundProduct } from '../../utils/useAPI';
@@ -110,7 +110,7 @@ const OrderHistory = () => {
 };
 
 const Container = styled.div`
-  padding-top: 30px;
+  min-width: 900px;
   li + li {
     margin-top: 30px;
   }
@@ -170,4 +170,4 @@ const CancleOk = styled.div`
   }
 `;
 
-export default OrderHistory;
+export { OrderHistory };
