@@ -1,5 +1,7 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { getAllProduct } from './utils/useAPI';
+
 import {
   MainPage,
   LoginPage,
@@ -10,8 +12,8 @@ import {
   OrderPage,
   UserPage,
 } from './pages/index';
-import { getAllProduct } from './utils/useAPI';
 import SearchPage from './pages/SearchPage';
+import { OrderHistory, CancelHistory, BankAccounts, EditProfile, AuthPassword } from './pages/User/index';
 
 const Layout = () => {
   return (
@@ -44,7 +46,14 @@ const App = () => {
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
-      <Route path="/user/:menu" element={<UserPage />} />
+      <Route path="/user" element={<UserPage />}>
+        <Route index element={<OrderHistory />} />
+        <Route path="cancelhistory" element={<CancelHistory />} />
+        <Route path="bankaccounts" element={<AuthPassword />} />
+        <Route path="bankaccounts/edit" element={<BankAccounts />} />
+        <Route path="editprofile" element={<AuthPassword />} />
+        <Route path="editprofile/edit" element={<EditProfile />} />
+      </Route>
       <Route path="/search" element={<SearchPage />} />
     </Routes>
   );

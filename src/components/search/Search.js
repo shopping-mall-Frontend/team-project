@@ -3,28 +3,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDebounce } from '../../hooks/useDebounce';
 import { searchProduct } from '../../utils/useAPI';
+import PageResults from './PageResults';
 import ResultsBox from './ResultsBox';
+import SearchBar from './SearchBar';
 
-const Search = () => {
-  const [inputValue, setInputValue] = useState('');
+const Search = ({ isSearchPage }) => {
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  let query = useQuery().get('q');
+
+  const [inputValue, setInputValue] = useState(isSearchPage ? query : '');
   const [products, setProducts] = useState([]);
   const [openSearchBox, setOpenSearchBox] = useState(true);
 
   const containerRef = useRef();
-
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-  };
   const navigate = useNavigate();
-
-  let query = useQuery();
 
   const searchQuery = useDebounce(inputValue, 500);
 
   const handleChange = (e) => {
-    if (!e.target.value) {
+    if (!e.target.value && !isSearchPage) {
       setProducts([]);
     }
+
     setInputValue(e.target.value);
   };
 
@@ -33,13 +35,29 @@ const Search = () => {
     setProducts(newData);
   };
 
-  const handleSubmit = (e) => {
-    navigate(`/search?q=${inputValue}`);
+  const onSubmit = async (data) => {
+    console.log(data);
+    let url = `/search?q=${data.searchText}`;
+    if (data.brand !== 'none') {
+      url += `&brand=${data.brand}`;
+    }
+    if (data.type !== 'none') {
+      url += `&type=${data.type}`;
+    }
+
+    navigate(url);
   };
+  useEffect(() => {
+    if (!isSearchPage) {
+      searchQuery ? fetchSearchProducts(searchQuery) : setProducts([]);
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
-    searchQuery ? fetchSearchProducts(searchQuery) : setProducts([]);
-  }, [searchQuery]);
+    if (isSearchPage) {
+      query ? fetchSearchProducts(query) : setProducts([]);
+    }
+  }, [query]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -55,34 +73,54 @@ const Search = () => {
       setOpenSearchBox(true);
     }
   };
-
-  return (
-    <Container ref={containerRef}>
-      <SearchWrap>
-        <SearchInput placeholder="검색어를 입력하세요." onChange={handleChange} />
-        <button onClick={handleSubmit}>
-          <span className="material-symbols-outlined">search</span>
-        </button>
-      </SearchWrap>
-      {products.length > 0 ? <ResultsBox products={products} openSearchBox={openSearchBox} /> : ''}
-    </Container>
-  );
+  const handleClick = () => {
+    navigate(`/search?q=${inputValue}`);
+  };
+  // 헤더 검색 바
+  if (!isSearchPage) {
+    return (
+      <Container ref={containerRef}>
+        <SearchBar
+          isSearchPage={isSearchPage}
+          handleChange={handleChange}
+          onSubmit={onSubmit}
+          handleClick={handleClick}
+        />
+        {products.length > 0 ? (
+          <ResultsBox products={products} openSearchBox={openSearchBox} isSearchPage={isSearchPage} />
+        ) : (
+          ''
+        )}
+      </Container>
+    );
+  } else {
+    // 검색 페이지 검색 바
+    return (
+      <PageWrap ref={containerRef}>
+        <SearchBar
+          isSearchPage={isSearchPage}
+          handleChange={handleChange}
+          onSubmit={onSubmit}
+          currentValue={query}
+          inputValue={inputValue}
+        />
+        <ol>{products.length > 0 ? <PageResults products={products} /> : ''}</ol>
+      </PageWrap>
+    );
+  }
 };
 
 const Container = styled.div`
   position: absolute;
   z-index: 9999;
 `;
-
-const SearchWrap = styled.div`
-  display: flex;
-  border-bottom: 0.5px solid #ece7e0;
-  margin-left: 30px;
-  padding-bottom: 5px;
-`;
-const SearchInput = styled.input`
-  &::placeholder {
-    color: #ced4da;
+const PageWrap = styled.div`
+  ol {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 `;
+
 export default Search;

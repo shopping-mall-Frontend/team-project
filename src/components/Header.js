@@ -39,18 +39,11 @@ const Header = React.memo(() => {
       <header>
         <nav>
           <div className="search">
-            <Search/>
+            <Search isSearchPage={false} />
           </div>
           <ul className="nav__links">
             <li>
-              {isLogin ? (
-                <Link to={`/user`}>
-                  Hello!
-                  🌺{user.displayName}
-                </Link>
-              ) : (
-                <Link to={'/login'}>LOGIN</Link>
-              )}
+              {isLogin ? <Link to={`/user`}>Hello! 🌺{user.displayName}</Link> : <Link to={'/login'}>LOGIN</Link>}
             </li>
             <li>
               <Link to={'/Cart'}>Chart</Link>{' '}
@@ -67,7 +60,6 @@ const Header = React.memo(() => {
         <div className="logo">
           <Link to={'/'}>N4</Link>
         </div>
-
       </header>
       <StyledCategory>
         <ul>
@@ -83,7 +75,7 @@ const Header = React.memo(() => {
         </ul>
       </StyledCategory>
     </StyledHeader>
-      );
+  );
 });
 const StyledHeader = styled.div`
   font-family: 'Marcellus', serif;
@@ -91,8 +83,8 @@ const StyledHeader = styled.div`
   margin-top: 20px;
   padding: 0;
 
-  nav{
-    display:flex;
+  nav {
+    display: flex;
     justify-content: space-between;
     align-items: center;
   }
@@ -100,7 +92,6 @@ const StyledHeader = styled.div`
   li,
   .logo {
     text-decoration: none;
-
   }
   .material-symbols-outlined {
     font-weight: normal;
@@ -113,23 +104,22 @@ const StyledHeader = styled.div`
   }
 
   .logo {
-    display:flex;
+    display: flex;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease 0s;
     font-size: 3.2rem;
     box-sizing: content-box;
     width: 100%;
-
   }
   ul {
-    display:flex;
+    display: flex;
     padding: 0px 0px 0px 0em;
     transition: all 0.3s ease 0s;
     color: dimgray;
-    margin:0;
+    margin: 0;
   }
-  li{
+  li {
     padding: 0px 20px;
   }
   @media screen and (max-width: 768px) {
@@ -161,7 +151,7 @@ const StyledCategory = styled.div`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
+
   ul {
     list-style: none;
     display: flex;
@@ -185,6 +175,5 @@ const StyledCategory = styled.div`
     }
   }
 `;
-
 
 export default Header;
