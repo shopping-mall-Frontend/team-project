@@ -21,6 +21,15 @@ const PrdList = styled.li`
             height: 225px;
             margin-top: 20px;
             margin-bottom: 10px;
+            &:hover {
+              font-size: 20px;
+              font-weight: bolder;
+              line-height: 225px;
+              text-align: center;
+              color: black;
+              background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+                url(${(props) => props.url});
+            }
           }
           .product-brand {
             width: 70%;
@@ -31,18 +40,6 @@ const PrdList = styled.li`
             transform: translate(-50%, 0);
             border-bottom: 1px solid #dee2e6;
             padding-bottom: 10px;
-          }
-
-          &:hover {
-            a {
-              font-size: 20px;
-              font-weight: bolder;
-              line-height: 225px;
-              text-align: center;
-              color: black;
-              background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
-                url(${(props) => props.url});
-            }
           }
           text-align: center;
         `
