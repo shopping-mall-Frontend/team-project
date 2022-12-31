@@ -14,7 +14,7 @@ const Links = ({}) => {
   }, []);
   return (
     <Wrap>
-      <Link to={`/user/OrderHistory`}>
+      <Link to={`/user`}>
         <button>안녕하세요. {user.displayName}님</button>
       </Link>
     </Wrap>

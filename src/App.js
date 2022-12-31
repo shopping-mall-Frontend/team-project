@@ -1,5 +1,7 @@
 import { Outlet, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { getAllProduct } from './utils/useAPI';
+
 import {
   MainPage,
   LoginPage,
@@ -10,7 +12,6 @@ import {
   OrderPage,
   UserPage,
 } from './pages/index';
-import { getAllProduct } from './utils/useAPI';
 import SearchPage from './pages/SearchPage';
 
 const Layout = () => {
@@ -44,7 +45,10 @@ const App = () => {
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
-      <Route path="/user/:menu" element={<UserPage />} />
+      <Route path="/user" element={<UserPage />} />
+        <Route path="orderhistory" element={<OrderHistory />} />
+        <Route path="cancleHistory" element={<CancleHistory />} />
+      </Route>
     </Routes>
   );
 };
