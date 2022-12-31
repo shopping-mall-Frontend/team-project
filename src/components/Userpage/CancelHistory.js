@@ -18,40 +18,46 @@ const CancelHistory = () => {
   return (
     <Container>
       <ol>
-        {ordered
-          .filter((list) => list.isCanceled === true)
-          .map((list) => (
-            <li key={list.detailId} className="orderedList">
-              <Title>
-                <h4>{list.timePaid}</h4>
-                <span>주문내역 상세보기 ></span>
-              </Title>
-              <Details>
-                <ProductInfo>
-                  <Link to={`/product/${list.product.productId}`}>
-                    <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
-                  </Link>
-                  <div>
-                    <dl>
-                      <dt>상품명</dt>
-                      <dd>
-                        [{list.product.tags[0]}]{list.product.title}
-                      </dd>
-                    </dl>
-                    <dl>
-                      <dt>주문번호</dt>
-                      <dd>{list.detailId}</dd>
-                    </dl>
-                    <dl>
-                      <dt>결제금액</dt>
-                      <dd>${list.product.price.toLocaleString()}</dd>
-                    </dl>
-                  </div>
-                </ProductInfo>
-                <p>취소 완료</p>
-              </Details>
-            </li>
-          ))}
+        {ordered ? (
+          <Blank>
+            <p>You haven't placed any orders canceled yet.</p>
+          </Blank>
+        ) : (
+          ordered
+            .filter((list) => list.isCanceled === true)
+            .map((list) => (
+              <li key={list.detailId} className="orderedList">
+                <Title>
+                  <h4>{list.timePaid}</h4>
+                  <span>주문내역 상세보기 ></span>
+                </Title>
+                <Details>
+                  <ProductInfo>
+                    <Link to={`/product/${list.product.productId}`}>
+                      <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
+                    </Link>
+                    <div>
+                      <dl>
+                        <dt>상품명</dt>
+                        <dd>
+                          [{list.product.tags[0]}]{list.product.title}
+                        </dd>
+                      </dl>
+                      <dl>
+                        <dt>주문번호</dt>
+                        <dd>{list.detailId}</dd>
+                      </dl>
+                      <dl>
+                        <dt>결제금액</dt>
+                        <dd>${list.product.price.toLocaleString()}</dd>
+                      </dl>
+                    </div>
+                  </ProductInfo>
+                  <p>취소 완료</p>
+                </Details>
+              </li>
+            ))
+        )}
       </ol>
     </Container>
   );
@@ -59,6 +65,20 @@ const CancelHistory = () => {
 
 const Container = styled.div`
   min-width: 900px;
+`;
+
+const Blank = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  padding: 80px 0 120px 0;
+  border-bottom: 1px solid #000;
+
+  p {
+    font-size: 25px;
+  }
 `;
 
 const Title = styled.div`
