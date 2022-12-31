@@ -109,9 +109,7 @@ const StyledHeader = styled.div`
   }
 
   .search {
-    display: flex;
-    margin-left: 30px;
-
+    color: dimgray;
   }
 
   .logo {
