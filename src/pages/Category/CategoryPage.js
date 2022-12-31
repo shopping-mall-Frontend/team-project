@@ -26,7 +26,7 @@ const CategoryPage = React.memo(({ products }) => {
   const [categoryProducts, setCategoryProducts] = useState(products);
 
   // 페이지네이션에 필요한 변수들
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
@@ -132,12 +132,14 @@ const Container = styled.main`
   width: 1200px;
   margin: 0 auto;
   padding-bottom: 300px;
+  margin-top: 50px;
   h2 {
     font-family: 'Marcellus', serif;
     font-size: 20px;
     padding: 0 20px;
   }
   ol {
+    margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
