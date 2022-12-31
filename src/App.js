@@ -9,6 +9,7 @@ import {
   CartPage,
   OrderPage,
   UserPage,
+  NotfoundPage,
 } from './pages/index';
 import { getAllProduct } from './utils/useAPI';
 import SearchPage from './pages/SearchPage';
@@ -45,6 +46,7 @@ const App = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
       <Route path="/user/:menu" element={<UserPage />} />
+      <Route path="/*" element={<NotfoundPage />} />
     </Routes>
   );
 };
