@@ -42,68 +42,75 @@ const OrderHistory = () => {
     orderCancle(detailId);
   };
 
-  const ddEl = document.querySelectorAll('dd');
-
   return (
     <Container>
       <ol>
-        {ordered.map((list) => (
-          <li key={list.detailId} className="orderedList">
-            <Title>
-              <h4>{list.timePaid}</h4>
-              <span>주문내역 상세보기 ></span>
-            </Title>
-            <Details>
-              <ProductInfo>
-                <Link to={`/product/${list.product.productId}`}>
-                  <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
-                </Link>
-                <div>
-                  <dl>
-                    <dt>상품명</dt>
-                    <dd>
-                      [{list.product.tags[0]}]{list.product.title}
-                    </dd>
-                  </dl>
-                  <dl>
-                    <dt>주문번호</dt>
-                    <dd>{list.detailId}</dd>
-                  </dl>
-                  <dl>
-                    <dt>결제금액</dt>
-                    <dd>${list.product.price.toLocaleString()}</dd>
-                  </dl>
-                </div>
-              </ProductInfo>
-              <CancleOk>
-                {list.done === false && list.isCanceled === false ? (
-                  <>
-                    <button type="button" onClick={() => handelOrderConfirm(list.detailId)}>
-                      구매 확정
-                    </button>
-                    <button type="button" onClick={() => handelOrderCancle(list.detailId)}>
-                      구매 취소
-                    </button>
-                  </>
-                ) : list.done ? (
-                  <>
-                    <button type="button" className="confirmtrue">
-                      배송완료
-                    </button>
-                  </>
-                ) : list.isCanceled ? (
-                  <>
-                    <button type="button" className="confirmtrue">
-                      취소완료
-                    </button>
-                  </>
-                ) : (
-                  ''
-                )}
-              </CancleOk>
-            </Details>
-          </li>
-        ))}
+        {!ordered ? (
+          <Blank>
+            <p>You haven't placed any orders yet.</p>
+            <Link to={'/'}>
+              <button>START BROWSING</button>
+            </Link>
+          </Blank>
+        ) : (
+          ordered.map((list) => (
+            <li key={list.detailId} className="orderedList">
+              <Title>
+                <h4>{list.timePaid}</h4>
+                <span>주문내역 상세보기 ></span>
+              </Title>
+              <Details>
+                <ProductInfo>
+                  <Link to={`/product/${list.product.productId}`}>
+                    <img src={list.product.thumbnail} alt={`${list.product.title} 썸네일`} />
+                  </Link>
+                  <div>
+                    <dl>
+                      <dt>상품명</dt>
+                      <dd>
+                        [{list.product.tags[0]}]{list.product.title}
+                      </dd>
+                    </dl>
+                    <dl>
+                      <dt>주문번호</dt>
+                      <dd>{list.detailId}</dd>
+                    </dl>
+                    <dl>
+                      <dt>결제금액</dt>
+                      <dd>${list.product.price.toLocaleString()}</dd>
+                    </dl>
+                  </div>
+                </ProductInfo>
+                <CancleOk>
+                  {list.done === false && list.isCanceled === false ? (
+                    <>
+                      <button type="button" onClick={() => handelOrderConfirm(list.detailId)}>
+                        구매 확정
+                      </button>
+                      <button type="button" onClick={() => handelOrderCancle(list.detailId)}>
+                        구매 취소
+                      </button>
+                    </>
+                  ) : list.done ? (
+                    <>
+                      <button type="button" className="confirmtrue">
+                        배송완료
+                      </button>
+                    </>
+                  ) : list.isCanceled ? (
+                    <>
+                      <button type="button" className="confirmtrue">
+                        취소완료
+                      </button>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </CancleOk>
+              </Details>
+            </li>
+          ))
+        )}
       </ol>
     </Container>
   );
@@ -113,6 +120,32 @@ const Container = styled.div`
   min-width: 900px;
   li + li {
     margin-top: 30px;
+  }
+`;
+
+const Blank = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+
+  padding: 100px 0;
+  border-bottom: 1px solid #000;
+
+  p {
+    font-size: 25px;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 
