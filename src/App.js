@@ -47,7 +47,7 @@ const App = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
       <Route path="/user" element={<UserPage />}>
-        <Route path="orderhistory" element={<OrderHistory />} />
+        <Route index element={<OrderHistory />} />
         <Route path="cancelhistory" element={<CancelHistory />} />
         <Route path="bankaccounts" element={<AuthPassword />} />
         <Route path="bankaccounts/edit" element={<BankAccounts />} />
