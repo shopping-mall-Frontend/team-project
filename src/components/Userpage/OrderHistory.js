@@ -111,7 +111,6 @@ const OrderHistory = () => {
 
 const Container = styled.div`
   min-width: 900px;
-  padding-top: 30px;
   li + li {
     margin-top: 30px;
   }

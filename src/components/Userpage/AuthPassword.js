@@ -66,7 +66,6 @@ const AuthPassword = () => {
 
 const Container = styled.div`
   min-width: 900px;
-  padding-top: 30px;
 
   h3 {
     padding-bottom: 8px;

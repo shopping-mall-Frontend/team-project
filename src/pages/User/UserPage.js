@@ -28,8 +28,10 @@ const UserPage = () => {
             </StyeldLink>
           </ul>
         </Menu>
-        <Title></Title>
-        <Outlet />
+        <div>
+          <Title></Title>
+          <Outlet />
+        </div>
       </Container>
       <Footer />
     </>
@@ -42,11 +44,18 @@ const Container = styled.main`
   width: 1200px;
   margin: 0 auto;
   padding: 40px 0;
+
+  h2 {
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+    font-size: 25px;
+  }
 `;
 
 const Menu = styled.nav`
   min-width: 250px;
-  padding-top: 45px;
+  padding-top: 75px;
 
   button {
     font-size: 15px;
