@@ -19,12 +19,11 @@ const AuthPassword = () => {
     };
     authUser();
   }, []);
-  console.log('아이디 정보 : ', user);
+  console.log(user);
 
   const OnSubmit = async (data) => {
-    console.log('로그인 정보 : ', data);
     const user = await signIn(data);
-    if (user) {
+    if (!user) {
       alert('비밀번호가 일치하지 않습니다.');
     } else if (location.pathname.includes(slicePathname)) {
       navigate(`/user/${slicePathname}/edit`);
@@ -36,28 +35,32 @@ const AuthPassword = () => {
       <Outlet />
       <h3>비밀번호 재확인</h3>
       <p>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요.</p>
-      <form onSubmit={handleSubmit(OnSubmit)}>
-        <div>
-          <label htmlFor="userId">아이디</label>
-          <input
-            type="text"
-            value={user.email || ''}
-            id={'userId'}
-            disabled
-            {...register('email', { value: `${user.email}` })}
-          />
-        </div>
-        <div>
-          <label htmlFor="userId">비밀번호</label>
-          <input
-            type="text"
-            placeholder="현재 비밀번호를 입력해주세요."
-            required
-            {...register('password', { required: 'true' }, { minLength: 8 })}
-          />
-        </div>
-        <input type="submit" className="inputSubmit" value="확인" />
-      </form>
+      {user ? (
+        <form onSubmit={handleSubmit(OnSubmit)}>
+          <div>
+            <label htmlFor="userId">아이디</label>
+            <input
+              type="text"
+              value={user.email || ''}
+              id={'userId'}
+              disabled
+              {...register('email', { value: `${user.email}` })}
+            />
+          </div>
+          <div>
+            <label htmlFor="userId">비밀번호</label>
+            <input
+              type="text"
+              placeholder="현재 비밀번호를 입력해주세요."
+              required
+              {...register('password', { required: 'true' }, { minLength: 8 })}
+            />
+          </div>
+          <input type="submit" className="inputSubmit" value="확인" />
+        </form>
+      ) : (
+        ''
+      )}
     </Container>
   );
 };
