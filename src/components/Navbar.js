@@ -3,17 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../utils/useAPI';
 
-const Wrap = styled.div`
-  display: flex;
-  margin: 20px 0;
-  button {
-    color: rgb(115, 115, 115);
-    font-weight: 700;
-    margin-left: 20px;
-    cursor: pointer;
-  }
-`;
-
 const Links = ({}) => {
   const [user, setUser] = useState(false);
   useEffect(() => {
@@ -31,4 +20,15 @@ const Links = ({}) => {
     </Wrap>
   );
 };
+
+const Wrap = styled.div`
+  margin: 20px auto;
+  width: 1200px;
+  button {
+    color: rgb(115, 115, 115);
+    font-weight: 700;
+    cursor: pointer;
+  }
+`;
+
 export default Links;

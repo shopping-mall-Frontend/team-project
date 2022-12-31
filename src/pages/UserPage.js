@@ -23,155 +23,107 @@ const UserPage = () => {
   }, []);
 
   //내비게이션 탭별 화면 전환
+  //후에 outlet 라우팅으로 변경해볼 것
   const array = [
-    { id: 'OrderHistory', title: '나의 주문내역', description: <OrderHistory /> },
-    { id: 'CancleHistory', title: '취소 내역', description: <CancleHistory /> },
-    { id: 'Account', title: '내 계좌', description: <Account user={user} /> },
-    { id: 'EditMemberInfo', title: '내정보 수정', description: <EditMemberInfo user={user} /> },
-    { id: 'Auth', title: '비밀번호 재확인', description: <AuthPassword user={user} /> },
+    { id: 'OrderHistory', title: 'My Orders', description: <OrderHistory /> },
+    { id: 'CancleHistory', title: 'Order Cancelled', description: <CancleHistory /> },
+    { id: 'Account', title: 'Bank Accounts', description: <Account user={user} /> },
+    { id: 'EditMemberInfo', title: 'My Profile', description: <EditMemberInfo user={user} /> },
+    { id: 'Auth', title: 'Password Authentication', description: <AuthPassword user={user} /> },
   ];
 
   const { menu } = useParams();
 
   return (
-    <div>
+    <>
       <Header />
       <Navbar />
       <Container>
-        <Main>
-          <Menu>
-            <div>{user.displayName}님</div>
-            <ul>
-              {array
-                .filter((item) => item.id !== 'Auth')
-                .map((item) => (
-                  <div key={item.id}>
-                    {item.id === 'Account' ? (
-                      <Link to={`/user/Auth`}>
-                        <li>
-                          <button>{item.title}</button>
-                        </li>
-                      </Link>
-                    ) : (
-                      <Link to={`/user/${item.id}`}>
-                        <li>
-                          <button>{item.title}</button>
-                        </li>
-                      </Link>
-                    )}
-                  </div>
-                ))}
-            </ul>
-          </Menu>
-          <Transactions>
-            <UserInfo>
-              <div>
-                회원등급<span>ORANGE</span>
-                <button>할인혜택 보기</button>
+        <Menu aria-labelledby="my page navigation">
+          <ul>
+            {array
+              .filter((item) => item.id !== 'Auth')
+              .map((item) => (
+                <li key={item.id}>
+                  {item.id === 'Account' ? (
+                    <StyeldLink to={`/user/Auth`}>
+                      <button>{item.title}</button>
+                    </StyeldLink>
+                  ) : (
+                    <StyeldLink to={`/user/${item.id}`}>
+                      <button>{item.title}</button>
+                    </StyeldLink>
+                  )}
+                </li>
+              ))}
+          </ul>
+        </Menu>
+        <Components>
+          {array
+            .filter((item) => menu === item.id)
+            .map((item) => (
+              <div key={item.id}>
+                <Title>{item.title}</Title>
+                <Description>{item.description}</Description>
               </div>
-              <div>
-                사용가능한 계좌 잔액<span>000,000원</span>
-              </div>
-              <div>
-                배송중<span>0개</span>
-              </div>
-            </UserInfo>
-            <Details>
-              <Title>
-                {array
-                  .filter((item) => menu === item.id)
-                  .map((item) => (
-                    <div key={item.id}>{item.title}</div>
-                  ))}
-              </Title>
-              <div>
-                {array
-                  .filter((item) => menu === item.id)
-                  .map((item) => (
-                    <div key={item.id}>{item.description}</div>
-                  ))}
-              </div>
-            </Details>
-          </Transactions>
-        </Main>
+            ))}
+        </Components>
       </Container>
       <Footer />
-    </div>
+    </>
   );
 };
 
-const Container = styled.div`
+const Container = styled.main`
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+
   button {
-    background-color: transparent;
-    border: none;
     cursor: pointer;
   }
 `;
 
-const Main = styled.div`
-  display: flex;
-  gap: 40px;
-  padding: 40px;
-`;
-
 const Menu = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
   min-width: 250px;
+  padding-top: 45px;
 
   ul li {
-    margin-top: 5px;
     padding: 15px 10px;
     border: 1px solid #000;
     cursor: pointer;
   }
 
+  ul li + li {
+    margin-top: 5px;
+  }
+
   ul li button {
     font-size: 15px;
   }
-`;
 
-const Transactions = styled.div``;
-const UserInfo = styled.div`
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  width: 100%;
-  height: 140px;
-  background-color: #303032;
-  color: #9b9fa8;
-
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 300px;
-  }
-
-  div span {
-    color: #fff;
-    font-size: 40px;
-  }
-
-  div button {
-    width: fit-content;
-    padding: 6px 30px;
-    background-color: transparent;
-    border: 1px solid #fff;
-    border-radius: 18px;
-    color: #fff;
-    font-size: 15px;
-    cursor: pointer;
+  ul li button:hover {
+    font-weight: 700;
   }
 `;
-const Details = styled.div`
-  margin-top: 40px;
+
+const StyeldLink = styled(Link)`
+  display: block;
 `;
-const Title = styled.h2`
+
+const Components = styled.div``;
+
+const Title = styled.h3`
   padding-bottom: 10px;
-  border-bottom: 4px solid #000;
+  border-bottom: 1px solid #000;
   font-size: 25px;
+`;
+
+const Description = styled.div`
+  min-width: 900px;
 `;
 
 export { UserPage };

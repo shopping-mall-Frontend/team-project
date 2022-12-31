@@ -63,7 +63,7 @@ const Container = styled.div`
     align-items: left;
     gap: 20px;
 
-    padding: 40px 250px;
+    padding: 40px 80px;
 
     div {
       display: flex;
