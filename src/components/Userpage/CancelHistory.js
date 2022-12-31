@@ -18,7 +18,7 @@ const CancelHistory = () => {
   return (
     <Container>
       <ol>
-        {ordered ? (
+        {!ordered ? (
           <Blank>
             <p>You haven't placed any orders canceled yet.</p>
           </Blank>
