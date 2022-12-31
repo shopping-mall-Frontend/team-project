@@ -1,30 +1,51 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { signIn } from '../../utils/useAPI';
+import { signIn, auth } from '../../utils/useAPI';
 
-const AuthPassword = ({ user }) => {
+const AuthPassword = () => {
+  const location = useLocation();
+  const slicePathname = location.pathname.slice(6);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+
+  //아이디 정보 불러오기
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const authUser = async () => {
+      const userInfo = await auth();
+      setUser(userInfo);
+    };
+    authUser();
+  }, []);
+  console.log('아이디 정보 : ', user);
+
   const OnSubmit = async (data) => {
+    console.log('로그인 정보 : ', data);
     const user = await signIn(data);
-    console.log(user);
-    if (!user) {
+    if (user) {
       alert('비밀번호가 일치하지 않습니다.');
-    } else {
-      navigate('/user/Account');
+    } else if (location.pathname.includes(slicePathname)) {
+      navigate(`/user/${slicePathname}/edit`);
     }
   };
 
   return (
     <Container>
+      <Outlet />
       <h3>비밀번호 재확인</h3>
       <p>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요.</p>
       <form onSubmit={handleSubmit(OnSubmit)}>
         <div>
           <label htmlFor="userId">아이디</label>
-          <input type="text" value={user.email} disabled {...register('email', { value: `${user.email}` })} />
+          <input
+            type="text"
+            value={user.email || ''}
+            id={'userId'}
+            disabled
+            {...register('email', { value: `${user.email}` })}
+          />
         </div>
         <div>
           <label htmlFor="userId">비밀번호</label>

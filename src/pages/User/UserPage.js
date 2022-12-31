@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { auth } from '../../utils/useAPI';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
 const UserPage = () => {
-  //유저 정보
-  const [user, setUser] = useState(false);
-  useEffect(() => {
-    const authUser = async () => {
-      const userInfo = await auth();
-      setUser(userInfo);
-    };
-    authUser();
-  }, []);
-
   return (
     <>
       <Header />

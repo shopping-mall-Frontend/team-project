@@ -1,5 +1,5 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import { Outlet, Route, Routes } from 'react-router-dom';
 import { getAllProduct } from './utils/useAPI';
 
 import {
@@ -49,9 +49,10 @@ const App = () => {
       <Route path="/user" element={<UserPage />}>
         <Route path="orderhistory" element={<OrderHistory />} />
         <Route path="cancelhistory" element={<CancelHistory />} />
-        <Route path="bankaccounts" element={<BankAccounts />} />
-        <Route path="editprofile" element={<EditProfile />} />
-        <Route path="authpassword" element={<AuthPassword />} />
+        <Route path="bankaccounts" element={<AuthPassword />} />
+        <Route path="bankaccounts/edit" element={<BankAccounts />} />
+        <Route path="editprofile" element={<AuthPassword />} />
+        <Route path="editprofile/edit" element={<EditProfile />} />
       </Route>
       <Route path="/search" element={<SearchPage />} />
     </Routes>
