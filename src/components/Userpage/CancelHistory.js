@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { orderedProducts } from '../../utils/useAPI';
 
-const CancleHistory = () => {
+const CancelHistory = () => {
   const [ordered, setOdered] = useState([]);
 
   useEffect(() => {
@@ -113,4 +113,4 @@ const CancleOk = styled.div`
   }
 `;
 
-export default CancleHistory;
+export { CancelHistory };

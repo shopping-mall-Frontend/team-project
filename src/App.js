@@ -13,6 +13,7 @@ import {
   UserPage,
 } from './pages/index';
 import SearchPage from './pages/SearchPage';
+import { OrderHistory, CancelHistory, BankAccounts, EditProfile, AuthPassword } from './pages/User/index';
 
 const Layout = () => {
   return (
@@ -45,7 +46,13 @@ const App = () => {
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
-      <Route path="/user/:menu" element={<UserPage />} />
+      <Route path="/user" element={<UserPage />}>
+        <Route path="orderhistory" element={<OrderHistory />} />
+        <Route path="cancelhistory" element={<CancelHistory />} />
+        <Route path="bankaccounts" element={<BankAccounts />} />
+        <Route path="editprofile" element={<EditProfile />} />
+        <Route path="authpassword" element={<AuthPassword />} />
+      </Route>
       <Route path="/search" element={<SearchPage />} />
     </Routes>
   );
