@@ -14,6 +14,15 @@ const Header = React.memo(() => {
     }
   }, []);
 
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const authUser = async () => {
+      const userInfo = await auth();
+      setUser(userInfo);
+    };
+    authUser();
+  }, []);
+
   const logout = async () => {
     try {
       await auth('logout');
@@ -28,33 +37,40 @@ const Header = React.memo(() => {
   return (
     <StyledHeader>
       <header>
-        <div className="search">
-          <Search />
-        </div>
-
-        <div className="logo">
-          <Link to={'/'}>N4</Link>
-        </div>
         <nav>
+          <div className="search">
+            <Search/>
+          </div>
           <ul className="nav__links">
             <li>
               {isLogin ? (
-                <Link to={'/'} onClick={() => logout()}>
-                  LogOut
+                <Link to={`/user`}>
+                  Hello!
+                  🌺{user.displayName}
                 </Link>
               ) : (
-                <Link to={'/login'}>Login/out</Link>
+                <Link to={'/login'}>LOGIN</Link>
               )}
             </li>
             <li>
               <Link to={'/Cart'}>Chart</Link>{' '}
             </li>
+            {isLogin ? (
+              <Link to={'/'} onClick={() => logout()} title="로그아웃">
+                <span className="material-symbols-outlined">logout</span>
+              </Link>
+            ) : (
+              <Link to={'/login'}></Link>
+            )}
           </ul>
         </nav>
-      </header>
+        <div className="logo">
+          <Link to={'/'}>N4</Link>
+        </div>
 
+      </header>
       <StyledCategory>
-        <ul className="category">
+        <ul>
           <li>
             <Link to={'/category/all'}>Category</Link>
           </li>
@@ -67,49 +83,55 @@ const Header = React.memo(() => {
         </ul>
       </StyledCategory>
     </StyledHeader>
-  );
+      );
 });
-
 const StyledHeader = styled.div`
   font-family: 'Marcellus', serif;
   box-sizing: border-box;
-  margin: 0;
+  margin-top: 20px;
   padding: 0;
+
+  nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   li,
   .logo {
     text-decoration: none;
-  }
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 10px 0px 15px;
+  }
+  .material-symbols-outlined {
+    font-weight: normal;
+    font-size: 20px;
+    display: inline-block;
   }
 
   .search {
     color: dimgray;
   }
 
-  .nav__links {
-    list-style: none;
-  }
-
-  .nav__links li {
-    display: inline-block;
-    padding: 0px 20px;
-    transition: all 0.3s ease 0s;
-    color: dimgray;
-  }
-
   .logo {
-    padding: 9px 5px 9px 200px;
+    display:flex;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease 0s;
-    font-size: 3rem;
-  }
+    font-size: 3.2rem;
+    box-sizing: content-box;
+    width: 100%;
 
+  }
+  ul {
+    display:flex;
+    padding: 0px 0px 0px 0em;
+    transition: all 0.3s ease 0s;
+    color: dimgray;
+    margin:0;
+  }
+  li{
+    padding: 0px 20px;
+  }
   @media screen and (max-width: 768px) {
     header {
       flex-direction: column;
@@ -139,8 +161,8 @@ const StyledCategory = styled.div`
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  .category {
+  
+  ul {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -163,5 +185,6 @@ const StyledCategory = styled.div`
     }
   }
 `;
+
 
 export default Header;
