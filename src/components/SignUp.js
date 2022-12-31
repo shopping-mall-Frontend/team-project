@@ -30,21 +30,17 @@ const Login = () => {
       <ul>
         <li>
           <Link to={'/'} className="go-back">
-            <span className="material-symbols-outlined">keyboard_double_arrow_left</span>
-            GO Back
+            <span className="material-symbols-outlined">cottage</span>
+            HOME
           </Link>
         </li>
         <li>
           <Link to={'/SignUp'} className="Login"></Link>
         </li>
       </ul>
-
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <h1>
-            WELCOM
-            <span className="material-symbols-outlined">heart_minus</span>
-          </h1>
+          <h1>SignUp</h1>
 
           <h4>E-mail</h4>
           <div className="username-input">
@@ -57,10 +53,12 @@ const Login = () => {
             <i className="fas fa-lock"></i>
             <input type="password" placeholder="********" {...register('password', { required: true })} />
           </div>
-          <Link to={'/SignUp'} className="Login">
-            <span className="material-symbols-outlined">touch_app</span>
-            SignUp
-          </Link>
+        </div>
+        <div>
+          <h4>Username</h4>
+          <div className="password-input">
+            <input type="text" placeholder="User Name" {...register('password', { required: true })} />
+          </div>
         </div>
         <div className="submit">
           <input type="submit" value="submit" />

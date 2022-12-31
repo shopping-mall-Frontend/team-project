@@ -1,173 +1,344 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import reset from '../css/reset-css.css';
+import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
+import Step from '../components/Step';
+import Footer from '../components/Footer';
 
 const CartPage = () => {
-  /////////////// 세션 스토리지 ///////////////
-  let cart = [];
-  const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
-  if (getSsesionData !== null) {
-    cart = getSsesionData;
-  }
+  /////////////// 세션 스토리지 조회 ///////////////
+  const [cart, setCart] = useState([]);
 
-  /////////////// 체크 박스 ///////////////////
-  const [checkItems, setCheckItems] = useState([]);
+  useEffect(() => {
+    const getSsesionData = () => {
+      const json = JSON.parse(sessionStorage.getItem('cart'));
+      if (json !== null) {
+        setCart(json);
+      }
+    };
+    getSsesionData();
+  }, []);
 
-  // 전체 체크
-  const handelCheckedAll = (checked) => {
-    if (checked) {
-      const checkedListArray = [];
-      cart.forEach((element) => checkedListArray.push(element));
-      setCheckItems(checkedListArray);
-    } else {
-      setCheckItems([]);
-    }
+  ////////// 세션스토리지에 값 전달 //////////////////
+  sessionStorage.setItem('order', JSON.stringify());
+  const setSsesionData = (key, productArray) => {
+    sessionStorage.setItem(key, JSON.stringify(productArray));
   };
 
-  // 개별 체크
-  const handleCheckedSingle = (checked, cart) => {
-    if (checked) {
-      setCheckItems([...checkItems, cart]);
-    } else {
-      setCheckItems(checkItems.filter((el) => el.id !== cart.id));
-    }
-  };
-
-  const handleCheckedDelete = () => {
-    console.log('선택 상품 삭제!');
-  };
-
-  /////////////// 총 금액 ///////////////////
-  const priceArr = checkItems.map((el) => el.price);
+  /////////////// 총 금액 ////////////////////////
   let totalPrice = 0;
-  priceArr.forEach((price) => {
-    totalPrice += price;
+  const priceArray = cart.map((el) => el.price * el.quantity);
+  priceArray.forEach((price) => {
+    return (totalPrice += price);
   });
 
-  console.log(checkItems);
+  /////////////// 삭제 버튼 //////////////////////
+  const handleDeleteCart = (event) => {
+    const deletedcart = cart.filter((element) => element.id !== event.target.parentElement.id);
+    setCart(deletedcart);
+    setSsesionData('cart', deletedcart);
+  };
 
-  ////////// 주문 상품, 세션스토리지로 ////////
-  sessionStorage.setItem('order', JSON.stringify());
-  const setSsesionData = (orderProducts) => {
-    sessionStorage.setItem('order', JSON.stringify(orderProducts));
+  /////////////// 수량 버튼, 입력 //////////////////////
+  const onChangeQuantity = (id, value, key = 'quantity') => {
+    const product = cart.filter((element) => element.id === id);
+    product[0].quantity = value;
+    setCart(cart);
+    setSsesionData('cart', cart);
+  };
+
+  //수량 입력
+  const handleQuantityInput = (e) => {
+    onChangeQuantity(e.target.closest('li').id, e.target.value);
+  };
+
+  const characterCheck = useCallback((e) => {
+    console.log(e);
+    if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e') e.preventDefault();
+  }, []);
+
+  //수량 증가
+  const handleQuantityIncrease = (e) => {
+    e.target.previousElementSibling.value = parseInt(e.target.previousElementSibling.value) + 1;
+    onChangeQuantity(e.target.closest('li').id, e.target.previousElementSibling.value);
+  };
+
+  //수량 감소
+  const handleQuantityDecrease = (e) => {
+    if (e.target.nextElementSibling.value <= 1) {
+      e.preventDefault();
+      console.log('1 이하는 안돼욧!');
+    }
+    e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
+    onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+  };
+
+  /////////////// 비회원 주문하기 차단 //////////////////////
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const getUserauth = async () => {
+      const json = await auth();
+      setUser(json);
+    };
+    getUserauth();
+  }, []);
+
+  const confirmAuth = () => {
+    setSsesionData('order', cart);
+    if (user) {
+      navigate('/order');
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
     <div>
       <Header />
       <Navbar />
-      <Wrap>
-        <Table>
-          <CartHeader>
-            <input
-              type="checkbox"
-              onChange={(e) => handelCheckedAll(e.target.checked)}
-              checked={checkItems.length === cart.length ? true : false}
-              value={cart || ''}
-            />
-            <span>상품정보</span>
-            <span>수량</span>
-            <span>주문금액</span>
-          </CartHeader>
-          {cart.length === 0 ? (
-            <div>
-              <h2>장바구니에 상품이 없습니다.</h2>
-              <h2>상품을 담아주세요.</h2>
-            </div>
-          ) : (
-            cart.map((cart) => (
-              <CartList key={cart.id} cart={cart}>
-                <input
-                  type="checkbox"
-                  name={`select-${cart.id}`}
-                  onChange={(e) => handleCheckedSingle(e.target.checked, cart)}
-                  checked={checkItems.map((el) => el.id).includes(cart.id) ? true : false}
-                  value={cart || ''}
-                />
-                <img src={cart.thumbnail} alt="상세이미지" />
-                <p>{cart.title}</p>
-                <div>
-                  <span>{cart.quantity}</span>
-                </div>
-                <span>${cart.price * cart.quantity}</span>
-              </CartList>
-            ))
-          )}
-        </Table>
-        <button type="button" onClick={() => handleCheckedDelete()}>
-          선택상품삭제
-        </button>
-        <Price>
-          <ol>
-            <li>
-              <div>총 금액</div>
-              <span>${totalPrice}</span>
-            </li>
-          </ol>
-          <Link to={'/order'}>
-            <button onClick={() => setSsesionData(checkItems)}>주문하기</button>
-          </Link>
-        </Price>
-      </Wrap>
+      <Step />
+      <Container>
+        {cart.length === 0 ? (
+          <Blank>
+            <p>Oops! Your cart is empty.</p>
+            <Link to={'/'}>
+              <button>CONTINUE SHOPPING</button>
+            </Link>
+          </Blank>
+        ) : (
+          <Wrap>
+            <MyCartWrap>
+              <h2>My Cart</h2>
+              <ProductsTable>
+                {cart.map((cart) => (
+                  <CartList key={cart.id} id={cart.id}>
+                    <Link to={`/product/${cart.id}`}>
+                      <img src={cart.thumbnail} alt="상세이미지" />
+                    </Link>
+                    <Info>
+                      <p>{cart.title}</p>
+                      <span>${cart.price.toLocaleString()}</span>
+                    </Info>
+                    <Quantity>
+                      <button type="button" onClick={handleQuantityDecrease}>
+                        一
+                      </button>
+                      <input
+                        type="number"
+                        min="1"
+                        max="10"
+                        defaultValue={cart.quantity}
+                        onChange={handleQuantityInput}
+                        onKeyDown={characterCheck}
+                      />
+                      <button type="button" onClick={handleQuantityIncrease}>
+                        十
+                      </button>
+                    </Quantity>
+                    <Calculated>${(cart.price * cart.quantity).toLocaleString()}</Calculated>
+                    <button className="deleteBtn" onClick={(event) => handleDeleteCart(event)}>
+                      ✕
+                    </button>
+                  </CartList>
+                ))}
+              </ProductsTable>
+            </MyCartWrap>
+            <OrderSummaryWrap>
+              <h2>Order summary</h2>
+              <Price>
+                <li>
+                  <span>Subtotal</span>
+                  <span>${totalPrice.toLocaleString()}</span>
+                </li>
+                <li>
+                  <span>Shipping </span>
+                  <span>free</span>
+                </li>
+              </Price>
+              <Total>
+                <span>Total</span>
+                <span>${totalPrice.toLocaleString()}</span>
+              </Total>
+              <OrderBtn>
+                <button onClick={confirmAuth}>CHECK OUT</button>
+              </OrderBtn>
+            </OrderSummaryWrap>
+          </Wrap>
+        )}
+      </Container>
+      <Footer />
     </div>
   );
 };
 
-const Wrap = styled.main`
+const Container = styled.main`
+  padding-bottom: 130px;
   button {
-    padding: 10px 40px;
-    border: 1px solid #000;
+    cursor: pointer;
   }
 `;
 
-const Table = styled.div`
+const Blank = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 40px;
 
-  margin: 0 50px 20px;
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
-`;
-
-const CartHeader = styled.div`
+  margin: 0 100px;
+  padding: 100px 0;
+  border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-  font-weight: 700;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 30px;
+
+  p {
+    font-size: 25px;
+  }
+
+  button {
+    padding: 15px 35px;
+    font-size: 15px;
+  }
+
+  button:hover {
+    font-weight: 700;
+  }
 `;
 
-const CartList = styled.div`
+const Wrap = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 20px 30px;
+  justify-content: center;
+  gap: 80px;
+
+  h2 {
+    margin-bottom: 15px;
+    font-size: 21px;
+  }
 `;
 
-const Price = styled.div`
-  width: 300px;
-  margin-right: 80px;
-  margin-left: auto;
-  padding: 30px;
+//My Cart 스타일
+const MyCartWrap = styled.section`
+  width: 670px;
+  min-width: 580px;
+`;
 
-  text-align: right;
+const ProductsTable = styled.div`
+  border-top: 1px solid #000;
+`;
 
-  ol {
+const CartList = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #000;
+
+  img {
+    width: 120px;
+    height: 140px;
+  }
+
+  .deleteBtn {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 700;
+  }
+`;
+
+const Info = styled.div`
+  p {
+    width: 254px;
     margin-bottom: 30px;
   }
+`;
 
-  ol li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+const Quantity = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 95px;
+  height: 30px;
+  border: 1px solid #000;
+
+  font-size: 12px;
+
+  input {
+    width: 30px;
+    text-align: center;
+    font-size: 14px;
   }
 
-  ol li div {
-    width: 70px;
-    text-align: right;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input:invalid {
+    border: 3px solid red;
+  }
+
+  button {
+    padding: 0 8px;
+  }
+
+  .btn-disabled {
+    color: #dfdfdf;
+  }
+`;
+
+const Calculated = styled.div`
+  width: 60px;
+  text-align: center;
+`;
+
+//Order Summary 스타일
+const OrderSummaryWrap = styled.aside`
+  width: 280px;
+  min-width: 180px;
+`;
+
+const Price = styled.ol`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  padding: 40px 0;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
+
+const Total = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  padding-top: 30px;
+
+  font-size: 20px;
+`;
+
+const OrderBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #000;
+
+    font-size: 16px;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 

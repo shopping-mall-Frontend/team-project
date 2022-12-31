@@ -37,14 +37,15 @@ const AccountInquiry = () => {
       accountId : selectBank[0].id,
       signature : data.signature
     })
+
+    let res = await delAccount(body)
     
-    try{
-      await delAccount(body)
+    if(typeof res !== 'string'){
       setSelectBank('')
       getAccounInfo()
       alert('해지 완료되었습니다.')
-    }catch(err){
-      console.log(err)
+    }else{
+      alert(res)
     }
   }
 

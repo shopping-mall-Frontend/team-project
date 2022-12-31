@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import PageOption from '../../components/PageOption';
 import Product from '../../components/Product';
@@ -8,13 +9,10 @@ import Product from '../../components/Product';
 const CategoryPage = React.memo(({ products }) => {
   const { pathname } = window.location;
   const brandPath = pathname.split('/')[3];
+
   // 머지.. 이거 없으면 렌더링 안됩니다.
   const location = useLocation();
   const [currentCategory, setCurrentCategory] = useState(pathname.split('/')[2]);
-
-  useEffect(() => {
-    setCurrentCategory(pathname.split('/')[2]);
-  }, [pathname]);
 
   const category = [
     ['all', '전체보기'],
@@ -33,23 +31,29 @@ const CategoryPage = React.memo(({ products }) => {
   const [count, setCount] = useState(0);
   const maxPage = Math.ceil(productList.length / limit);
 
+  useEffect(() => {
+    setCurrentCategory(pathname.split('/')[2]);
+    setCurrentBrand(brandPath ? brandPath : '');
+  }, [pathname]);
+
   const getCategories = (data) => {
     category.forEach((ele) => {
+      let newData = data;
       if (currentCategory === 'all') {
-        const newData = data;
+        newData = data;
         setProductList(newData);
         setCategoryProducts(newData);
       } else if (ele[0] === currentCategory) {
-        const newData = data.filter((item) => item.tags[1] === ele[1]);
+        newData = data.filter((item) => item.tags[1] === ele[1]);
         setProductList(newData);
         setCategoryProducts(newData);
-        brand.forEach((ele, i) => {
-          if (i !== 0 && ele.split(' ')[0] === currentBrand) {
-            const k = newData.filter((item) => item.tags[0] === ele);
-            setProductList(k);
-          }
-        });
       }
+      brand.forEach((ele, i) => {
+        if (i !== 0 && ele.split(' ')[0] === currentBrand) {
+          newData = newData.filter((item) => item.tags[0] === ele);
+          setProductList(newData);
+        }
+      });
     });
   };
 
@@ -77,6 +81,7 @@ const CategoryPage = React.memo(({ products }) => {
     <>
       <Header />
       <Container>
+        <h2>{currentCategory.toUpperCase()} Category</h2>
         <OptionDiv>
           <CategoryUl>
             {brand.map((item) => {
@@ -118,13 +123,21 @@ const CategoryPage = React.memo(({ products }) => {
           ))}
         </ol>
       </Container>
+      <Footer />
     </>
   );
 });
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 300px;
+  h2 {
+    font-family: 'Marcellus', serif;
+    font-size: 20px;
+    padding: 0 20px;
+  }
   ol {
-    margin: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -148,7 +161,7 @@ const CategoryUl = styled.ul`
 const OptionDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 30px;
+  padding: 20px;
 `;
 
 const PageSectionWrap = styled.div``;
