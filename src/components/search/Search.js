@@ -76,7 +76,7 @@ const Container = styled.div`
 
 const SearchWrap = styled.div`
   display: flex;
-  border-bottom: 1px solid #868e96;
+  border-bottom: 0.5px solid #ece7e0;
   margin-left: 30px;
   padding-bottom: 5px;
 `;
