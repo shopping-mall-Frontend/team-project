@@ -21,7 +21,6 @@ const OptionWrap = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 5px;
-  border-bottom: 1px solid black;
   div {
     padding: 2px 0px;
     text-align: center;
@@ -36,6 +35,9 @@ const EndButton = styled.button`
   font-size: 25px;
   line-height: 0px;
   cursor: pointer;
+  &:hover {
+    color: #ced4da;
+  }
 `;
 
 const ArrowButton = styled.button`
@@ -45,6 +47,9 @@ const ArrowButton = styled.button`
   padding: 2px 10px;
   cursor: pointer;
   font-size: 15px;
+  &:hover {
+    color: grey;
+  }
   &:disabled {
     border: none;
     background-color: white;

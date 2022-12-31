@@ -45,6 +45,7 @@ const App = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
       <Route path="/user/:menu" element={<UserPage />} />
+      <Route path="/search" element={<SearchPage />} />
     </Routes>
   );
 };
