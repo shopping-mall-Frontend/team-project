@@ -48,22 +48,6 @@ const Header = React.memo(() => {
         <div className="logo">
           <Link to={'/'}>N4</Link>
         </div>
-        <nav>
-          <ul className="nav__links">
-            <li>
-              {isLogin ? (
-                <Link to={'/'} onClick={() => logout()}>
-                  LogOut
-                </Link>
-              ) : (
-                <Link to={'/login'}>Login/out</Link>
-              )}
-            </li>
-            <li>
-              <Link to={'/Cart'}>Chart</Link>{' '}
-            </li>
-          </ul>
-        </nav>
       </header>
 
       <StyledCategory>
