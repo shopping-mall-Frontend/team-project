@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import reset from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
@@ -89,8 +89,9 @@ const ProductdetailsPage = () => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
-  ////////// 매진 여부에 따른 출력 변경 ////////
-  console.log(product);
+  ////////// header 검색창 버그 해결 ////////
+  const location = useLocation();
+
   return (
     <div>
       <Header />
@@ -189,7 +190,6 @@ const ImageWrap = styled.div`
 
   img:last-child {
     padding-top: 50px;
-    border-top: 1px solid #000;
   }
 
   h3 {
