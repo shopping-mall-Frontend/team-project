@@ -29,6 +29,8 @@ const ResultsBox = ({ products, openSearchBox }) => {
 
 const Container = styled.ul`
   border: 1px solid black;
+  display: flex;
+  flex-direction: column;
   background-color: white;
   margin-left: 30px;
   li {
