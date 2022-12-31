@@ -57,7 +57,9 @@ const CancelHistory = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-width: 900px;
+`;
 
 const Title = styled.div`
   display: flex;

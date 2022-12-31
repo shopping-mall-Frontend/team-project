@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { orderedProducts, confirmProduct, refundProduct } from '../../utils/useAPI';
 
 const OrderHistory = () => {
-  const { menu } = useParams();
   const [ordered, setOdered] = useState([]);
 
   useEffect(() => {
@@ -47,7 +46,6 @@ const OrderHistory = () => {
 
   return (
     <Container>
-      <h2>{menu}페이지 입니다.</h2>
       <ol>
         {ordered.map((list) => (
           <li key={list.detailId} className="orderedList">
@@ -112,6 +110,7 @@ const OrderHistory = () => {
 };
 
 const Container = styled.div`
+  min-width: 900px;
   padding-top: 30px;
   li + li {
     margin-top: 30px;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from '../../components/Header';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import Title from '../../components/Userpage/Title';
 
 const UserPage = () => {
   return (
@@ -13,12 +14,21 @@ const UserPage = () => {
       <Container>
         <Menu aria-labelledby="my page navigation">
           <ul>
-            <Link to="/user/orderhistory">My Orders</Link>
-            <Link to="/user/cancelhistory">Order Cancelled</Link>
-            <Link to="/user/bankaccounts">Bank Accounts</Link>
-            <Link to="/user/editprofile">My Profile</Link>
+            <StyeldLink to="/user">
+              <button>My Orders</button>
+            </StyeldLink>
+            <StyeldLink to="/user/cancelhistory">
+              <button>Order Canceled</button>
+            </StyeldLink>
+            <StyeldLink to="/user/bankaccounts">
+              <button>Bank Accounts</button>
+            </StyeldLink>
+            <StyeldLink to="/user/editprofile">
+              <button>My Profile</button>
+            </StyeldLink>
           </ul>
         </Menu>
+        <Title></Title>
         <Outlet />
       </Container>
       <Footer />
@@ -28,54 +38,31 @@ const UserPage = () => {
 
 const Container = styled.main`
   display: flex;
-  justify-content: center;
   gap: 50px;
   width: 1200px;
   margin: 0 auto;
   padding: 40px 0;
-
-  button {
-    cursor: pointer;
-  }
 `;
 
 const Menu = styled.nav`
   min-width: 250px;
   padding-top: 45px;
 
-  ul li {
-    padding: 15px 10px;
-    border: 1px solid #000;
+  button {
+    font-size: 15px;
     cursor: pointer;
   }
 
-  ul li + li {
-    margin-top: 5px;
-  }
-
-  ul li button {
-    font-size: 15px;
-  }
-
-  ul li button:hover {
+  button:hover {
     font-weight: 700;
   }
 `;
 
 const StyeldLink = styled(Link)`
   display: block;
-`;
-
-const Components = styled.div``;
-
-const Title = styled.h3`
-  padding-bottom: 10px;
-  border-bottom: 1px solid #000;
-  font-size: 25px;
-`;
-
-const Description = styled.div`
-  min-width: 900px;
+  margin-top: 10px;
+  padding: 15px 10px;
+  border: 1px solid #000;
 `;
 
 export { UserPage };

@@ -32,7 +32,6 @@ const AuthPassword = () => {
 
   return (
     <Container>
-      <Outlet />
       <h3>비밀번호 재확인</h3>
       <p>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요.</p>
       {user ? (
@@ -66,6 +65,7 @@ const AuthPassword = () => {
 };
 
 const Container = styled.div`
+  min-width: 900px;
   padding-top: 30px;
 
   h3 {
@@ -87,7 +87,7 @@ const Container = styled.div`
     align-items: left;
     gap: 20px;
 
-    padding: 40px 80px;
+    padding: 40px 180px;
 
     div {
       display: flex;
