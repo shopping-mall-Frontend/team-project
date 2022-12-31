@@ -1,12 +1,24 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import Header from '../components/Header';
+import Search from '../components/search/Search';
 
 const SearchPage = () => {
   return (
-    <div>
+    <>
       <Header />
-    </div>
+      <Main>
+        <Search isSearchPage={true} />
+      </Main>
+    </>
   );
 };
 
+const Main = styled.main`
+  width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 300px;
+  margin-top: 50px;
+`;
 export default SearchPage;
