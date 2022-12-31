@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { signIn } from '../../utils/useAPI';
+import { signIn, auth } from '../../utils/useAPI';
 
-const AuthPassword = ({ user }) => {
+const AuthPassword = () => {
+  const location = useLocation();
+  const slicePathname = location.pathname.slice(6);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
+
+  //유저 로그인 정보 불러오기
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const authUser = async () => {
+      const userInfo = await auth();
+      setUser(userInfo);
+    };
+    authUser();
+  }, []);
+
   const OnSubmit = async (data) => {
-    const user = await signIn(data);
-    console.log(user);
-    if (!user) {
+    const login = await signIn(data);
+    if (!login) {
       alert('비밀번호가 일치하지 않습니다.');
-    } else {
-      navigate('/user/Account');
+    } else if (location.pathname.includes(slicePathname)) {
+      navigate(`/user/${slicePathname}/edit`);
     }
   };
 
@@ -21,28 +33,33 @@ const AuthPassword = ({ user }) => {
     <Container>
       <h3>비밀번호 재확인</h3>
       <p>회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인해주세요.</p>
-      <form onSubmit={handleSubmit(OnSubmit)}>
-        <div>
-          <label htmlFor="userId">아이디</label>
-          <input type="text" value={user.email} disabled {...register('email', { value: `${user.email}` })} />
-        </div>
-        <div>
-          <label htmlFor="userId">비밀번호</label>
+      {user ? (
+        <form onSubmit={handleSubmit(OnSubmit)}>
+          <input
+            type="text"
+            value={user.email}
+            id={'userId'}
+            disabled
+            {...register('email', { value: `${user.email}` })}
+          />
           <input
             type="text"
             placeholder="현재 비밀번호를 입력해주세요."
+            minLength={8}
             required
-            {...register('password', { required: 'true' }, { minLength: 8 })}
+            {...register('password', { required: 'true' })}
           />
-        </div>
-        <input type="submit" className="inputSubmit" value="확인" />
-      </form>
+          <input type="submit" className="inputSubmit" value="확인" />
+        </form>
+      ) : (
+        ''
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
-  padding-top: 30px;
+  min-width: 900px;
 
   h3 {
     padding-bottom: 8px;
@@ -53,39 +70,33 @@ const Container = styled.div`
   p {
     padding-bottom: 20px;
     font-size: 12px;
-    line-height: 1.5;
     color: rgb(102, 102, 102);
   }
 
   form {
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: center;
     gap: 20px;
 
-    padding: 40px 250px;
+    padding: 40px 0;
 
-    div {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    div input {
+    input {
       width: 400px;
       height: 46px;
       padding: 0px 11px 1px 15px;
       border-radius: 4px;
       border: 1px solid rgb(221, 221, 221);
       font-weight: 400;
-      line-height: 1.5;
       color: rgb(51, 51, 51);
     }
 
-    div label {
-      margin-right: 60px;
-      padding-top: 12px;
-      width: 60px;
-      font-weight: 700;
+    input:first-child {
+      background-color: #dfdfdf;
+    }
+
+    input:focus {
+      border: 1px solid #000;
     }
 
     .inputSubmit {
@@ -101,7 +112,11 @@ const Container = styled.div`
       text-align: center;
       cursor: pointer;
     }
+
+    .inputSubmit:hover {
+      font-weight: 700;
+    }
   }
 `;
 
-export default AuthPassword;
+export { AuthPassword };
