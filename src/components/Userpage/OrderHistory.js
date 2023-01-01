@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
 import { orderedProducts, confirmProduct, refundProduct } from '../../utils/useAPI';
@@ -78,7 +78,9 @@ const OrderHistory = () => {
             <li key={list.detailId} className="orderedList">
               <Title>
                 <h4>{dateFormat(list.timePaid)}</h4>
-                <span>주문내역 상세보기 〉</span>
+                <Link to={`order/${list.detailId}`}>
+                  <span>주문내역 상세보기 〉</span>
+                </Link>
               </Title>
               <Details>
                 <ProductInfo>

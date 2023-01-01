@@ -14,7 +14,14 @@ import {
   OrderConfirmedPage,
 } from './pages/index';
 import SearchPage from './pages/SearchPage';
-import { OrderHistory, CancelHistory, BankAccounts, EditProfile, AuthPassword } from './pages/User/index';
+import {
+  OrderHistory,
+  OrderHistoryDetails,
+  CancelHistory,
+  BankAccounts,
+  EditProfile,
+  AuthPassword,
+} from './pages/User/index';
 
 const Layout = () => {
   return (
@@ -50,6 +57,7 @@ const App = () => {
       <Route path="/orderconfirmed" element={<OrderConfirmedPage />} />
       <Route path="/user" element={<UserPage />}>
         <Route index element={<OrderHistory />} />
+        <Route path="order/:id" element={<OrderHistoryDetails />} />
         <Route path="cancelhistory" element={<CancelHistory />} />
         <Route path="bankaccounts" element={<AuthPassword />} />
         <Route path="bankaccounts/edit" element={<BankAccounts />} />

@@ -9,12 +9,14 @@ const Title = () => {
     switch (sliceName) {
       case '':
         return <h2>My Orders</h2>;
+      case 'orderhistory/details':
+        return <h2>My Orders</h2>;
       case 'cancelhistory':
         return <h2>Order Canceled</h2>;
       case 'bankaccounts':
         return <h2>Bank Accounts</h2>;
       case 'bankaccounts/edit':
-        return <h2>My Profile</h2>;
+        return <h2>Bank Accounts</h2>;
       default:
         return <h2>My Profile</h2>;
     }

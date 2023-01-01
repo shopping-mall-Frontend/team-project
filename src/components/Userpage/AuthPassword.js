@@ -43,7 +43,7 @@ const AuthPassword = () => {
             {...register('email', { value: `${user.email}` })}
           />
           <input
-            type="text"
+            type="password"
             placeholder="현재 비밀번호를 입력해주세요."
             minLength={8}
             required
