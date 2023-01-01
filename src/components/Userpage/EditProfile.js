@@ -43,7 +43,7 @@ const EditProfile = () => {
       </ul>
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <h1>SignUp</h1>
+          <h1>사용자 정보 수정</h1>
         </div>
         <div>
           <h4>OldPassword</h4>
