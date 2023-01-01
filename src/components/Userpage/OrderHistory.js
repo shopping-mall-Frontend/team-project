@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
 import { orderedProducts, confirmProduct, refundProduct } from '../../utils/useAPI';

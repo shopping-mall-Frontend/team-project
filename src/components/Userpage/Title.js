@@ -14,7 +14,7 @@ const Title = () => {
       case 'bankaccounts':
         return <h2>Bank Accounts</h2>;
       case 'bankaccounts/edit':
-        return <h2>My Profile</h2>;
+        return <h2>Bank Accounts</h2>;
       default:
         return <h2>My Profile</h2>;
     }
