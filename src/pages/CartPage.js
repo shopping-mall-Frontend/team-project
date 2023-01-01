@@ -43,6 +43,23 @@ const CartPage = () => {
   };
 
   /////////////// 수량 버튼, 입력 //////////////////////
+  //수량이 1이하일 때 감소버튼, 10 이상일 떄 증가버튼 비활성화
+  const liEl = document.querySelectorAll('.cartlist');
+  liEl.forEach((data) => {
+    const handleDecreaseIdArray = cart.filter((item) => item.quantity == 1).map((item) => item.id);
+    handleDecreaseIdArray.map((id) => {
+      if (id == data.id) {
+        data.querySelectorAll('.decreaseBtn')[0].disabled = true;
+      }
+    });
+    const handleIncreaseIdArray = cart.filter((item) => item.quantity >= 10).map((item) => item.id);
+    handleIncreaseIdArray.map((id) => {
+      if (id == data.id) {
+        data.querySelectorAll('.increaseBtn')[0].disabled = true;
+      }
+    });
+  });
+
   const onChangeQuantity = (id, value, key = 'quantity') => {
     const product = cart.filter((element) => element.id === id);
     product[0].quantity = value;
@@ -52,6 +69,9 @@ const CartPage = () => {
 
   //수량 입력
   const handleQuantityInput = (e) => {
+    if (e.target.value == '' || e.target.value == 0) {
+      e.target.value = 1;
+    }
     onChangeQuantity(e.target.closest('li').id, e.target.value);
   };
 
@@ -62,18 +82,38 @@ const CartPage = () => {
 
   //수량 증가
   const handleQuantityIncrease = (e) => {
-    e.target.previousElementSibling.value = parseInt(e.target.previousElementSibling.value) + 1;
-    onChangeQuantity(e.target.closest('li').id, e.target.previousElementSibling.value);
+    let liEl = e.target.previousElementSibling;
+
+    //버튼동작시에 수량 10이면 비활성화
+    if (liEl.value >= 9) {
+      e.target.disabled = true;
+    }
+
+    //버튼 동작시에 수량이 2이상이면, 수량 감소 버튼 활성화
+    if (parseInt(liEl.value) >= 1) {
+      liEl.previousElementSibling.disabled = false;
+    }
+
+    liEl.value = parseInt(liEl.value) + 1;
+    onChangeQuantity(e.target.closest('li').id, liEl.value);
   };
 
   //수량 감소
   const handleQuantityDecrease = (e) => {
-    if (e.target.nextElementSibling.value <= 1) {
-      e.preventDefault();
-      console.log('1 이하는 안돼욧!');
+    let liEl = e.target.nextElementSibling;
+
+    //버튼동작시에 수량 1이면 비활성화
+    if (liEl.value <= 2) {
+      e.target.disabled = true;
     }
-    e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
-    onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+
+    //버튼동작시에 수량이 9 이하면, 수량 증가 버튼 활성화
+    if (parseInt(liEl.value) <= 11) {
+      liEl.nextElementSibling.disabled = false;
+    }
+
+    liEl.value = parseInt(liEl.value) - 1;
+    onChangeQuantity(e.target.closest('li').id, liEl.value);
   };
 
   /////////////// 비회원 주문하기 차단 //////////////////////
@@ -116,7 +156,7 @@ const CartPage = () => {
               <h2>My Cart</h2>
               <ProductsTable>
                 {cart.map((cart) => (
-                  <CartList key={cart.id} id={cart.id}>
+                  <CartList key={cart.id} id={cart.id} className="cartlist">
                     <Link to={`/product/${cart.id}`}>
                       <img src={cart.thumbnail} alt="상세이미지" />
                     </Link>
@@ -125,18 +165,19 @@ const CartPage = () => {
                       <span>${cart.price.toLocaleString()}</span>
                     </Info>
                     <Quantity>
-                      <button type="button" onClick={handleQuantityDecrease}>
+                      <button type="button" className="decreaseBtn" onClick={handleQuantityDecrease}>
                         一
                       </button>
                       <input
                         type="number"
                         min="1"
                         max="10"
+                        className="quantityInput"
                         defaultValue={cart.quantity}
                         onChange={handleQuantityInput}
                         onKeyDown={characterCheck}
                       />
-                      <button type="button" onClick={handleQuantityIncrease}>
+                      <button type="button" className="increaseBtn" onClick={handleQuantityIncrease}>
                         十
                       </button>
                     </Quantity>
