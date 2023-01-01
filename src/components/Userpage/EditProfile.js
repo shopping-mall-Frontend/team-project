@@ -1,84 +1,81 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Link, useNavigate} from "react-router-dom";
-import {useForm} from "react-hook-form";
-import {editUserInfo} from "../../utils/useAPI";
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { editUserInfo } from '../../utils/useAPI';
 
 const EditProfile = () => {
-    const navigate = useNavigate();
-    const [loginInfo, setLoginInfo] = useState({
-      newPassword: '',
-      oldPassword: '',
-      displayName:'',
-    });
+  const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState({
+    newPassword: '',
+    oldPassword: '',
+    displayName: '',
+  });
 
-    const { register, handleSubmit } = useForm();
-    const onSubmit = async (data) => {
-      try{
-        const res = await editUserInfo(data);
-        if(res){
-          console.log(res);
-          alert("정보가 수정되었습니다.");
-          navigate('/');
-        }else{
-          alert("정보가 수정이 되지 않았습니다.");
-        }
-
-      }catch (err){
-        console.log(err);
+  const { register, handleSubmit } = useForm();
+  const onSubmit = async (data) => {
+    try {
+      const res = await editUserInfo(data);
+      if (res) {
+        console.log(res);
+        alert('정보가 수정되었습니다.');
+        navigate('/');
+      } else {
+        alert('정보가 수정이 되지 않았습니다.');
       }
-
-    };
-
-    return (
-      <Container>
-        <ul>
-          <li>
-            <Link to={'/'} className="go-back">
-              <span className="material-symbols-outlined">cottage</span>
-              HOME
-            </Link>
-          </li>
-          <li>
-            <Link to={'/SignUp'} className="Login"></Link>
-          </li>
-        </ul>
-        <LoginForm onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <h1>SignUp</h1>
-          </div>
-          <div>
-            <h4>OldPassword</h4>
-            <div className="password-input">
-              <i className="fas fa-lock"></i>
-              <input type="password" placeholder="********" {...register('oldPassword', { required: true })} />
-            </div>
-          </div>
-          <div>
-            <h4>NewPassword</h4>
-            <div className="password-input">
-              <i className="fas fa-lock"></i>
-              <input type="password" placeholder="********" {...register('newPassword', { required: true })} />
-            </div>
-          </div>
-          <div>
-            <h4>Username</h4>
-            <div className="password-input">
-              <input type="text" placeholder="User Name" {...register('displayName', { required: true })} />
-            </div>
-          </div>
-          <div className="submit">
-            <button type="submit" value="submit" >
-              SignUp
-            </button>
-          </div>
-        </LoginForm>
-      </Container>
-    );
-
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const Container = styled.div`
+  return (
+    <Container>
+      <ul>
+        <li>
+          <Link to={'/'} className="go-back">
+            <span className="material-symbols-outlined">cottage</span>
+            HOME
+          </Link>
+        </li>
+        <li>
+          <Link to={'/SignUp'} className="Login"></Link>
+        </li>
+      </ul>
+      <LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <h1>사용자 정보 수정</h1>
+        </div>
+        <div>
+          <h4>OldPassword</h4>
+          <div className="password-input">
+            <i className="fas fa-lock"></i>
+            <input type="password" placeholder="********" {...register('oldPassword', { required: true })} />
+          </div>
+        </div>
+        <div>
+          <h4>NewPassword</h4>
+          <div className="password-input">
+            <i className="fas fa-lock"></i>
+            <input type="password" placeholder="********" {...register('newPassword', { required: true })} />
+          </div>
+        </div>
+        <div>
+          <h4>Username</h4>
+          <div className="password-input">
+            <input type="text" placeholder="User Name" {...register('displayName', { required: true })} />
+          </div>
+        </div>
+        <div className="submit">
+          <button type="submit" value="submit">
+            수정
+          </button>
+        </div>
+      </LoginForm>
+    </Container>
+  );
+};
+
+const Container = styled.div`
   font-family: 'Marcellus', serif;
 
   ul {
@@ -128,7 +125,7 @@ const EditProfile = () => {
   }
 `;
 
-  const LoginForm = styled.form`
+const LoginForm = styled.form`
   font-family: 'Marcellus', serif;
   letter-spacing: 0.5px;
   margin: auto;
@@ -165,7 +162,7 @@ const EditProfile = () => {
     width: 90%;
   }
 
-  .submit  button{
+  .submit button {
     height: 50px;
     border-radius: 30px;
     margin-top: 10px;
@@ -175,6 +172,4 @@ const EditProfile = () => {
   }
 `;
 
-  export { EditProfile };
-
-
+export { EditProfile };

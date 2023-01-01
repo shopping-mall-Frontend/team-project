@@ -167,7 +167,8 @@ const PageWrap = styled.div`
     margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 15px;
   }
 `;
 
