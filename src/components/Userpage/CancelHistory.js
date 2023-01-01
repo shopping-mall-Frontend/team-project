@@ -42,7 +42,7 @@ const CancelHistory = () => {
           ordered
             .filter((list) => list.isCanceled === true)
             .map((list) => (
-              <li key={list.detailId} className="orderedList">
+              <li key={list.detailId}>
                 <Title>
                   <h4>{dateFormat(list.timePaid)}</h4>
                   <span>주문내역 상세보기 ></span>
@@ -81,6 +81,10 @@ const CancelHistory = () => {
 
 const Container = styled.div`
   min-width: 900px;
+
+  ol li + li {
+    margin-top: 30px;
+  }
 `;
 
 const Blank = styled.div`
