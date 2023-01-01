@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { signIn } from '../utils/useAPI';
+import { signup } from '../utils/useAPI';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
-
-  const [loginInfo, setLoginInfo] = useState({
+  const [ setLoginInfo] = useState({
     email: '',
     password: '',
+    displayName:'',
   });
 
-  // react hook form 사용해보기(렌더링 비용 최소화)
   const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    const { user } = await signIn(data);
+    const { user } = await signup(data);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
@@ -24,7 +23,6 @@ const Login = () => {
       history('/');
     }
   };
-
   return (
     <Container>
       <ul>
@@ -57,15 +55,18 @@ const Login = () => {
         <div>
           <h4>Username</h4>
           <div className="password-input">
-            <input type="text" placeholder="User Name" {...register('password', { required: true })} />
+            <input type="text" placeholder="User Name" {...register('displayName', { required: true })} />
           </div>
         </div>
         <div className="submit">
-          <input type="submit" value="submit" />
+          <button type="submit" value="submit" >
+            SignUp
+          </button>
         </div>
       </LoginForm>
     </Container>
   );
+
 };
 
 const Container = styled.div`
@@ -139,7 +140,7 @@ const LoginForm = styled.form`
     border-bottom: 1px solid #a4a4a4;
   }
 
-  input {
+  button {
     width: 100%;
     outline: none;
     border-radius: 0px;
@@ -155,7 +156,7 @@ const LoginForm = styled.form`
     width: 90%;
   }
 
-  .submit input {
+  .submit  button{
     height: 50px;
     border-radius: 30px;
     margin-top: 10px;
