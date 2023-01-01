@@ -264,16 +264,16 @@ export const orderedProducts = async () => {
 };
 
 // 단일 제품 상세 거래(구매) 내역
-// export const orderedProduct = async (body = '') => {
-//   try {
-//     const token = localStorage.getItem('accessToken');
-//     if (token !== null) {
-//       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-//       const { data } = await axios.get(`/products/transactions/detail`, body);
-//       console.log(data);
-//       return data;
-//     }
-//   } catch (err) {
-//     return err.response.data + '';
-//   }
-// };
+export const orderedProduct = async (body = '') => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const { data } = await axios.get(`/products/transactions/detail`, body);
+      console.log(data);
+      return data;
+    }
+  } catch (err) {
+    return err.response.data + '';
+  }
+};

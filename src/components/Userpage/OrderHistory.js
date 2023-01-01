@@ -78,7 +78,9 @@ const OrderHistory = () => {
             <li key={list.detailId} className="orderedList">
               <Title>
                 <h4>{dateFormat(list.timePaid)}</h4>
-                <span>주문내역 상세보기 〉</span>
+                <Link to={`order/${list.detailId}`}>
+                  <span>주문내역 상세보기 〉</span>
+                </Link>
               </Title>
               <Details>
                 <ProductInfo>
