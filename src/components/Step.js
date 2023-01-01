@@ -2,15 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Step = (props) => {
-  console.log(props)
   return (
     <StepEl>
-      <li>01 SHOPPING BAG</li>
-      <li>02 ORDER</li>
-      <li>03 ORDER CONFIRMED</li>
+      <li style={props.style === 'step1' ? liStyle : null}>01 SHOPPING BAG</li>
+      <li style={props.style === 'step2' ? liStyle : null}>02 ORDER</li>
+      <li style={props.style === 'step3' ? liStyle : null}>03 ORDER CONFIRMED</li>
     </StepEl>
   );
 };
+
+const liStyle = {
+  color : '#000',
+  fontWeight:'600',
+}
 
 const StepEl = styled.ul`
   display: flex;
@@ -18,13 +22,12 @@ const StepEl = styled.ul`
   gap: 10px;
 
   width: fit-content;
-  margin: 0 auto 50px;
-  padding: 20px;
+  margin: 0 auto;
+  padding: 50px;
   color: rgb(181, 176, 176);
 
-  li:first-child {
-    font-weight: 700;
-    color: #000;
+  li {
+    font-size:1.2rem;
   }
 
   li + li::before {

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Step from "../components/Step";
 import PopupPostCode from "../components/PopupPostCode";
 import AddressPopup from "../components/AddressPopup";
+import Loading from "../components/Loading";
 
 const OrderPage = () => {
   const navigate = useNavigate();
@@ -32,6 +33,8 @@ const OrderPage = () => {
   const [popupNum, setPopupNum] = useState(1);
   // 이메일 직접 선택 인풋 토글
   const [emailDrt, setEmailDrt] = useState(true);
+  // 로딩
+  const [loading, setLoading] = useState(true);
 
   // 주소 팝업창 열기
   const openPostCode = (num) => {
@@ -54,12 +57,13 @@ const OrderPage = () => {
   useEffect(() => {
     const userBank = async () => {
 
-      console.log('start') // 로딩 시작
+      setLoading(true)
+      console.log('로딩 시작')
       const userInfo = await auth();
       const selectBank = await getAccount("banks");
       const allBank = await getAccount();
-      console.log('end') // 로딩 끝
-
+      console.log('로딩 끝')
+      setLoading(false)
       setUser(userInfo);
       // 전체 은행 리스트
       setAllBankList(allBank);
@@ -98,8 +102,6 @@ const OrderPage = () => {
     userBank();
   }, [cart]);
 
-  console.log(holdBankList);
-
   // 선택 은행 계좌 id 저장
   useEffect(() => {
     const getAccid = async () => {
@@ -128,7 +130,7 @@ const OrderPage = () => {
     // 구매 의사, 계좌 선택 여부 확인 및 결제 진행
     if (window.confirm("정말 구매하시겠습니까?") && accountId !== "") {
       if (allBankList.accounts.filter((e) => e.id === accountId)[0].balance >= totalPrice) {
-        console.log('Start!')
+        setLoading(true)
         for (const x of buyProducts) {
           let body = JSON.stringify({
             productId: x.id,
@@ -136,8 +138,8 @@ const OrderPage = () => {
           });
           await buyProduct(body);
         }
-        console.log('Done!')
-        alert("결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요");
+        setLoading(false)
+        navigate('/orderconfirmed')
       } else {
         alert("잔액이 부족합니다.");
       }
@@ -156,7 +158,7 @@ const OrderPage = () => {
     <>
       <Header user={user} />
       <Container>
-        <Step />
+        <Step style={`step2`}/>
         <section className="product-list">
           <ul>
             {cart.map((item) => {
@@ -334,13 +336,16 @@ const OrderPage = () => {
               </AddressPopup>
           )}
         </div>
+        {
+        loading && <Loading />
+        }
       </Container>
+      <Footer />
       {
         isPopupOpen && (
           <PopBg className="popup-bg"></PopBg>
         )
       }
-      <Footer />
     </>
   );
 };

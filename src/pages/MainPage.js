@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { Swiper, SwiperSlide } from "swiper/react"; // basic
-import { Navigation, Pagination, A11y, Autoplay } from "swiper";
+import { Navigation, Pagination, A11y, Autoplay, EffectFade } from "swiper";
 import "swiper/css/bundle";
 
 const MainPage = ({ products, setProducts }) => {
@@ -126,7 +126,7 @@ const MainPage = ({ products, setProducts }) => {
         </ItemsContainer>
 
         <ItemsContainer>
-          <ItemsSwiperTitle>New Product</ItemsSwiperTitle>
+          <ItemsSwiperTitle>New Products</ItemsSwiperTitle>
           <Swiper
             modules={[A11y, Autoplay]}
             spaceBetween={30}
@@ -162,7 +162,7 @@ const MainPage = ({ products, setProducts }) => {
         <BrandInfo>
           <Swiper
             direction={"vertical"}
-            modules={[Pagination, Navigation, Autoplay]}
+            modules={[Pagination, Navigation, Autoplay, EffectFade]}
             slidesPerView={1}
             pagination={{
               clickable: true,
@@ -175,6 +175,7 @@ const MainPage = ({ products, setProducts }) => {
             speed={1500}
             loopFillGroupWithBlank={true}
             loop={true}
+            effect={"fade"}
             style={{ height: "500px" }}
           >
             <SwiperSlide>
@@ -213,7 +214,7 @@ const MainPage = ({ products, setProducts }) => {
                   <br />이 처럼 루이비통은 단순한 제품 홍보가 아닌 브랜드 핵심가치에 부합하는 다양하고 확장적인 마케팅
                   활동을 전개함으로서 소비자에게 일관된 브랜드 아이덴티티를 전달합니다.
                 </p>
-                <Link to="/category/all/BOTTEGA">브랜드 바로가기</Link>
+                <Link to="/category/all/LOUIS">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -230,7 +231,7 @@ const MainPage = ({ products, setProducts }) => {
                   <br />
                   2001년, 보테가 베네타는 구찌 그룹에 인수되었고, 지금의 프랑스 다국적 그룹 케어링에 속해있습니다.
                 </p>
-                <Link to="/category/all/CHANEL">브랜드 바로가기</Link>
+                <Link to="/category/all/BOTTEGA">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
             <SwiperSlide>
@@ -251,7 +252,7 @@ const MainPage = ({ products, setProducts }) => {
                   "내 손끝에서 피어난 전설이 더 발전하고 번성하기를 꿈꾸며, 샤넬이 오랫동안 행복한 브랜드로 남기를
                   바란다."
                 </p>
-                <Link to="/category/all/LOUIS">브랜드 바로가기</Link>
+                <Link to="/category/all/CHANEL">브랜드 바로가기</Link>
               </div>
             </SwiperSlide>
           </Swiper>
@@ -279,6 +280,7 @@ const BannerWrap = styled.div`
 
   .swiper-slide {
     opacity: 0.5;
+    pointer-events:none;
   }
 
   .swiper-slide-active {
@@ -289,6 +291,7 @@ const BannerWrap = styled.div`
     overflow: inherit;
     width: 140%;
     left: -20%;
+    min-width:1200px;
   }
 
   .swiper-pagination {
@@ -333,7 +336,7 @@ const Banner = styled.div`
 `;
 
 const ItemsContainer = styled.div`
-  max-width: 1200px;
+  width: 1200px;
   margin: 110px auto;
   position: relative;
 
@@ -491,6 +494,14 @@ const BrandInfo = styled.div`
     }
   }
 
+  .swiper-slide {
+    pointer-events:none;
+
+    a{ 
+      pointer-events:auto;
+    }
+  }
+
   .info-wrap {
     display: flex;
     height: 100%;
@@ -517,7 +528,6 @@ const BrandInfo = styled.div`
       text-align: center;
       background: #111;
       color: #eee;
-      border: 1px solid rgb(90 90 90 / 49%);
     }
   }
 `;

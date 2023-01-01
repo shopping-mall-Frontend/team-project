@@ -11,6 +11,7 @@ import {
   CartPage,
   OrderPage,
   UserPage,
+  OrderConfirmedPage,
 } from './pages/index';
 import SearchPage from './pages/SearchPage';
 import { OrderHistory, CancelHistory, BankAccounts, EditProfile, AuthPassword } from './pages/User/index';
@@ -46,6 +47,7 @@ const App = () => {
       <Route path="/product/:id" element={<ProductdetailsPage />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/order" element={<OrderPage />} />
+      <Route path="/orderconfirmed" element={<OrderConfirmedPage />} />
       <Route path="/user" element={<UserPage />}>
         <Route index element={<OrderHistory />} />
         <Route path="cancelhistory" element={<CancelHistory />} />

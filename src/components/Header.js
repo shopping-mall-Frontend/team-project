@@ -80,11 +80,14 @@ const StyledHeader = styled.div`
   box-sizing: border-box;
   margin-top: 20px;
   padding: 0;
+  border-bottom:1px solid #ddd;
+  min-width:1200px;
 
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding:0 50px;
   }
 
   li,
@@ -120,7 +123,7 @@ const StyledHeader = styled.div`
   li {
     padding: 0px 20px;
   }
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     header {
       flex-direction: column;
       text-align: center;
@@ -141,7 +144,7 @@ const StyledHeader = styled.div`
     .nav__links {
       display: none;
     }
-  }
+  } */
 `;
 
 const StyledCategory = styled.div`
@@ -167,11 +170,11 @@ const StyledCategory = styled.div`
     color: black;
   }
 
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     .category {
       display: none;
     }
-  }
+  } */
 `;
 
 export default Header;
