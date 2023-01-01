@@ -5,10 +5,7 @@ import axios from '../api/axios';
 // 사용자 수정
 export const editUserInfo = async (value) => {
   try {
-    const {newPassword, oldPassword, displayName} = value;
-
-    console.log(value);
-
+    const { newPassword, oldPassword, displayName } = value;
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
@@ -23,36 +20,28 @@ export const editUserInfo = async (value) => {
   } catch (err) {
     console.log(err);
   }
-}
-
+};
 
 // 회원가입
-export const signup =
-  async (value) => {
-    console.log(value);
-    const { email, password, displayName } = value;
+export const signup = async (value) => {
+  console.log(value);
+  const { email, password, displayName } = value;
 
-    try {
-      const { data } = (
-        await axios.post("/auth/signup", {
-          email,
-          password,
-          displayName,
-        })
-      );
+  try {
+    const { data } = await axios.post('/auth/signup', {
+      email,
+      password,
+      displayName,
+    });
 
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("email", data.user.email);
-      localStorage.setItem("displayName", data.user.displayName);
-      alert("회원가입을!🌺축하드립니다 !")
-      console.log("성공")
-      window.location.replace("/")
-      ;
-    } catch (err) {
-      alert("회원가입에 실패했습니다.")
-      console.log(err);
-    }
-  };
+    localStorage.setItem('accessToken', data.accessToken);
+    alert('회원가입을!🌺축하드립니다 !');
+    window.location.replace('/');
+  } catch (err) {
+    alert('회원가입에 실패했습니다.');
+    console.log(err);
+  }
+};
 
 // 로그인
 export const signIn = async (value) => {
