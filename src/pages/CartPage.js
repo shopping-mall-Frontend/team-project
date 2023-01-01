@@ -99,7 +99,7 @@ const CartPage = () => {
   return (
     <div>
       <Header />
-      <Step />
+      <Step style={`step1`}/>
       <Container>
         {cart.length === 0 ? (
           <Blank>

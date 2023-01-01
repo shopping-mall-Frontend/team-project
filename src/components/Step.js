@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Step = () => {
+const Step = (props) => {
+  console.log(props)
   return (
     <StepEl>
       <li>01 SHOPPING BAG</li>
