@@ -1,33 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import AccountInquiry from '../AccountInquiry';
-import { AddAccount } from '../AddAccount';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import AccountInquiry from "../AccountInquiry";
+import { AddAccount } from "../AddAccount";
 
 const BankAccounts = () => {
   const [acooutUtil, setAcooutUtil] = useState('');
 
   return (
     <Container>
-      {acooutUtil === 'connect' ? (
+      {acooutUtil === "connect" ? (
         <>
-          <button
-            onClick={() => {
-              setAcooutUtil('inquiry');
-            }}
-          >
-            계좌 조회 이거 버튼입니다 누르세요 css나중에 할게요
-          </button>
+          <div className="account-title">
+            <p>계좌 연결</p>
+            <button
+              onClick={() => {
+                setAcooutUtil("inquiry");
+              }}
+              className="account-btn"
+            >
+              계좌 조회 바로가기 {">"}
+            </button>
+          </div>
+
           <AddAccount />
         </>
       ) : (
         <>
-          <button
-            onClick={() => {
-              setAcooutUtil('connect');
-            }}
-          >
-            계좌 연결 이거 버튼입니다 누르세요 css나중에 할게요
-          </button>
+          <div className="account-title">
+            <p>계좌 조회</p>
+            <button
+              onClick={() => {
+                setAcooutUtil("connect");
+              }}
+              className="account-btn"
+            >
+              계좌 연결 바로가기 {">"}
+            </button>
+          </div>
+
           <AccountInquiry />
         </>
       )}
@@ -35,6 +45,29 @@ const BankAccounts = () => {
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-width:900px ;
 
-export { BankAccounts };
+  .account-title {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    p {
+      display:inline-block;
+      padding:20px 0;
+      font-size:1rem;
+    }
+
+    .account-btn {
+      font-size:1rem;
+      font-weight:600;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  }
+`;
+
+export {BankAccounts};
