@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 
 const tagValues = {
   brand: ['GUCCI', 'BOTTEGA VENETA', 'LOUIS VUITTON', 'CHANEL'],
-  type: ['가방', 'bags', '의류', 'clothes'],
+  type: ['가방', '의류'],
 };
 
 const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClick }) => {
