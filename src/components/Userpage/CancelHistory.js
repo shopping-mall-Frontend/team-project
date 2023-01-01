@@ -69,7 +69,7 @@ const CancelHistory = () => {
                       </dl>
                     </div>
                   </ProductInfo>
-                  <p>취소 완료</p>
+                  <p>환불 완료</p>
                 </Details>
               </li>
             ))
@@ -107,6 +107,14 @@ const Title = styled.div`
 const Details = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+
+  p {
+    padding: 8px 30px;
+    height: 40px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+  }
 `;
 
 const ProductInfo = styled.div`
