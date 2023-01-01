@@ -177,6 +177,8 @@ const CartPage = () => {
 };
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
   padding-bottom: 130px;
   button {
     cursor: pointer;
@@ -189,7 +191,6 @@ const Blank = styled.div`
   align-items: center;
   gap: 40px;
 
-  margin: 0 100px;
   padding: 100px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;

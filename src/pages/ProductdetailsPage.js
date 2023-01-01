@@ -173,6 +173,8 @@ const ProductdetailsPage = () => {
 };
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`
