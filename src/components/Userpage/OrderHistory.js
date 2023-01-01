@@ -37,7 +37,9 @@ const OrderHistory = () => {
   };
 
   const handelOrderConfirm = (detailId) => {
-    orderConfirm(detailId);
+    if (window.confirm(`구매 확정시 취소가 불가합니다. \n확정하시겠습니까?`)) {
+      orderConfirm(detailId);
+    }
   };
 
   // 거래 취소
@@ -50,7 +52,9 @@ const OrderHistory = () => {
   };
 
   const handelOrderCancle = (detailId) => {
-    orderCancle(detailId);
+    if (window.confirm(`결제했던 계좌로 환불이 진행됩니다. \n취소하시겠습니까?`)) {
+      orderCancle(detailId);
+    }
   };
 
   return (
@@ -99,7 +103,7 @@ const OrderHistory = () => {
                         구매 확정
                       </button>
                       <button type="button" onClick={() => handelOrderCancle(list.detailId)}>
-                        구매 취소
+                        취소 요청
                       </button>
                     </>
                   ) : list.done ? (
