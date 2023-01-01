@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { orderedProducts } from '../../utils/useAPI';
 
 const CancelHistory = () => {
-  const [ordered, setOdered] = useState([]);
+  const [canceled, setCanceled] = useState([]);
 
   useEffect(() => {
     // 전체제품 거래내역 가져오기
@@ -14,8 +14,7 @@ const CancelHistory = () => {
       let sortedData = json.sort(function (a, b) {
         return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
       });
-      setOdered(sortedData);
-      setOdered(json);
+      setCanceled(sortedData);
     };
     getorderedProducts();
   }, []);
@@ -34,18 +33,18 @@ const CancelHistory = () => {
   return (
     <Container>
       <ol>
-        {!ordered ? (
+        {!canceled ? (
           <Blank>
             <p>You haven't placed any orders canceled yet.</p>
           </Blank>
         ) : (
-          ordered
+          canceled
             .filter((list) => list.isCanceled === true)
             .map((list) => (
               <li key={list.detailId}>
                 <Title>
                   <h4>{dateFormat(list.timePaid)}</h4>
-                  <span>주문내역 상세보기 ></span>
+                  <span>주문내역 상세보기 〉</span>
                 </Title>
                 <Details>
                   <ProductInfo>
@@ -56,7 +55,7 @@ const CancelHistory = () => {
                       <dl>
                         <dt>상품명</dt>
                         <dd>
-                          [{list.product.tags[0]}]{list.product.title}
+                          [{list.product.tags[0]}] {list.product.title}
                         </dd>
                       </dl>
                       <dl>
@@ -137,30 +136,14 @@ const ProductInfo = styled.div`
     gap: 20px;
   }
 
+  dl:first-child {
+    dt {
+      margin-right: 15px;
+    }
+  }
+
   dt {
-    font-weight: 700;
-  }
-`;
-
-const CancleOk = styled.div`
-  display: flex;
-  gap: 20px;
-  align-items: center;
-
-  button {
-    padding: 0 30px;
-    height: 40px;
-    border: 1px solid #dfdfdf;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .confirmtrue {
-    background-color: #eaeaea;
-  }
-
-  .cancle {
-    text-decoration: line-through;
+    color: #4c4c4c;
   }
 `;
 
