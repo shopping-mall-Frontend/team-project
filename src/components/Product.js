@@ -21,12 +21,13 @@ const PrdList = styled.li`
             height: 225px;
             margin-top: 20px;
             margin-bottom: 10px;
-            &:hover {
+
+            ${(props) => (props.isSoldOut ? '' : '&:hover')} {
               font-size: 20px;
               font-weight: bolder;
               line-height: 225px;
               text-align: center;
-              color: black;
+              color: ${(props) => (props.isSoldOut ? 'red' : 'black')};
               background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
                 url(${(props) => props.url});
             }
@@ -69,8 +70,8 @@ const PrdPrice = styled.p`
 
 const Product = ({ id, product, isCategory }) => {
   return (
-    <PrdList isCategory={isCategory} url={product.thumbnail}>
-      <Link to={`/product/${id}`}>Go Details</Link>
+    <PrdList isCategory={isCategory} url={product.thumbnail} isSoldOut={product.isSoldOut}>
+      <Link to={`/product/${id}`}>{product.isSoldOut ? 'Sold Out' : 'Go Details'}</Link>
       <PrdBrand className="product-brand">[{product.tags[0]}]</PrdBrand>
       <PrdTitle>{product.title}</PrdTitle>
       <PrdPrice>${`${product.price.toLocaleString()}`}</PrdPrice>
