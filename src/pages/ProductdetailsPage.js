@@ -8,6 +8,9 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
+  ////////// header 검색창 버그 해결 ////////
+  const location = useLocation();
+
   /////////////// 단일 제품상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -17,7 +20,7 @@ const ProductdetailsPage = () => {
       setProduct(json);
     };
     getServerProduct();
-  }, []);
+  }, [location.pathname]);
 
   //브랜드명, 상세 카테고리 변수에 담기
   const copyTags = { ...product.tags };
@@ -88,9 +91,6 @@ const ProductdetailsPage = () => {
   const orderSsesionData = (orderProducts) => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
-
-  ////////// header 검색창 버그 해결 ////////
-  const location = useLocation();
 
   return (
     <div>
