@@ -10,6 +10,11 @@ const CancelHistory = () => {
     // 전체제품 거래내역 가져오기
     const getorderedProducts = async () => {
       const json = await orderedProducts();
+      //거래일자 최신순으로 목록 정렬
+      let sortedData = json.sort(function (a, b) {
+        return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
+      });
+      setOdered(sortedData);
       setOdered(json);
     };
     getorderedProducts();
