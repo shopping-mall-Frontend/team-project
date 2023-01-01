@@ -140,15 +140,18 @@ const Search = ({ isSearchPage }) => {
         <OptionWrap>
           <PageOption page={page} maxPage={maxPage} setPage={setPage} />
         </OptionWrap>
-        <ol>
-          {products.length > 0 ? (
-            <PageResults count={count} limit={limit} products={products} />
-          ) : (
-            <Blank>
-              <p>"{query}" 와 일치하는 검색결과가 없습니다.</p>
-            </Blank>
-          )}
-        </ol>
+        {products.length > 0 ? (
+          <>
+            <LengthP>Search Result: {products.length} items </LengthP>
+            <ol>
+              <PageResults count={count} limit={limit} products={products} />
+            </ol>
+          </>
+        ) : (
+          <Blank>
+            <p>"{query}" 와 일치하는 검색결과가 없습니다.</p>
+          </Blank>
+        )}
       </PageWrap>
     );
   }
@@ -166,6 +169,13 @@ const PageWrap = styled.div`
     flex-wrap: wrap;
     justify-content: center;
   }
+`;
+
+const LengthP = styled.p`
+  margin-top: 40px;
+  font-size: 20px;
+  color: #495057;
+  font-family: 'Marcellus';
 `;
 
 const OptionWrap = styled.div`
