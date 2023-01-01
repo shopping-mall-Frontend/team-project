@@ -16,6 +16,17 @@ const OrderHistory = () => {
     getorderedProducts();
   }, []);
 
+  //날짜 포맷
+  const dateFormat = (timePaid) => {
+    const date = new Date(timePaid);
+    const year = String(date.getFullYear()).slice(2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${year}.${month}.${day} (${hours}:${minutes})`;
+  };
+
   // 거래 확정
   const orderConfirm = async (detailId) => {
     let body = JSON.stringify({
@@ -56,7 +67,7 @@ const OrderHistory = () => {
           ordered.map((list) => (
             <li key={list.detailId} className="orderedList">
               <Title>
-                <h4>{list.timePaid}</h4>
+                <h4>{dateFormat(list.timePaid)}</h4>
                 <span>주문내역 상세보기 ></span>
               </Title>
               <Details>
