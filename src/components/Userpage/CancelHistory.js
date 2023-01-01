@@ -114,6 +114,7 @@ const Details = styled.div`
     height: 40px;
     border: 1px solid #dfdfdf;
     border-radius: 5px;
+    background-color: #dfdfdf;
   }
 `;
 
