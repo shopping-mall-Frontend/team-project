@@ -12,10 +12,12 @@ const OrderHistory = () => {
     const getorderedProducts = async () => {
       const json = await orderedProducts();
       //거래일자 최신순으로 목록 정렬
-      let sortedData = json.sort(function (a, b) {
-        return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
-      });
-      setOdered(sortedData);
+      if (Array.isArray(json)) {
+        let sortedData = json.sort(function (a, b) {
+          return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
+        });
+        setOdered(sortedData);
+      }
     };
     getorderedProducts();
   }, []);
@@ -64,7 +66,7 @@ const OrderHistory = () => {
   return (
     <Container>
       <ol>
-        {!ordered ? (
+        {ordered.length === 0 ? (
           <Blank>
             <p>You haven't placed any orders yet.</p>
             <Link to={'/'}>

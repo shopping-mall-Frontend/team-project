@@ -8,10 +8,11 @@ import { useNavigate } from "react-router-dom";
 import Step from "../components/Step";
 import PopupPostCode from "../components/PopupPostCode";
 import AddressPopup from "../components/AddressPopup";
+import Loading from "../components/Loading";
 
 const OrderPage = () => {
-  // const navigate = useNavigate();
-  let test = sessionStorage.getItem("order");
+  const navigate = useNavigate();
+  let orderList = sessionStorage.getItem("order");
 
   const [user, setUser] = useState(false);
   // 전체 계좌 잔액, 리스트 확인
@@ -19,7 +20,7 @@ const OrderPage = () => {
   // 선택 가능 은행 리스트
   const [holdBankList, setHoldBankList] = useState([]);
   // 구매 제품 목록
-  const [cart, setCart] = useState(JSON.parse(test));
+  const [cart, setCart] = useState(JSON.parse(orderList));
   // 구매 할 때 사용될 배열
   const [buyProducts, setBuyProducts] = useState([]);
   // 토탈 구매 금액
@@ -30,6 +31,10 @@ const OrderPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   // 주소 팝업 구분
   const [popupNum, setPopupNum] = useState(1);
+  // 이메일 직접 선택 인풋 토글
+  const [emailDrt, setEmailDrt] = useState(true);
+  // 로딩
+  const [loading, setLoading] = useState(true);
 
   // 주소 팝업창 열기
   const openPostCode = (num) => {
@@ -42,14 +47,27 @@ const OrderPage = () => {
       setIsPopupOpen(false)
   }
 
+  // maxlenth check
+  const maxLengthChk = (object) => {
+    if (object.target.value.length > object.target.maxLength) {
+      object.target.value = object.target.value.slice(0, object.target.maxLength);
+    }
+  };
+
   useEffect(() => {
     const userBank = async () => {
+
+      setLoading(true)
+      console.log('로딩 시작')
       const userInfo = await auth();
       const selectBank = await getAccount("banks");
       const allBank = await getAccount();
-
-      setAllBankList(allBank);
+      console.log('로딩 끝')
+      setLoading(false)
       setUser(userInfo);
+      // 전체 은행 리스트
+      setAllBankList(allBank);
+      // 선택 가능 은행 리스트
       setHoldBankList(selectBank.filter((e) => e.disabled === true));
 
       // 결제 할 때 필요한 배열 생성 (수량 체크)
@@ -73,7 +91,6 @@ const OrderPage = () => {
 
       // 토탈 금액 계산
       let price = 0;
-
       cart.forEach((e) => {
         if (e.quantity > 0) price += Number(e.price * e.quantity);
         else price += Number(e.price);
@@ -85,6 +102,7 @@ const OrderPage = () => {
     userBank();
   }, [cart]);
 
+  // 선택 은행 계좌 id 저장
   useEffect(() => {
     const getAccid = async () => {
       const allBankList = await getAccount();
@@ -99,17 +117,20 @@ const OrderPage = () => {
 
   // 결제
   const payment = async () => {
+    // 입력 폼 값 체크
     const formList = document.querySelectorAll('.form')
     for(let i=0; i<formList.length; i++){
       if(formList[i].value === '') {
-        alert('입력 정보를 확인해 주세요.')
+        alert('입력란을 확인해주세요.')
         formList[i].focus()
         return 
       }
     }
 
+    // 구매 의사, 계좌 선택 여부 확인 및 결제 진행
     if (window.confirm("정말 구매하시겠습니까?") && accountId !== "") {
       if (allBankList.accounts.filter((e) => e.id === accountId)[0].balance >= totalPrice) {
+        setLoading(true)
         for (const x of buyProducts) {
           let body = JSON.stringify({
             productId: x.id,
@@ -117,7 +138,8 @@ const OrderPage = () => {
           });
           await buyProduct(body);
         }
-        alert("결제가 완료되었습니다. 결제완료 페이지 만들기 전까지 이거 보세요");
+        setLoading(false)
+        navigate('/orderconfirmed')
       } else {
         alert("잔액이 부족합니다.");
       }
@@ -126,7 +148,6 @@ const OrderPage = () => {
     } else return;
   };
 
-  const [emailDrt, setEmailDrt] = useState(true);
   // 이메일 직접선택 
   const email = (e) => {
     if(e.target.value === 'direct') setEmailDrt(true)
@@ -136,9 +157,8 @@ const OrderPage = () => {
   return (
     <>
       <Header user={user} />
-
       <Container>
-        <Step />
+        <Step style={`step2`}/>
         <section className="product-list">
           <ul>
             {cart.map((item) => {
@@ -152,7 +172,7 @@ const OrderPage = () => {
                     수량 : <span>{item.quantity ? item.quantity : 1}</span>
                   </p>
                   <p>
-                    상품 금액 : <span>{(item.price * (item.quantity ? item.quantity : 1)).toLocaleString()} $</span>
+                    상품 금액 : <span>${(item.price * (item.quantity ? item.quantity : 1)).toLocaleString()}</span>
                   </p>
                 </li>
               );
@@ -184,26 +204,26 @@ const OrderPage = () => {
                       <option value="hotmail.com" key="5">hotmail.com</option>
                   </select>
                   {
-                    emailDrt ?
-                    <input type="text" className="direct-input form" placeholder="직접 입력"/>
-                    :null
+                    emailDrt && (
+                      <input type="text" className="direct-input form" placeholder="직접 입력"/>
+                    )
                   }
                 </div>
               </div>
               <div>
                 <p htmlFor="">일반 전화</p>
                 <div>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
+                  <input type="number" className='form' maxLength={3} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
                 </div>
               </div>
               <div>
                 <p htmlFor="">휴대 전화</p>
                 <div>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
+                  <input type="number" className='form' maxLength={3} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
                 </div>
               </div>
               <div className="address-form">
@@ -241,17 +261,17 @@ const OrderPage = () => {
               <div>
                 <p htmlFor="">일반 전화</p>
                 <div>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
+                  <input type="number" className='form' maxLength={3} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
                 </div>
               </div>
               <div>
                 <p htmlFor="">휴대 전화</p>
                 <div>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
-                  <input type="number" className='form'/>
+                  <input type="number" className='form' maxLength={3} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
+                  <input type="number" className='form' maxLength={4} onInput={(e) => {maxLengthChk(e)}}/>
                 </div>
               </div>
               <div>
@@ -259,10 +279,10 @@ const OrderPage = () => {
                   <option value="none" key="1">
                     메시지 선택(선택 사항)
                   </option>
-                  <option value="" key="2"></option>
-                  <option value="" key="3"></option>
-                  <option value="" key="4"></option>
-                  <option value="" key="5"></option>
+                  <option value="0" key="2">부재시 문 앞에 놓고 가주세요.</option>
+                  <option value="0" key="3">부재시 문 앞에 놓고 가주세요.</option>
+                  <option value="0" key="4">부재시 문 앞에 놓고 가주세요.</option>
+                  <option value="0" key="5">부재시 문 앞에 놓고 가주세요.</option>
                 </select>
               </div>
             </ShippingInfo>
@@ -270,7 +290,7 @@ const OrderPage = () => {
             <SubTitle>결제 계좌 선택</SubTitle>
             {holdBankList.length === 0 ? (
               <>
-                <p>선택 가능한 계좌가 없습니다. 계좌를 등록하세요.</p>
+                <p className="select-none-text">선택 가능한 계좌가 없습니다. 계좌를 등록하세요.</p>
                 <AddAccount />
               </>
             ) : (
@@ -316,13 +336,16 @@ const OrderPage = () => {
               </AddressPopup>
           )}
         </div>
+        {
+        loading && <Loading />
+        }
       </Container>
+      <Footer />
       {
         isPopupOpen && (
           <PopBg className="popup-bg"></PopBg>
         )
       }
-      <Footer />
     </>
   );
 };
@@ -374,6 +397,7 @@ const Container = styled.main`
   .order-info {
     display: flex;
     gap: 20px;
+    margin-bottom:50px;
 
     .order-form {
       width: 50%;
@@ -421,6 +445,15 @@ const Container = styled.main`
         }
       }
     }
+  }
+
+  .select-none-text { 
+    font-size:0.9rem; 
+    padding:10px 0;
+  }
+
+  .select-text {
+    display:none;
   }
 `;
 
@@ -477,7 +510,7 @@ const ShippingInfo = styled.form`
 
       .direct-input {
         position:absolute;
-        width:calc(50% - 42px);
+        width:calc(50% - 40px);
         right: 20px;
         border-right:0;
       }
@@ -526,6 +559,7 @@ const ShippingInfo = styled.form`
     width:100%;
     height:30px;
     border:1px solid #ddd;
+    padding-left:10px;
     
     &:focus {
       outline: none;

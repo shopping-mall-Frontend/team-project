@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components'
-import { delAccount, getAccount } from '../utils/useAPI';
+import { delAccount, getAccount, auth } from '../utils/useAPI';
 
 const AccountInquiry = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const [accounts, setAccounts] = useState([]);
   const [selectBank, setSelectBank] = useState('');
   const [totalBalance, setTotalBalance] = useState(0);
   const [disconnect, setDisconnect] = useState(false);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     getAccounInfo()
+    getUser()
   }, []);
+
+  const getUser = async () => {
+    const userInfo = await auth()
+
+    setUser(userInfo)
+  }
 
   const getAccounInfo = async () => {
     const accountData = await getAccount();
@@ -51,9 +59,12 @@ const AccountInquiry = () => {
 
   return (
     <Container>
-      <p>username님의 계좌 총 잔액은 ${totalBalance.toLocaleString()} 입니다.</p>
+      <div className='inquiry-title'><span>{user.displayName}</span>님의 계좌 총 잔액은 <span>${totalBalance.toLocaleString()}</span> 입니다.</div>
 
-      <select onChange={(e) => {selectAccountInfo(e)}}>
+      <select onChange={(e) => {
+        selectAccountInfo(e) 
+        reset()
+        }}>
         <option value="" key="000">은행 선택</option>
         {
           accounts.map(account => {
@@ -68,25 +79,26 @@ const AccountInquiry = () => {
         selectBank !== ''?
         selectBank.map(account => {
           return (
-            // user name 부분 user 정보 props 받아 처리 예정
-            <div key={account.id}>
-              <p>user name님의 {account.bankName} 계좌 정보입니다.</p>
+            <div key={account.id} className='account-info-box'>
+              <div><span>{user.displayName}</span>님의 <span>{account.bankName}</span> 계좌 정보입니다.</div>
               <ul>
-                <li>계좌번호:{account.accountNumber}</li>
-                <li>잔액: $ {account.balance.toLocaleString()}</li>
+                <li><span>계좌번호</span>: {account.accountNumber}</li>
+                <li><span>잔액</span>: ${account.balance.toLocaleString()}</li>
               </ul>
               {disconnect ? (
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <label htmlFor="check">정말 계좌를 해제 하시겠습니까?</label>
-                  <input 
-                    {...register("signature")}
-                    type="checkbox"
-                    name="signature"
-                    id="check"
-                    onClick={(e) => {
-                      return (e.target.value = e.target.checked);
-                    }}
-                  />
+                  <div>
+                    <label htmlFor="check">정말 계좌를 해제 하시겠습니까?</label>
+                    <input
+                      {...register("signature")}
+                      type="checkbox"
+                      name="signature"
+                      id="check"
+                      onClick={(e) => {
+                        return (e.target.value = e.target.checked);
+                      }}
+                    />
+                  </div>
 
                   <button type='submit'>계좌 해제</button>
                 </form>
@@ -103,15 +115,94 @@ const AccountInquiry = () => {
           );
         })
         : 
-        <p>상세 조회를 원하시면 은행을 선택해 주세요 <span>*목록에 은행이 없다면 계좌 등록을 먼저 진행해 주세요.</span></p>
+        <p className='inquiry-sub-title'>상세 조회를 원하시면 은행을 선택해 주세요 <span>*목록에 은행이 없다면 계좌 등록을 먼저 진행해 주세요.</span></p>
       }
-      
     </Container>
   )
 }
 
-const Container = styled.div `
+const Container = styled.div`
+  min-width:900px;
 
-`
+  .inquiry-title {
+    padding: 10px 0;
+    font-size: 1.1rem;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .inquiry-sub-title {
+    font-size:.8rem;
+    color:#555;
+    padding:10px 0;
+    margin-top:15px;
+  }
+
+  select {
+    width: 100%;
+    height: 30px;
+    border:1px solid #ddd;
+    padding-left:10px;
+  }
+
+  .account-info-box {
+    display:flex;
+    gap:10px; 
+    flex-direction:column;
+    align-items:flex-start;
+    margin-top:20px;
+
+    div { 
+      font-size:1rem;
+
+      span {
+        font-weight:600;
+      }
+    }
+
+    ul {
+      display:flex;
+      flex-direction: column;
+      gap:10px;
+      border:1px solid #ddd;
+      width:100%;
+      padding:10px;
+
+      li span {
+        font-weight:600;
+      }
+    }
+
+    & > button {
+      font-size:.8rem;
+      color:#555;
+      padding:10px 0;
+    }
+
+    form {
+      div {
+        display:flex;
+        align-items:center;
+
+        label {
+          padding:10px 0;
+        }
+
+        input {
+          width:20px;
+          height:20px;
+          margin-left:10px;
+        }
+      }
+
+      button {
+        font-size:0.8rem;
+        color:#555
+      }
+    }
+  }
+`;
 
 export default AccountInquiry

@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <FooterWrap>
       <ul>
-        <li>주식회사 N4 | CEO 미정</li>
+        <li>주식회사 N4 | CEO 이미정</li>
         <li><address>서울특별시 강남구 테헤란로 231</address></li>
         <li><address>고객센터 : 080-4498-2271 (13:00AM ~ 17:00PM)</address></li>
         <li><address>E-Mail : N4@email.com</address></li>
@@ -17,6 +17,7 @@ const Footer = () => {
 }
 
 const FooterWrap = styled.footer`
+  min-width:1200px;
   padding:80px 40px;
   position:relative;
   border-top:1px solid #ddd;

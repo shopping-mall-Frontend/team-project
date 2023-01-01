@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { getAccount, accountAdd } from "../utils/useAPI";
 
 export const AddAccount = () => {
-  const { register, handleSubmit } = useForm();
-  
+  const { register, handleSubmit, reset } = useForm();
+
   // 은행 코드, 선택 가능 은행 조회
   const [bankCode, setBankCode] = useState('0');
   const [selectBank, setSelectBank] = useState([]);
@@ -35,9 +35,11 @@ export const AddAccount = () => {
       setBankCode('0')
       bankNumInput()
       alert('계좌 등록이 완료되었습니다.')
+      data = ''
     }else{
       alert(res)
     }
+    reset()
   };
 
   // 은행 선택
@@ -61,7 +63,6 @@ export const AddAccount = () => {
           {...register("bankCode")}
           className="bank-selector"
           onChange={(e) => {selectChangeHandler(e)}}
-          style={{ width: "100px" }}
         >
           <option value={0} key="99" onClick={() => {setBankCode(0)}}>
             은행 선택
@@ -76,7 +77,7 @@ export const AddAccount = () => {
         </select>
 
         {bankCode === '0' ? (
-          <p>은행을 선택해주세요. <span>* 목록에 은행이 보이지 않는다면 전부 등록된 상태입니다.</span></p>
+          <p className="select-text">은행을 선택해 주세요 * 목록에 은행이 보이지 않는다면 전부 등록된 상태입니다.</p>
         ) : (
           <>
             <div className="bank-code-wrap">
@@ -93,7 +94,8 @@ export const AddAccount = () => {
                         }}
                         maxLength={item.digits[i]}
                         key={index++}
-                        style={{ width: item.digits[i] * 20 + "px" }}
+                        style={{'width':(100 / item.digits.length)+'%'}}
+                        className='number-input'
                       />
                     );
                   }
@@ -112,6 +114,7 @@ export const AddAccount = () => {
                   maxLengthChk(e);
                 }}
                 maxLength={11}
+                className='number-input'
               />
             </div>
 
@@ -127,7 +130,9 @@ export const AddAccount = () => {
               />
             </div>
 
-            <button type="submit">계좌 등록</button>
+            <button type="submit">
+              계좌 등록
+            </button>
           </>
         )}
       </BankForm>
@@ -136,22 +141,63 @@ export const AddAccount = () => {
 };
 
 const BankForm = styled.form`
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  width:100% ;
+
+  div {
+    display:flex;
+    align-items:center;
+    width:100%;
+  }
+  
   select {
     border: 1px solid #ddd;
+    width:100%;
+    height:30px;
+  }
+
+  .select-text {
+    display:block;
+    padding:10px 0;
+    font-size:0.8rem;
+    color:#777;
   }
 
   .bank-code-wrap {
     display: flex;
     gap: 15px;
+    width:100%;
+  }
+  input[name="phoneNumber"] {
+    margin-left:10px;
+  }
+
+  input[name="signature"] {
+    width:20px;
+    height:20px;
+    margin-left:10px;
   }
 
   input[type="number"] {
     border: 1px solid #ddd;
+    height:30px;
+    padding:0 10px
   }
 
   input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  button {
+    width:100px;
+    height:30px;
+    background-color:#ddd !important; 
+    font-size:.9rem;
+    cursor: pointer;
   }
 `;

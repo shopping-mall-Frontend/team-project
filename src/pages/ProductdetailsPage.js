@@ -4,7 +4,6 @@ import reset from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
@@ -95,7 +94,6 @@ const ProductdetailsPage = () => {
   return (
     <div>
       <Header />
-      <Navbar />
       <Container>
         <ImageWrap>
           <img src={product.thumbnail} alt={`${product.title} 썸네일`} />

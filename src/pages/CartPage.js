@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import reset from '../css/reset-css.css';
 import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
-import Navbar from '../components/Navbar';
 import Step from '../components/Step';
 import Footer from '../components/Footer';
 
@@ -140,8 +139,7 @@ const CartPage = () => {
   return (
     <div>
       <Header />
-      <Navbar />
-      <Step />
+      <Step style={`step1`}/>
       <Container>
         {cart.length === 0 ? (
           <Blank>

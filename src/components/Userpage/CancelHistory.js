@@ -11,10 +11,12 @@ const CancelHistory = () => {
     const getorderedProducts = async () => {
       const json = await orderedProducts();
       //거래일자 최신순으로 목록 정렬
-      let sortedData = json.sort(function (a, b) {
-        return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
-      });
-      setCanceled(sortedData);
+      if (Array.isArray(json)) {
+        let sortedData = json.sort(function (a, b) {
+          return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
+        });
+        setCanceled(sortedData);
+      }
     };
     getorderedProducts();
   }, []);
@@ -33,7 +35,7 @@ const CancelHistory = () => {
   return (
     <Container>
       <ol>
-        {!canceled ? (
+        {canceled.length === 0 ? (
           <Blank>
             <p>You haven't placed any orders canceled yet.</p>
           </Blank>

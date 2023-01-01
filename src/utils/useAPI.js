@@ -2,6 +2,47 @@ import axios from '../api/axios';
 
 ////////////////////// 인증 //////////////////////
 
+// 사용자 수정
+export const editUserInfo = async (value) => {
+  try {
+    const { newPassword, oldPassword, displayName } = value;
+    const token = localStorage.getItem('accessToken');
+    if (token !== null) {
+      axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
+      const response = await axios.put(`/auth/user`, {
+        displayName,
+        oldPassword,
+        newPassword,
+      });
+      console.log(response);
+      return response;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// 회원가입
+export const signup = async (value) => {
+  console.log(value);
+  const { email, password, displayName } = value;
+
+  try {
+    const { data } = await axios.post('/auth/signup', {
+      email,
+      password,
+      displayName,
+    });
+
+    localStorage.setItem('accessToken', data.accessToken);
+    alert('회원가입을!🌺축하드립니다 !');
+    window.location.replace('/');
+  } catch (err) {
+    alert('회원가입에 실패했습니다.');
+    console.log(err);
+  }
+};
+
 // 로그인
 export const signIn = async (value) => {
   try {
