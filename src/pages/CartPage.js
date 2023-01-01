@@ -231,20 +231,16 @@ const Blank = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
-
   padding: 100px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-
   p {
     font-size: 25px;
   }
-
   button {
     padding: 15px 35px;
     font-size: 15px;
   }
-
   button:hover {
     font-weight: 700;
   }
@@ -254,7 +250,6 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 80px;
-
   h2 {
     margin-bottom: 15px;
     font-size: 21px;
@@ -277,12 +272,10 @@ const CartList = styled.li`
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #000;
-
   img {
     width: 120px;
     height: 140px;
   }
-
   .deleteBtn {
     color: rgba(0, 0, 0, 0.6);
     font-weight: 700;
@@ -299,33 +292,26 @@ const Info = styled.div`
 const Quantity = styled.div`
   display: flex;
   justify-content: space-between;
-
   width: 95px;
   height: 30px;
   border: 1px solid #000;
-
   font-size: 12px;
-
   input {
     width: 30px;
     text-align: center;
     font-size: 14px;
   }
-
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-
   input:invalid {
     border: 3px solid red;
   }
-
   button {
     padding: 0 8px;
   }
-
   .btn-disabled {
     color: #dfdfdf;
   }
@@ -346,11 +332,9 @@ const Price = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 30px;
-
   padding: 40px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-
   li {
     display: flex;
     justify-content: space-between;
@@ -362,7 +346,6 @@ const Total = styled.div`
   justify-content: space-between;
   margin-bottom: 50px;
   padding-top: 30px;
-
   font-size: 20px;
 `;
 
@@ -370,15 +353,12 @@ const OrderBtn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;
-
   button {
     width: 100%;
     padding: 12px;
     border: 1px solid #000;
-
     font-size: 16px;
   }
-
   button:hover {
     font-weight: 700;
   }
