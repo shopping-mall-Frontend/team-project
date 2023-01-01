@@ -76,7 +76,7 @@ const OrderHistory = () => {
             <li key={list.detailId} className="orderedList">
               <Title>
                 <h4>{dateFormat(list.timePaid)}</h4>
-                <span>주문내역 상세보기 ></span>
+                <span>주문내역 상세보기 〉</span>
               </Title>
               <Details>
                 <ProductInfo>
@@ -195,8 +195,14 @@ const ProductInfo = styled.div`
     gap: 20px;
   }
 
+  dl:first-child {
+    dt {
+      margin-right: 15px;
+    }
+  }
+
   dt {
-    font-weight: 700;
+    color: #4c4c4c;
   }
 `;
 
