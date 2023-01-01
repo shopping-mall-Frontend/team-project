@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../components/Header';
-import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Title from '../../components/Userpage/Title';
 
@@ -10,7 +9,6 @@ const UserPage = () => {
   return (
     <>
       <Header />
-      <Navbar />
       <Container>
         <Menu aria-labelledby="my page navigation">
           <ul>
