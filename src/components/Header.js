@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import '../css/reset-css.css';
 import { auth } from '../utils/useAPI';
 import Search from './search/Search';
 
 const Header = React.memo(() => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    if (localStorage.getItem('accessToken')) {
-      setIsLogin(true);
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(false);
   useEffect(() => {
@@ -25,9 +19,13 @@ const Header = React.memo(() => {
 
   const logout = async () => {
     try {
-      await auth('logout');
-      localStorage.removeItem('accessToken');
-      setIsLogin(false);
+     const res =  await auth('logout');
+     if(res){
+       localStorage.removeItem('accessToken');
+       setUser(false);
+       navigate("/");
+     }
+
     } catch (err) {
       alert('로그아웃 실패.');
       console.log('실패');
@@ -43,13 +41,13 @@ const Header = React.memo(() => {
           </div>
           <ul className="nav__links">
             <li>
-              {isLogin ? <Link to={`/user`}>Hello! 🌺{user.displayName}</Link> : <Link to={'/login'}>LOGIN</Link>}
+              {user ? <Link to={`/user`}>Hello! 🌺{user.displayName}</Link> : <Link to={'/login'}>LOGIN</Link>}
             </li>
             <li>
               <Link to={'/Cart'}>Chart</Link>{' '}
             </li>
-            {isLogin ? (
-              <Link to={'/'} onClick={() => logout()} title="로그아웃">
+            {user ? (
+              <Link to={'/'} onClick={logout} title="로그아웃">
                 <span className="material-symbols-outlined">logout</span>
               </Link>
             ) : (
