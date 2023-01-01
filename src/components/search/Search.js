@@ -144,7 +144,9 @@ const Search = ({ isSearchPage }) => {
           {products.length > 0 ? (
             <PageResults count={count} limit={limit} products={products} />
           ) : (
-            '검색된 결과가 없습니다.'
+            <Blank>
+              <p>"{query}" 와 일치하는 검색결과가 없습니다.</p>
+            </Blank>
           )}
         </ol>
       </PageWrap>
@@ -170,5 +172,21 @@ const OptionWrap = styled.div`
   width: 20%;
   position: absolute;
   right: 0;
+`;
+
+const Blank = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  margin-top: 100px;
+  padding: 150px 0;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+
+  p {
+    font-size: 25px;
+  }
 `;
 export default Search;
