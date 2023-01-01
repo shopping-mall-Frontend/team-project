@@ -15,6 +15,12 @@ const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClic
   };
   let query = useQuery().get('q');
 
+  const activeEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleClick();
+    }
+  };
+
   useEffect(() => {
     setValue('searchText', query);
   }, [query]);
@@ -50,7 +56,7 @@ const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClic
     </SearchForm>
   ) : (
     <SearchWrap isSearchPage={isSearchPage}>
-      <SearchInput placeholder="검색어를 입력하세요." onChange={handleChange} />
+      <SearchInput placeholder="검색어를 입력하세요." onChange={handleChange} onKeyDown={(e) => activeEnter(e)} />
       <button onClick={handleClick}>
         <span className="material-symbols-outlined">search</span>
       </button>
