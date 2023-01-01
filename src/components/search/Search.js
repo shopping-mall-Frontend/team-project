@@ -93,6 +93,10 @@ const Search = ({ isSearchPage }) => {
     };
   });
 
+  useEffect(() => {
+    setCount((page - 1) * limit);
+  }, [page]);
+
   const handleClickOutside = (event) => {
     if (containerRef && !containerRef.current.contains(event.target)) {
       setOpenSearchBox(false);
@@ -136,7 +140,13 @@ const Search = ({ isSearchPage }) => {
         <OptionWrap>
           <PageOption page={page} maxPage={maxPage} setPage={setPage} />
         </OptionWrap>
-        <ol>{products.length > 0 ? <PageResults products={products} /> : ''}</ol>
+        <ol>
+          {products.length > 0 ? (
+            <PageResults count={count} limit={limit} products={products} />
+          ) : (
+            '검색된 결과가 없습니다.'
+          )}
+        </ol>
       </PageWrap>
     );
   }
