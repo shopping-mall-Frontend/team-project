@@ -5,7 +5,7 @@ import styled, { css } from 'styled-components';
 
 const tagValues = {
   brand: ['GUCCI', 'BOTTEGA VENETA', 'LOUIS VUITTON', 'CHANEL'],
-  type: ['가방', 'bags', '의류', 'clothes'],
+  type: ['가방', '의류'],
 };
 
 const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClick }) => {
@@ -14,6 +14,12 @@ const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClic
     return new URLSearchParams(useLocation().search);
   };
   let query = useQuery().get('q');
+
+  const activeEnter = (e) => {
+    if (e.key === 'Enter') {
+      handleClick();
+    }
+  };
 
   useEffect(() => {
     setValue('searchText', query);
@@ -50,7 +56,7 @@ const SearchBar = React.memo(({ isSearchPage, onSubmit, handleChange, handleClic
     </SearchForm>
   ) : (
     <SearchWrap isSearchPage={isSearchPage}>
-      <SearchInput placeholder="검색어를 입력하세요." onChange={handleChange} />
+      <SearchInput placeholder="검색어를 입력하세요." onChange={handleChange} onKeyDown={(e) => activeEnter(e)} />
       <button onClick={handleClick}>
         <span className="material-symbols-outlined">search</span>
       </button>
