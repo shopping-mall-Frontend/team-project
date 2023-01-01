@@ -42,6 +42,23 @@ const CartPage = () => {
   };
 
   /////////////// 수량 버튼, 입력 //////////////////////
+  //수량이 1이하일 때 감소버튼, 10 이상일 떄 증가버튼 비활성화
+  const liEl = document.querySelectorAll('.cartlist');
+  liEl.forEach((data) => {
+    const handleDecreaseIdArray = cart.filter((item) => item.quantity == 1).map((item) => item.id);
+    handleDecreaseIdArray.map((id) => {
+      if (id == data.id) {
+        data.querySelectorAll('.decreaseBtn')[0].disabled = true;
+      }
+    });
+    const handleIncreaseIdArray = cart.filter((item) => item.quantity >= 10).map((item) => item.id);
+    handleIncreaseIdArray.map((id) => {
+      if (id == data.id) {
+        data.querySelectorAll('.increaseBtn')[0].disabled = true;
+      }
+    });
+  });
+
   const onChangeQuantity = (id, value, key = 'quantity') => {
     const product = cart.filter((element) => element.id === id);
     product[0].quantity = value;
@@ -51,6 +68,9 @@ const CartPage = () => {
 
   //수량 입력
   const handleQuantityInput = (e) => {
+    if (e.target.value == '' || e.target.value == 0) {
+      e.target.value = 1;
+    }
     onChangeQuantity(e.target.closest('li').id, e.target.value);
   };
 
@@ -61,18 +81,38 @@ const CartPage = () => {
 
   //수량 증가
   const handleQuantityIncrease = (e) => {
-    e.target.previousElementSibling.value = parseInt(e.target.previousElementSibling.value) + 1;
-    onChangeQuantity(e.target.closest('li').id, e.target.previousElementSibling.value);
+    let liEl = e.target.previousElementSibling;
+
+    //버튼동작시에 수량 10이면 비활성화
+    if (liEl.value >= 9) {
+      e.target.disabled = true;
+    }
+
+    //버튼 동작시에 수량이 2이상이면, 수량 감소 버튼 활성화
+    if (parseInt(liEl.value) >= 1) {
+      liEl.previousElementSibling.disabled = false;
+    }
+
+    liEl.value = parseInt(liEl.value) + 1;
+    onChangeQuantity(e.target.closest('li').id, liEl.value);
   };
 
   //수량 감소
   const handleQuantityDecrease = (e) => {
-    if (e.target.nextElementSibling.value <= 1) {
-      e.preventDefault();
-      console.log('1 이하는 안돼욧!');
+    let liEl = e.target.nextElementSibling;
+
+    //버튼동작시에 수량 1이면 비활성화
+    if (liEl.value <= 2) {
+      e.target.disabled = true;
     }
-    e.target.nextElementSibling.value = parseInt(e.target.nextElementSibling.value) - 1;
-    onChangeQuantity(e.target.closest('li').id, e.target.nextElementSibling.value);
+
+    //버튼동작시에 수량이 9 이하면, 수량 증가 버튼 활성화
+    if (parseInt(liEl.value) <= 11) {
+      liEl.nextElementSibling.disabled = false;
+    }
+
+    liEl.value = parseInt(liEl.value) - 1;
+    onChangeQuantity(e.target.closest('li').id, liEl.value);
   };
 
   /////////////// 비회원 주문하기 차단 //////////////////////
@@ -114,7 +154,7 @@ const CartPage = () => {
               <h2>My Cart</h2>
               <ProductsTable>
                 {cart.map((cart) => (
-                  <CartList key={cart.id} id={cart.id}>
+                  <CartList key={cart.id} id={cart.id} className="cartlist">
                     <Link to={`/product/${cart.id}`}>
                       <img src={cart.thumbnail} alt="상세이미지" />
                     </Link>
@@ -123,18 +163,19 @@ const CartPage = () => {
                       <span>${cart.price.toLocaleString()}</span>
                     </Info>
                     <Quantity>
-                      <button type="button" onClick={handleQuantityDecrease}>
+                      <button type="button" className="decreaseBtn" onClick={handleQuantityDecrease}>
                         一
                       </button>
                       <input
                         type="number"
                         min="1"
                         max="10"
+                        className="quantityInput"
                         defaultValue={cart.quantity}
                         onChange={handleQuantityInput}
                         onKeyDown={characterCheck}
                       />
-                      <button type="button" onClick={handleQuantityIncrease}>
+                      <button type="button" className="increaseBtn" onClick={handleQuantityIncrease}>
                         十
                       </button>
                     </Quantity>
@@ -175,6 +216,8 @@ const CartPage = () => {
 };
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
   padding-bottom: 130px;
   button {
     cursor: pointer;
@@ -186,21 +229,16 @@ const Blank = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 40px;
-
-  margin: 0 100px;
   padding: 100px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-
   p {
     font-size: 25px;
   }
-
   button {
     padding: 15px 35px;
     font-size: 15px;
   }
-
   button:hover {
     font-weight: 700;
   }
@@ -210,7 +248,6 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 80px;
-
   h2 {
     margin-bottom: 15px;
     font-size: 21px;
@@ -233,12 +270,10 @@ const CartList = styled.li`
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #000;
-
   img {
     width: 120px;
     height: 140px;
   }
-
   .deleteBtn {
     color: rgba(0, 0, 0, 0.6);
     font-weight: 700;
@@ -255,33 +290,26 @@ const Info = styled.div`
 const Quantity = styled.div`
   display: flex;
   justify-content: space-between;
-
   width: 95px;
   height: 30px;
   border: 1px solid #000;
-
   font-size: 12px;
-
   input {
     width: 30px;
     text-align: center;
     font-size: 14px;
   }
-
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-
   input:invalid {
     border: 3px solid red;
   }
-
   button {
     padding: 0 8px;
   }
-
   .btn-disabled {
     color: #dfdfdf;
   }
@@ -302,11 +330,9 @@ const Price = styled.ol`
   display: flex;
   flex-direction: column;
   gap: 30px;
-
   padding: 40px 0;
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
-
   li {
     display: flex;
     justify-content: space-between;
@@ -318,7 +344,6 @@ const Total = styled.div`
   justify-content: space-between;
   margin-bottom: 50px;
   padding-top: 30px;
-
   font-size: 20px;
 `;
 
@@ -326,15 +351,12 @@ const OrderBtn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 13px;
-
   button {
     width: 100%;
     padding: 12px;
     border: 1px solid #000;
-
     font-size: 16px;
   }
-
   button:hover {
     font-weight: 700;
   }

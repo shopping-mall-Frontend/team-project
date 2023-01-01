@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import reset from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
@@ -7,6 +7,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
+  ////////// header 검색창 버그 해결 ////////
+  const location = useLocation();
+
   /////////////// 단일 제품상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -16,7 +19,7 @@ const ProductdetailsPage = () => {
       setProduct(json);
     };
     getServerProduct();
-  }, []);
+  }, [location.pathname]);
 
   //브랜드명, 상세 카테고리 변수에 담기
   const copyTags = { ...product.tags };
@@ -88,8 +91,6 @@ const ProductdetailsPage = () => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
 
-  ////////// 매진 여부에 따른 출력 변경 ////////
-  console.log(product);
   return (
     <div>
       <Header />
@@ -170,6 +171,8 @@ const ProductdetailsPage = () => {
 };
 
 const Container = styled.main`
+  width: 1200px;
+  margin: 0 auto;
   padding: 100px 0;
 `;
 const ImageWrap = styled.div`
@@ -187,7 +190,6 @@ const ImageWrap = styled.div`
 
   img:last-child {
     padding-top: 50px;
-    border-top: 1px solid #000;
   }
 
   h3 {
