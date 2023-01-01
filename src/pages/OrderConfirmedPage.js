@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import Step from '../components/Step'
 
 const OrderConfirmedPage = () => {
   return (
     <>
       <Header/>
       <Container>
+        <Step style={`step3`}/>
         <div className='order-con-info'>
           <p>구매가 완료되었습니다.</p>
           <div>

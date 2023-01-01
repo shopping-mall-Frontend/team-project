@@ -26,7 +26,7 @@ const UserPage = () => {
             </StyeldLink>
           </ul>
         </Menu>
-        <div>
+        <div style={{'paddingTop':'75px'}}>
           <Title></Title>
           <Outlet />
         </div>
