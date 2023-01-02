@@ -59,10 +59,11 @@ const CartPage = () => {
     });
   });
 
-  const onChangeQuantity = (id, value, key = 'quantity') => {
-    const product = cart.filter((element) => element.id === id);
-    product[0].quantity = value;
-    setCart(cart);
+  const onChangeQuantity = (id, value) => {
+    let findIndex = cart.findIndex((item) => item.id === id);
+    let copiedCart = [...cart];
+    copiedCart[findIndex].quantity = value;
+    setCart(copiedCart);
     setSsesionData('cart', cart);
   };
 
@@ -139,7 +140,7 @@ const CartPage = () => {
   return (
     <div>
       <Header />
-      <Step style={`step1`}/>
+      <Step style={`step1`} />
       <Container>
         {cart.length === 0 ? (
           <Blank>
