@@ -32,42 +32,36 @@ const EditProfile = () => {
     <Container>
       <ul>
         <li>
-          <Link to={'/'} className="go-back">
-            <span className="material-symbols-outlined">cottage</span>
-            HOME
-          </Link>
-        </li>
-        <li>
           <Link to={'/SignUp'} className="Login"></Link>
         </li>
       </ul>
+      <div>
+        <h1>사용자 정보 수정</h1>
+      </div>
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <h1>사용자 정보 수정</h1>
-        </div>
-        <div>
-          <h4>OldPassword</h4>
+          <h4>현재 비밀번호</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
             <input type="password" placeholder="********" {...register('oldPassword', { required: true })} />
           </div>
         </div>
         <div>
-          <h4>NewPassword</h4>
+          <h4>새로운비밀번호</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
             <input type="password" placeholder="********" {...register('newPassword', { required: true })} />
           </div>
         </div>
         <div>
-          <h4>Username</h4>
+          <h4>새로운 이름</h4>
           <div className="password-input">
-            <input type="text" placeholder="User Name" {...register('displayName', { required: true })} />
+            <input type="text" placeholder="Nickname" {...register('displayName', { required: true })} />
           </div>
         </div>
         <div className="submit">
           <button type="submit" value="submit">
-            수정
+            저장
           </button>
         </div>
       </LoginForm>
@@ -76,97 +70,81 @@ const EditProfile = () => {
 };
 
 const Container = styled.div`
-  font-family: 'Marcellus', serif;
-
-  ul {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    margin-top: 20px;
+  min-width: 900px;
+  font-family: 'Hahmlet', serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  
+    ul {
     line-height: 55px;
-    height: 55px;
-
     text-align: center;
     color: gray;
-    font-family: 'Marcellus', serif;
   }
 
   li {
     width: 30%;
     box-sizing: border-box;
-    height: 65.99px;
   }
 
-  .go-back {
-    padding-bottom: 20px;
-    height: 100%;
+  h1 {
+    font-weight:600;
+    font-size: 1.1rem;
   }
-
-  .navbar-logo {
-    padding-bottom: 20px;
-    height: 100%;
-  }
-
-  .material-symbols-outlined {
-    height: 100%;
-    padding-right: 20px;
-    padding-top: 20px;
-  }
-
   h4 {
-    margin: 20px 0 5px 0;
-    font-size: 1.5rem;
-    font-weight: 300;
-    font-family: 'Marcellus', serif;
-  }
-
-  .Login {
-    font-family: 'Marcellus', serif;
+    margin:20px;
+    font-size: 0.9rem;
+    font-weight:300;
   }
 `;
 
 const LoginForm = styled.form`
-  font-family: 'Marcellus', serif;
-  letter-spacing: 0.5px;
-  margin: auto;
-  width: 600px;
-  height: 800px;
-  transform: translateY(10%);
-
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  letter-spacing: 0.3px;
+  width: 100%;
+  height: 300px;
+  transform: translateY(2ch);
+  
   h1 {
-    font-family: 'Marcellus', serif;
-    margin: 20px 0 10px 0;
-    font-size: 4rem;
-    padding-bottom: 40px;
+    font-size: 1.1rem;
   }
 
   .username-input,
   .password-input {
     width: 90%;
     border-bottom: 1px solid #a4a4a4;
+  height: 50%;
+    margin:20px;
   }
+input{
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
 
   button {
     width: 100%;
     outline: none;
-    border-radius: 0px;
     line-height: 2.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 0.5rem;
     font-size: 15px;
+    font-family: 'Hahmlet', serif;
   }
 
   .submit {
-    margin-top: 50px;
+    margin-top:0px;
     width: 90%;
   }
 
   .submit button {
     height: 50px;
     border-radius: 30px;
-    margin-top: 10px;
-    padding: 0px 20px;
     border: 1px solid lightgray;
     outline: none;
   }
