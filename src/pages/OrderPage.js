@@ -35,6 +35,8 @@ const OrderPage = () => {
   const [emailDrt, setEmailDrt] = useState(true);
   // 로딩
   const [loading, setLoading] = useState(true);
+  // 계좌 추가 체크
+  const [checkAcc, setCheckAcc] = useState(false);
 
   // 주소 팝업창 열기
   const openPostCode = (num) => {
@@ -58,11 +60,9 @@ const OrderPage = () => {
     const userBank = async () => {
 
       setLoading(true)
-      console.log('로딩 시작')
       const userInfo = await auth();
       const selectBank = await getAccount("banks");
       const allBank = await getAccount();
-      console.log('로딩 끝')
       setLoading(false)
       setUser(userInfo);
       // 전체 은행 리스트
@@ -100,7 +100,7 @@ const OrderPage = () => {
       setTotalPrice(price);
     };
     userBank();
-  }, [cart]);
+  }, [cart, checkAcc]);
 
   // 선택 은행 계좌 id 저장
   useEffect(() => {
@@ -291,7 +291,7 @@ const OrderPage = () => {
             {holdBankList.length === 0 ? (
               <>
                 <p className="select-none-text">선택 가능한 계좌가 없습니다. 계좌를 등록하세요.</p>
-                <AddAccount />
+                <AddAccount setCheckAcc={setCheckAcc}/>
               </>
             ) : (
               <ShippingInfo style={{'border':'none'}}>
