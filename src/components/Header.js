@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/reset-css.css';
-import {auth} from '../utils/useAPI';
+import { auth } from '../utils/useAPI';
 import Search from './search/Search';
 
 const Header = React.memo(() => {
@@ -23,9 +23,9 @@ const Header = React.memo(() => {
       if (res) {
         localStorage.removeItem('accessToken');
         setUser(false);
-        navigate("/");
+        navigate('/');
+        window.location.replace('/');
       }
-
     } catch (err) {
       alert('로그아웃 실패.');
       console.log('실패');
@@ -37,12 +37,10 @@ const Header = React.memo(() => {
       <header>
         <nav>
           <div className="search">
-            <Search isSearchPage={false}/>
+            <Search isSearchPage={false} />
           </div>
           <ul className="nav__links">
-            <li>
-              {user ? <Link to={`/user`}>🌿{user.displayName}님</Link> : <Link to={'/login'}>LOGIN</Link>}
-            </li>
+            <li>{user ? <Link to={`/user`}>🌿{user.displayName}님</Link> : <Link to={'/login'}>LOGIN</Link>}</li>
             <li>
               <Link to={'/Cart'}>Cart</Link>{' '}
             </li>

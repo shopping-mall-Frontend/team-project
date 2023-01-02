@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {useForm} from 'react-hook-form';
-import {signIn} from '../utils/useAPI';
-import {Link, useNavigate} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { signIn } from '../utils/useAPI';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
@@ -13,9 +13,10 @@ const Login = () => {
   });
 
   // react hook form 사용해보기(렌더링 비용 최소화)
-  const {register, handleSubmit} = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
-    const {user} = await signIn(data);
+    const user = await signIn(data);
+    console.log(user);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
@@ -48,14 +49,14 @@ const Login = () => {
 
           <h4>E-mail</h4>
           <div className="username-input">
-            <input type="email" placeholder="example@gmail.com" {...register('email', {required: true})} />
+            <input type="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
           </div>
         </div>
         <div>
           <h4>Password</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="********" {...register('password', {required: true})} />
+            <input type="password" placeholder="********" {...register('password', { required: true })} />
           </div>
           <Link to={'/SignUp'} className="Login">
             <span className="material-symbols-outlined">touch_app</span>
@@ -63,7 +64,7 @@ const Login = () => {
           </Link>
         </div>
         <div className="submit">
-          <input type="submit" value="Sign In"/>
+          <input type="submit" value="Sign In" />
         </div>
       </LoginForm>
     </Container>
@@ -108,7 +109,6 @@ const Container = styled.div`
 
   .material-symbols-outlined {
     font-size: 14px;
-
   }
 
   h4 {
