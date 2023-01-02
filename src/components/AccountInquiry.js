@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components'
 import { delAccount, getAccount, auth } from '../utils/useAPI';
+import Loading from './Loading';
 
 const AccountInquiry = () => {
   const { register, handleSubmit, reset } = useForm();
+  // 로딩
+  const [loading, setLoading] = useState(false);
 
   const [accounts, setAccounts] = useState([]);
   const [selectBank, setSelectBank] = useState('');
@@ -46,6 +49,7 @@ const AccountInquiry = () => {
       signature : data.signature
     })
 
+    setLoading(true)
     let res = await delAccount(body)
     
     if(typeof res !== 'string'){
@@ -55,6 +59,7 @@ const AccountInquiry = () => {
     }else{
       alert(res)
     }
+    setLoading(false)
   }
 
   return (
@@ -116,6 +121,9 @@ const AccountInquiry = () => {
         })
         : 
         <p className='inquiry-sub-title'>상세 조회를 원하시면 은행을 선택해 주세요 <span>*목록에 은행이 없다면 계좌 등록을 먼저 진행해 주세요.</span></p>
+      }
+      {
+        loading && <Loading />
       }
     </Container>
   )
