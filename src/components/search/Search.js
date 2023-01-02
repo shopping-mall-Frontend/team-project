@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDebounce } from '../../hooks/useDebounce';
 import { searchProduct } from '../../utils/useAPI';
+import Loading from '../Loading';
 import PageOption from '../PageOption';
 import PageResults from './PageResults';
 import ResultsBox from './ResultsBox';
@@ -34,6 +35,9 @@ const Search = ({ isSearchPage }) => {
   const containerRef = useRef();
   const navigate = useNavigate();
 
+  // 로딩
+  const [isLoad, setIsLoad] = useState(true);
+
   const handleChange = (e) => {
     if (!e.target.value && !isSearchPage) {
       setProducts([]);
@@ -43,8 +47,10 @@ const Search = ({ isSearchPage }) => {
   };
 
   const fetchSearchProducts = async (data, tags = []) => {
+    setIsLoad(true);
     const newData = await searchProduct(data, tags);
     setProducts(newData);
+    setIsLoad(false);
   };
 
   const onSubmit = async (data) => {
@@ -129,30 +135,33 @@ const Search = ({ isSearchPage }) => {
   } else {
     // 검색 페이지 검색 바
     return (
-      <PageWrap ref={containerRef}>
-        <SearchBar
-          isSearchPage={isSearchPage}
-          handleChange={handleChange}
-          onSubmit={onSubmit}
-          currentValue={query}
-          inputValue={inputValue}
-        />
-        <OptionWrap>
-          <PageOption page={page} maxPage={maxPage} setPage={setPage} />
-        </OptionWrap>
-        {products.length > 0 ? (
-          <>
-            <LengthP>Search Result: {products.length} items </LengthP>
-            <ol>
-              <PageResults count={count} limit={limit} products={products} />
-            </ol>
-          </>
-        ) : (
-          <Blank>
-            <p>"{query}" 와 일치하는 검색결과가 없습니다.</p>
-          </Blank>
-        )}
-      </PageWrap>
+      <>
+        <PageWrap ref={containerRef}>
+          <SearchBar
+            isSearchPage={isSearchPage}
+            handleChange={handleChange}
+            onSubmit={onSubmit}
+            currentValue={query}
+            inputValue={inputValue}
+          />
+          <OptionWrap>
+            <PageOption page={page} maxPage={maxPage} setPage={setPage} />
+          </OptionWrap>
+          {products.length > 0 ? (
+            <>
+              <LengthP>Search Result: {products.length} items </LengthP>
+              <ol>
+                <PageResults count={count} limit={limit} products={products} />
+              </ol>
+            </>
+          ) : (
+            <Blank>
+              <p>"{query}" 와 일치하는 검색결과가 없습니다.</p>
+            </Blank>
+          )}
+        </PageWrap>
+        {isLoad && <Loading />}
+      </>
     );
   }
 };
