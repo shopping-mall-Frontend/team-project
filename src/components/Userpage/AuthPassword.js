@@ -60,10 +60,11 @@ const AuthPassword = () => {
 
 const Container = styled.div`
   min-width: 900px;
+  font-family: 'Hahmlet', serif;
 
   h3 {
     padding-bottom: 8px;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 16px;
   }
 
@@ -78,17 +79,19 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
     padding: 40px 0;
-
+    
+  }
     input {
       width: 400px;
       height: 46px;
       padding: 0px 11px 1px 15px;
       border-radius: 4px;
       border: 1px solid rgb(221, 221, 221);
-      font-weight: 400;
+      font-weight: 300;
       color: rgb(51, 51, 51);
+      font-family: 'Hahmlet', serif;
+      font-size: 15px;
     }
 
     input:first-child {

@@ -35,7 +35,7 @@ export const signup = async (value) => {
     });
 
     localStorage.setItem('accessToken', data.accessToken);
-    alert('회원가입을!🌺축하드립니다 !');
+    alert('🌺 환영합니다! 회원가입을 축하드립니다 !🌺');
     window.location.replace('/');
   } catch (err) {
     alert('회원가입에 실패했습니다.');

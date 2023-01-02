@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { signIn } from '../utils/useAPI';
-import { Link, useNavigate } from 'react-router-dom';
+import {useForm} from 'react-hook-form';
+import {signIn} from '../utils/useAPI';
+import {Link, useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const history = useNavigate();
@@ -13,14 +13,14 @@ const Login = () => {
   });
 
   // react hook form 사용해보기(렌더링 비용 최소화)
-  const { register, handleSubmit } = useForm();
+  const {register, handleSubmit} = useForm();
   const onSubmit = async (data) => {
-    const { user } = await signIn(data);
+    const {user} = await signIn(data);
     setLoginInfo(data);
     if (!user) {
       alert('이메일 혹은 비밀번호가 일치하지 않습니다.');
     } else {
-      alert(`hello, ${user.displayName}!!`);
+      alert(`🌺 ${user.displayName}님!!🌺 방문해주셔서 감사드립니다.`);
       history('/');
     }
   };
@@ -48,14 +48,14 @@ const Login = () => {
 
           <h4>E-mail</h4>
           <div className="username-input">
-            <input type="email" placeholder="example@gmail.com" {...register('email', { required: true })} />
+            <input type="email" placeholder="example@gmail.com" {...register('email', {required: true})} />
           </div>
         </div>
         <div>
           <h4>Password</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="********" {...register('password', { required: true })} />
+            <input type="password" placeholder="********" {...register('password', {required: true})} />
           </div>
           <Link to={'/SignUp'} className="Login">
             <span className="material-symbols-outlined">touch_app</span>
@@ -63,7 +63,7 @@ const Login = () => {
           </Link>
         </div>
         <div className="submit">
-          <input type="submit" value="submit" />
+          <input type="submit" value="Sign In"/>
         </div>
       </LoginForm>
     </Container>
@@ -93,8 +93,12 @@ const Container = styled.div`
   }
 
   .go-back {
-    padding-bottom: 20px;
-    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    margin: 0;
   }
 
   .navbar-logo {
@@ -103,20 +107,26 @@ const Container = styled.div`
   }
 
   .material-symbols-outlined {
-    height: 100%;
-    padding-right: 20px;
-    padding-top: 20px;
+    font-size: 14px;
+
   }
 
   h4 {
     margin: 20px 0 5px 0;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 300;
     font-family: 'Marcellus', serif;
   }
 
   .Login {
     font-family: 'Marcellus', serif;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    font-size: 14px;
+    margin-right: 100px;
+    margin-top: 20px;
   }
 `;
 
@@ -131,7 +141,7 @@ const LoginForm = styled.form`
   h1 {
     font-family: 'Marcellus', serif;
     margin: 20px 0 10px 0;
-    font-size: 4rem;
+    font-size: 3.8rem;
     padding-bottom: 40px;
   }
 
@@ -150,6 +160,7 @@ const LoginForm = styled.form`
     padding-right: 0.5rem;
     padding-top: 0.5rem;
     font-size: 15px;
+    font-family: 'Marcellus', serif;
   }
 
   .submit {

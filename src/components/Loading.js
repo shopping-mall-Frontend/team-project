@@ -8,7 +8,6 @@ const Loading = () => {
     </Container>
   )
 }
-
 export default Loading
 
 const Container = styled.div`
