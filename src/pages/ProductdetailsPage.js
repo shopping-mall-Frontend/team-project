@@ -70,7 +70,7 @@ const ProductdetailsPage = () => {
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
       const findIndex = parseInt(cart.findIndex((elment) => elment.id === id));
-      console.log(typeof findIndex);
+      // console.log(typeof findIndex);
       const cartItem = {
         id: product.id,
         title: product.title,

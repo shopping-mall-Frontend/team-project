@@ -79,7 +79,7 @@ const Search = ({ isSearchPage }) => {
 
   useEffect(() => {
     if (isSearchPage) {
-      console.log(queryBrand);
+      // console.log(queryBrand);
       const tags = [];
       if (queryBrand) tags.push(queryBrand);
       if (queryType) tags.push(queryType);

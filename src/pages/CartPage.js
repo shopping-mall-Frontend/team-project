@@ -81,7 +81,7 @@ const CartPage = () => {
   };
 
   const characterCheck = useCallback((e) => {
-    console.log(e);
+    // console.log(e);
     if (e.key === '-' || e.key === '+' || e.key === '.' || e.key === 'e') e.preventDefault();
   }, []);
 

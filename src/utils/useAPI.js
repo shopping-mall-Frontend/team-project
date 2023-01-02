@@ -14,7 +14,7 @@ export const editUserInfo = async (value) => {
         oldPassword,
         newPassword,
       });
-      console.log(response);
+      // console.log(response);
       return response;
     }
   } catch (err) {
@@ -24,7 +24,7 @@ export const editUserInfo = async (value) => {
 
 // 회원가입
 export const signup = async (value) => {
-  console.log(value);
+  //console.log(value);
   const { email, password, displayName } = value;
 
   try {
@@ -68,7 +68,7 @@ export const auth = async (type = 'me') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/auth/${type}`);
-      console.log(data);
+      //console.log(data);
       return data;
     }
     return false;
@@ -87,7 +87,7 @@ export const getAccount = async (type = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.get(`/account/${type}`);
-      console.log(data);
+      // console.log(data);
       return data;
     }
     return false;
@@ -103,7 +103,7 @@ export const accountAdd = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/account`, body);
-      console.log(data);
+      // console.log(data);
       return data;
     }
   } catch (err) {
@@ -120,7 +120,7 @@ export const delAccount = async (body = '') => {
       const { data } = await axios.delete(`/account`, {
         data: body,
       });
-      console.log(data);
+      // console.log(data);
       return data;
     }
   } catch (err) {
@@ -152,7 +152,7 @@ export const deleteProduct = async (key, id) => {
     if (key) {
       axios.defaults.headers.common['masterKey'] = true;
       const { data } = await axios.delete(`/products/${id}`);
-      console.log(data);
+      // console.log(data);
       return data;
     }
     return false;
@@ -169,7 +169,7 @@ export const getAllProduct = async (key) => {
     if (key) {
       axios.defaults.headers.common['masterKey'] = true;
       const { data } = await axios.get(`/products`);
-      console.log(data);
+      // console.log(data);
       return data;
     }
     return false;
@@ -182,7 +182,7 @@ export const getProductDetail = async (id) => {
   try {
     axios.defaults.headers.common['masterKey'] = true;
     const { data } = await axios.get(`/products/${id}`);
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -196,7 +196,7 @@ export const searchProduct = async (searchText = '', searchTags = []) => {
       searchText,
       searchTags,
     });
-    console.log(data);
+    // console.log(data);
     return data;
   } catch (err) {
     return console.log(err.message);
@@ -210,7 +210,7 @@ export const buyProduct = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/products/buy `, body);
-      console.log(data);
+      // console.log(data);
     }
     return false;
   } catch (err) {
@@ -225,7 +225,7 @@ export const refundProduct = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/products/cancel`, body);
-      console.log(data);
+      // console.log(data);
     }
     return false;
   } catch (err) {
@@ -240,7 +240,7 @@ export const confirmProduct = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/products/ok`, body);
-      console.log(data);
+      // console.log(data);
     }
     return false;
   } catch (err) {
@@ -255,7 +255,7 @@ export const orderedProducts = async () => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.get(`/products/transactions/details`);
-      console.log(data);
+      // console.log(data);
       return data;
     }
   } catch (err) {
@@ -270,7 +270,7 @@ export const orderedProduct = async (body = '') => {
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
       const { data } = await axios.post(`/products/transactions/detail`, body);
-      console.log(data);
+      // console.log(data);
       return data;
     }
   } catch (err) {
