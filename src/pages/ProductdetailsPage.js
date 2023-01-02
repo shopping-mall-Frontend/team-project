@@ -36,7 +36,7 @@ const ProductdetailsPage = () => {
   /////////////// 장바구니 담기 ////////////////////////
   let cart = [];
   const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
-  if (getSsesionData.length !== 0) {
+  if (getSsesionData) {
     cart = getSsesionData;
   }
 
@@ -69,7 +69,8 @@ const ProductdetailsPage = () => {
 
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
-      const findIndex = cart.findIndex((elment) => elment.id === id);
+      const findIndex = parseInt(cart.findIndex((elment) => elment.id === id));
+      console.log(typeof findIndex);
       const cartItem = {
         id: product.id,
         title: product.title,

@@ -6,16 +6,21 @@ import { auth } from '../utils/useAPI';
 import Header from '../components/Header';
 import Step from '../components/Step';
 import Footer from '../components/Footer';
+import Loading from '../components/Loading';
 
 const CartPage = () => {
+  const [loading, setLoading] = useState(true);
+
   /////////////// 세션 스토리지 조회 ///////////////
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const getSsesionData = () => {
+      setLoading(true);
       const json = JSON.parse(sessionStorage.getItem('cart'));
       if (json !== null) {
         setCart(json);
+        setLoading(false);
       }
     };
     getSsesionData();
@@ -210,6 +215,7 @@ const CartPage = () => {
             </OrderSummaryWrap>
           </Wrap>
         )}
+        {loading && <Loading />}
       </Container>
       <Footer />
     </div>
