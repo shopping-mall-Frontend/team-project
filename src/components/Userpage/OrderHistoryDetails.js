@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import reset from '../../css/reset-css.css';
 import styled from 'styled-components';
 import { orderedProduct } from '../../utils/useAPI';
-import { declareTypeAlias } from '@babel/types';
 
 const OrderHistoryDetails = () => {
   const { id } = useParams();
@@ -88,7 +87,7 @@ const OrderHistoryDetails = () => {
                 </div>
               </div>
               <div>
-                <h4>주문금액</h4>
+                <h4>결제금액</h4>
                 <p>
                   <span>상품금액 ${detail.product.price.toLocaleString()}</span>
                   <span>배송비 0원</span>
