@@ -56,6 +56,7 @@ export const signIn = async (value) => {
     localStorage.setItem('accessToken', accessToken);
     return data;
   } catch (err) {
+    alert('로그인에 실패했습니다.');
     console.log(err);
   }
 };
