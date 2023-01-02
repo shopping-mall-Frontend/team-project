@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
-import reset from '../css/reset-css.css';
 import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const ProductdetailsPage = () => {
-  ////////// header 검색창 버그 해결 ////////
+  ////////// header 검색창 버그 해결 ///////////////////
   const location = useLocation();
 
   /////////////// 단일 제품상세 불러오기 ///////////////
   const { id } = useParams();
   const [product, setProduct] = useState({});
+
   useEffect(() => {
-    const getServerProduct = async () => {
+    const getServerProduct = async (id) => {
       const json = await getProductDetail(id);
       setProduct(json);
     };
-    getServerProduct();
+    getServerProduct(id);
   }, [location.pathname]);
 
   //브랜드명, 상세 카테고리 변수에 담기
@@ -31,7 +31,7 @@ const ProductdetailsPage = () => {
     cart = getSsesionData;
   }
 
-  const cartSsesionData = (cartProducts) => {
+  const setSsesionData = (cartProducts) => {
     sessionStorage.setItem('cart', JSON.stringify(cartProducts));
   };
 
@@ -58,8 +58,8 @@ const ProductdetailsPage = () => {
 
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
-      const found = cart.filter((elment) => elment.id === id)[0];
-      const index = cart.indexOf(found);
+      const findIndex = cart.findIndex((elment) => elment.id === id);
+      console.log(findIndex);
       const cartItem = {
         id: product.id,
         title: product.title,
@@ -68,8 +68,8 @@ const ProductdetailsPage = () => {
         quantity: quantity,
       };
 
-      cart = [...cart.slice(0, index), cartItem, ...cart.slice(index + 1)];
-      cartSsesionData(cart);
+      cart = [...cart.slice(0, findIndex), cartItem, ...cart.slice(findIndex + 1)];
+      setSsesionData(cart);
     };
 
     const foundDuplication = cart.find((elment) => elment.id === cartItem.id);
@@ -77,7 +77,7 @@ const ProductdetailsPage = () => {
       setQuantity(cartItem.id, foundDuplication.quantity + count);
     } else {
       cart.push(cartItem);
-      cartSsesionData(cart);
+      setSsesionData(cart);
     }
 
     moveTocart();
@@ -204,9 +204,11 @@ const Sidebar = styled.aside`
   top: 190px;
   right: 0;
   width: 400px;
-  padding-right: 20px;
+  padding: 20px;
 
   background-color: #fff;
+
+  z-index: 9999;
 `;
 
 const Category = styled.ol`

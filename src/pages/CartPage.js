@@ -61,7 +61,6 @@ const CartPage = () => {
 
   const onChangeQuantity = (id, value) => {
     let findIndex = cart.findIndex((item) => item.id === id);
-    console.log(findIndex);
     let copiedCart = [...cart];
     copiedCart[findIndex].quantity = value;
     setCart(copiedCart);
