@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { editUserInfo } from '../../utils/useAPI';
+import {Link, useNavigate} from 'react-router-dom';
+import {useForm} from 'react-hook-form';
+import {editUserInfo} from '../../utils/useAPI';
 
 const EditProfile = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const EditProfile = () => {
     displayName: '',
   });
 
-  const { register, handleSubmit } = useForm();
+  const {register, handleSubmit} = useForm();
   const onSubmit = async (data) => {
     try {
       const res = await editUserInfo(data);
@@ -43,20 +43,20 @@ const EditProfile = () => {
           <h4>현재 비밀번호</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="********" {...register('oldPassword', { required: true })} />
+            <input type="password" placeholder="********" {...register('oldPassword', {required: true})} />
           </div>
         </div>
         <div>
           <h4>새로운비밀번호</h4>
           <div className="password-input">
             <i className="fas fa-lock"></i>
-            <input type="password" placeholder="********" {...register('newPassword', { required: true })} />
+            <input type="password" placeholder="********" {...register('newPassword', {required: true})} />
           </div>
         </div>
         <div>
           <h4>새로운 이름</h4>
           <div className="password-input">
-            <input type="text" placeholder="Nickname" {...register('displayName', { required: true })} />
+            <input type="text" placeholder="Nickname" {...register('displayName', {required: true})} />
           </div>
         </div>
         <div className="submit">
@@ -77,8 +77,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  
-    ul {
+
+  ul {
     line-height: 55px;
     text-align: center;
     color: gray;
@@ -90,13 +90,14 @@ const Container = styled.div`
   }
 
   h1 {
-    font-weight:600;
+    font-weight: 600;
     font-size: 1.1rem;
   }
+
   h4 {
-    margin:20px;
+    margin: 20px;
     font-size: 0.9rem;
-    font-weight:300;
+    font-weight: 300;
   }
 `;
 
@@ -110,7 +111,7 @@ const LoginForm = styled.form`
   width: 100%;
   height: 300px;
   transform: translateY(2ch);
-  
+
   h1 {
     font-size: 1.1rem;
   }
@@ -119,15 +120,16 @@ const LoginForm = styled.form`
   .password-input {
     width: 90%;
     border-bottom: 1px solid #a4a4a4;
-  height: 50%;
-    margin:20px;
+    height: 50%;
+    margin: 20px;
   }
-input{
-  display: flex;
-  justify-content: center;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
+
+  input {
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
 
   button {
     width: 100%;
@@ -138,7 +140,7 @@ input{
   }
 
   .submit {
-    margin-top:0px;
+    margin-top: 0px;
     width: 90%;
   }
 
@@ -150,4 +152,4 @@ input{
   }
 `;
 
-export { EditProfile };
+export {EditProfile};
