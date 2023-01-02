@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { orderedProducts } from '../../utils/useAPI';
+import Loading from '../../components/Loading';
 
 const CancelHistory = () => {
+  const [loading, setLoading] = useState(true);
+
   const [canceled, setCanceled] = useState([]);
 
   useEffect(() => {
     // 전체제품 거래내역 가져오기
     const getorderedProducts = async () => {
+      setLoading(true);
       const json = await orderedProducts();
       //거래일자 최신순으로 목록 정렬
       if (Array.isArray(json)) {
@@ -16,6 +20,7 @@ const CancelHistory = () => {
           return new Date(b.timePaid).getTime() - new Date(a.timePaid).getTime();
         });
         setCanceled(sortedData);
+        setLoading(false);
       }
     };
     getorderedProducts();
@@ -76,6 +81,7 @@ const CancelHistory = () => {
             ))
         )}
       </ol>
+      {loading && <Loading />}
     </Container>
   );
 };
