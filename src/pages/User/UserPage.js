@@ -26,7 +26,7 @@ const UserPage = () => {
             </StyeldLink>
           </ul>
         </Menu>
-        <div style={{'paddingTop':'75px'}}>
+        <div>
           <Title></Title>
           <Outlet />
         </div>
@@ -41,7 +41,7 @@ const Container = styled.main`
   gap: 50px;
   width: 1200px;
   margin: 0 auto;
-  padding-bottom: 40px;
+  padding: 75px 0 150px;
 
   h2 {
     margin-bottom: 40px;
@@ -53,7 +53,6 @@ const Container = styled.main`
 
 const Menu = styled.nav`
   min-width: 250px;
-  padding-top: 75px;
 
   button {
     font-size: 15px;
