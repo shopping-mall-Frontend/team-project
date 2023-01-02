@@ -35,7 +35,7 @@ export const signup = async (value) => {
     });
 
     localStorage.setItem('accessToken', data.accessToken);
-    alert('회원가입을!🌺축하드립니다 !');
+    alert('🌺 환영합니다! 회원가입을 축하드립니다 !🌺');
     window.location.replace('/');
   } catch (err) {
     alert('회원가입에 실패했습니다.');
@@ -269,7 +269,7 @@ export const orderedProduct = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-      const { data } = await axios.get(`/products/transactions/detail`, body);
+      const { data } = await axios.post(`/products/transactions/detail`, body);
       console.log(data);
       return data;
     }

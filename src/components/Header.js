@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Link, useNavigate} from 'react-router-dom';
 import '../css/reset-css.css';
-import { auth } from '../utils/useAPI';
+import {auth} from '../utils/useAPI';
 import Search from './search/Search';
 
 const Header = React.memo(() => {
@@ -19,12 +19,12 @@ const Header = React.memo(() => {
 
   const logout = async () => {
     try {
-     const res =  await auth('logout');
-     if(res){
-       localStorage.removeItem('accessToken');
-       setUser(false);
-       navigate("/");
-     }
+      const res = await auth('logout');
+      if (res) {
+        localStorage.removeItem('accessToken');
+        setUser(false);
+        navigate("/");
+      }
 
     } catch (err) {
       alert('로그아웃 실패.');
@@ -37,11 +37,11 @@ const Header = React.memo(() => {
       <header>
         <nav>
           <div className="search">
-            <Search isSearchPage={false} />
+            <Search isSearchPage={false}/>
           </div>
           <ul className="nav__links">
             <li>
-              {user ? <Link to={`/user`}>Hello! 🌺{user.displayName}</Link> : <Link to={'/login'}>LOGIN</Link>}
+              {user ? <Link to={`/user`}>🌿{user.displayName}님</Link> : <Link to={'/login'}>LOGIN</Link>}
             </li>
             <li>
               <Link to={'/Cart'}>Chart</Link>{' '}
@@ -80,20 +80,21 @@ const StyledHeader = styled.div`
   box-sizing: border-box;
   margin-top: 20px;
   padding: 0;
-  border-bottom:1px solid #ddd;
-  min-width:1200px;
+  border-bottom: 1px solid #ddd;
+  min-width: 1200px;
 
   nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:0 50px;
+    padding: 0 50px;
   }
 
   li,
   .logo {
     text-decoration: none;
   }
+
   .material-symbols-outlined {
     font-weight: normal;
     font-size: 20px;
@@ -113,6 +114,7 @@ const StyledHeader = styled.div`
     box-sizing: content-box;
     width: 100%;
   }
+
   ul {
     display: flex;
     padding: 0px 0px 0px 0em;
@@ -120,9 +122,11 @@ const StyledHeader = styled.div`
     color: dimgray;
     margin: 0;
   }
+
   li {
     padding: 0px 20px;
   }
+
   /* @media screen and (max-width: 768px) {
     header {
       flex-direction: column;

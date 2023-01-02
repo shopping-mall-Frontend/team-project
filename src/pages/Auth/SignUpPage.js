@@ -5,9 +5,9 @@ const SignUpPage = () => {
 
   return (
     <>
-      <SignUp />
+      <SignUp/>
     </>
   );
 };
 
-export { SignUpPage };
+export {SignUpPage};

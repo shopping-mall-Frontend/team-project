@@ -25,6 +25,8 @@ const Title = () => {
   return <Container>{switchTitle()}</Container>;
 };
 
-const Container = styled.main``;
+const Container = styled.main`
+    font-family: 'Hahmlet', serif;
+  `;
 
 export default Title;

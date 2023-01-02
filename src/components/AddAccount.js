@@ -2,18 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { getAccount, accountAdd } from "../utils/useAPI";
+import Loading from "./Loading";
 
-export const AddAccount = () => {
+export const AddAccount = ({setCheckAcc}) => {
   const { register, handleSubmit, reset } = useForm();
-
+  // 로딩
+  const [loading, setLoading] = useState(false);
+  
   // 은행 코드, 선택 가능 은행 조회
   const [bankCode, setBankCode] = useState('0');
   const [selectBank, setSelectBank] = useState([]);
+  const allBank = []
 
   const bankNumInput = async () => {
     const selectBank = await getAccount("banks");
     
     setSelectBank(selectBank.filter(e => {return e.disabled === false}));
+    allBank.push(selectBank)
   };
 
   useEffect(() => {
@@ -29,6 +34,7 @@ export const AddAccount = () => {
       signature: data.signature,
     });
     
+    setLoading(true)
     let res = await accountAdd(body)
 
     if(typeof res !== 'string'){
@@ -36,10 +42,12 @@ export const AddAccount = () => {
       bankNumInput()
       alert('계좌 등록이 완료되었습니다.')
       data = ''
+      setCheckAcc(true)
     }else{
       alert(res)
     }
     reset()
+    setLoading(false)
   };
 
   // 은행 선택
@@ -136,6 +144,9 @@ export const AddAccount = () => {
           </>
         )}
       </BankForm>
+      {
+        loading && <Loading />
+      }
     </>
   );
 };

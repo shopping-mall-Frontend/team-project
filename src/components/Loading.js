@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Loading = () => {
+const Loading = ({title='잠시만 기다려 주세요..'}) => {
   return (
     <Container>
-      <div><p>잠시만 기다려 주세요..</p></div>
+      <div><p>{title}</p></div>
     </Container>
   )
 }
-
 export default Loading
 
 const Container = styled.div`
@@ -18,6 +17,7 @@ const Container = styled.div`
   position:fixed;
   top:0;
   left:0;
+  z-index:9999;
 
   div {
     width: 500px;
