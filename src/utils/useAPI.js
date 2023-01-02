@@ -269,7 +269,7 @@ export const orderedProduct = async (body = '') => {
     const token = localStorage.getItem('accessToken');
     if (token !== null) {
       axios.defaults.headers.common['authorization'] = `Bearer ${token}`;
-      const { data } = await axios.get(`/products/transactions/detail`, body);
+      const { data } = await axios.post(`/products/transactions/detail`, body);
       console.log(data);
       return data;
     }
