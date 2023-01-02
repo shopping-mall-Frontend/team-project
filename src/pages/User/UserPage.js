@@ -26,7 +26,7 @@ const UserPage = () => {
             </StyeldLink>
           </ul>
         </Menu>
-        <div>
+        <div style={{ minWidth: '900px' }}>
           <Title></Title>
           <Outlet />
         </div>
