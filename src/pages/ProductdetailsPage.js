@@ -15,8 +15,12 @@ const ProductdetailsPage = () => {
 
   useEffect(() => {
     const getServerProduct = async (id) => {
-      const json = await getProductDetail(id);
-      setProduct(json);
+      try {
+        const json = await getProductDetail(id);
+        setProduct(json);
+      } catch (err) {
+        console.log(err);
+      }
     };
     getServerProduct(id);
   }, [location.pathname]);
@@ -27,12 +31,14 @@ const ProductdetailsPage = () => {
   /////////////// 장바구니 담기 ////////////////////////
   let cart = [];
   const getSsesionData = JSON.parse(sessionStorage.getItem('cart'));
-  if (getSsesionData !== null) {
+  if (getSsesionData.length !== 0) {
     cart = getSsesionData;
   }
 
   const setSsesionData = (cartProducts) => {
-    sessionStorage.setItem('cart', JSON.stringify(cartProducts));
+    if (cartProducts && Object.keys(cartProducts).length !== 0) {
+      sessionStorage.setItem('cart', JSON.stringify(cartProducts));
+    }
   };
 
   //수량
@@ -59,7 +65,6 @@ const ProductdetailsPage = () => {
     //중복된 제품에 대한 수량 처리
     const setQuantity = (id, quantity) => {
       const findIndex = cart.findIndex((elment) => elment.id === id);
-      console.log(findIndex);
       const cartItem = {
         id: product.id,
         title: product.title,
@@ -83,10 +88,12 @@ const ProductdetailsPage = () => {
     moveTocart();
   };
 
-  ////////// 결제 상품, 세션스토리지로 ////////
+  /////////////// 결제정보 관련 ////////////////////////
   let order = [];
+  //장바구니 최초접속시, 결제정보 초기화
   order.push(product);
   sessionStorage.setItem('order', JSON.stringify());
+  //주문하기 클릭시, 세션스토리지로 결제 정보 전달
   const orderSsesionData = (orderProducts) => {
     sessionStorage.setItem('order', JSON.stringify(orderProducts));
   };
@@ -95,75 +102,81 @@ const ProductdetailsPage = () => {
     <div>
       <Header />
       <Container>
-        <ImageWrap>
-          <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
-          <img src={product.photo} alt={`${product.title} 상세이미지`} />
-        </ImageWrap>
+        {product && Object.keys(product).length !== 0 ? (
+          <>
+            <ImageWrap>
+              <img src={product.thumbnail} alt={`${product.title} 썸네일`} />
+              <img src={product.photo} alt={`${product.title} 상세이미지`} />
+            </ImageWrap>
 
-        <Sidebar>
-          <Category>
-            <li>
-              <Link to={'/category/all'}>Category</Link>
-            </li>
-            <li>
-              {copyTags[1] === '가방' ? (
-                <Link to={'/category/bags'}>{copyTags[1]}</Link>
-              ) : (
-                <Link to={'/category/clothes'}>{copyTags[1]}</Link>
-              )}
-            </li>
-            <li>
-              {copyTags[0] === 'LOUIS VUITTON' ? (
-                <Link to={`/category/all/LOUIS`}>{copyTags[0]}</Link>
-              ) : (
-                <Link to={`/category/all/${copyTags[0]}`}>{copyTags[0]}</Link>
-              )}
-            </li>
-          </Category>
+            <Sidebar>
+              <Category>
+                <li>
+                  <Link to={'/category/all'}>Category</Link>
+                </li>
+                <li>
+                  {copyTags[1] === '가방' ? (
+                    <Link to={'/category/bags'}>{copyTags[1]}</Link>
+                  ) : (
+                    <Link to={'/category/clothes'}>{copyTags[1]}</Link>
+                  )}
+                </li>
+                <li>
+                  {copyTags[0] === 'LOUIS VUITTON' ? (
+                    <Link to={`/category/all/LOUIS`}>{copyTags[0]}</Link>
+                  ) : (
+                    <Link to={`/category/all/${copyTags[0]}`}>{copyTags[0]}</Link>
+                  )}
+                </li>
+              </Category>
 
-          <Info>
-            <li>
-              <h2>{product.title}</h2>
-            </li>
-            <li>${parseInt(product.price).toLocaleString()}</li>
-          </Info>
+              <Info>
+                <li>
+                  <h2>{product.title}</h2>
+                </li>
+                <li>${parseInt(product.price).toLocaleString()}</li>
+              </Info>
 
-          <Tab>
-            <div>
-              <dt>
-                <button>DETAILS</button>
-              </dt>
-              <dd>{product.description}</dd>
-            </div>
-            <div>
-              <dt>
-                <button>CARE GUIDE</button>
-              </dt>
-              <dd>
-                [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다.
-              </dd>
-            </div>
-            <div>
-              <dt>
-                <button>SHIPPING & RETURN</button>
-              </dt>
-              <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다.</dd>
-            </div>
-          </Tab>
+              <Tab>
+                <div>
+                  <dt>
+                    <button>DETAILS</button>
+                  </dt>
+                  <dd>{product.description}</dd>
+                </div>
+                <div>
+                  <dt>
+                    <button>CARE GUIDE</button>
+                  </dt>
+                  <dd>
+                    [가죽 및 스웨이드] <br /> 가벼운 세탁의 경우, 젖은 천을 이용하는 것이 좋습니다.
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    <button>SHIPPING & RETURN</button>
+                  </dt>
+                  <dd>기본 배송 기간 모든 주문에 기본 배송 기간은 주문 결제 이후, 1~10일(영업일 기준)입니다.</dd>
+                </div>
+              </Tab>
 
-          <Btns>
-            {product.isSoldOut ? (
-              <button className="soldout">SOLD OUT</button>
-            ) : (
-              <div>
-                <Link to={'/order'}>
-                  <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
-                </Link>
-                <button onClick={handleCart}>ADD TO CART</button>
-              </div>
-            )}
-          </Btns>
-        </Sidebar>
+              <Btns>
+                {product.isSoldOut ? (
+                  <button className="soldout">SOLD OUT</button>
+                ) : (
+                  <div>
+                    <Link to={'/order'}>
+                      <button onClick={() => orderSsesionData(order)}>BUY NOW</button>
+                    </Link>
+                    <button onClick={handleCart}>ADD TO CART</button>
+                  </div>
+                )}
+              </Btns>
+            </Sidebar>
+          </>
+        ) : (
+          ''
+        )}
       </Container>
       <Footer />
     </div>
@@ -175,10 +188,12 @@ const Container = styled.main`
   margin: 0 auto;
   padding: 100px 0;
 `;
+
 const ImageWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   img {
     width: 500px;
   }
@@ -191,12 +206,8 @@ const ImageWrap = styled.div`
   img:last-child {
     padding-top: 50px;
   }
-
-  h3 {
-    padding-bottom: 20px;
-    text-align: left;
-  }
 `;
+
 const Sidebar = styled.aside`
   display: flex;
   flex-direction: column;
@@ -208,7 +219,7 @@ const Sidebar = styled.aside`
 
   background-color: #fff;
 
-  z-index: 9999;
+  z-index: 1;
 `;
 
 const Category = styled.ol`
@@ -218,14 +229,17 @@ const Category = styled.ol`
 
   color: rgb(137, 137, 137);
   font-size: 12px;
+
   li {
     cursor: pointer;
   }
+
   li + li::before {
     content: '/';
     padding-right: 10px;
   }
 `;
+
 const Info = styled.ol`
   display: flex;
   flex-direction: column;
@@ -237,12 +251,15 @@ const Info = styled.ol`
     font-weight: 700;
   }
 `;
+
 const Tab = styled.dl`
   margin-bottom: 30px;
   padding-right: 50px;
+
   div + div {
     margin-top: 8px;
   }
+
   dt button {
     padding-bottom: 10px;
     font-size: 15px;
