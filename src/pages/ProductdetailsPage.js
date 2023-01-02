@@ -4,8 +4,11 @@ import styled from 'styled-components';
 import { getProductDetail } from '../utils/useAPI';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Loading from '../components/Loading';
 
 const ProductdetailsPage = () => {
+  const [loading, setLoading] = useState(true);
+
   ////////// header 검색창 버그 해결 ///////////////////
   const location = useLocation();
 
@@ -15,9 +18,11 @@ const ProductdetailsPage = () => {
 
   useEffect(() => {
     const getServerProduct = async (id) => {
+      setLoading(true);
       try {
         const json = await getProductDetail(id);
         setProduct(json);
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -177,6 +182,7 @@ const ProductdetailsPage = () => {
         ) : (
           ''
         )}
+        {loading && <Loading />}
       </Container>
       <Footer />
     </div>
