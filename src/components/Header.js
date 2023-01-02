@@ -44,7 +44,7 @@ const Header = React.memo(() => {
               {user ? <Link to={`/user`}>🌿{user.displayName}님</Link> : <Link to={'/login'}>LOGIN</Link>}
             </li>
             <li>
-              <Link to={'/Cart'}>Chart</Link>{' '}
+              <Link to={'/Cart'}>Cart</Link>{' '}
             </li>
             {user ? (
               <Link to={'/'} onClick={logout} title="로그아웃">
