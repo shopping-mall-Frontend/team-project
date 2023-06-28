@@ -287,4 +287,7 @@ Front-End :👑✨이승윤님(팀장), ✨이은영님,✨곽혜지님 ,✨한�
     - 가상 dom을 쓰는 react 환경에서 DOM API 사용을 지양할 수 있는 방법이 어떤 것이 있을지 궁금합니다.
 </details>
 
-### 👤곽혜지
+<details>
+<summary>👤곽혜지</summary>
+</details>
+
