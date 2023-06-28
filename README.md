@@ -11,8 +11,7 @@
 [🔗N4 보러가기!](https://moonlit-paprenjak-f17873.netlify.app/)
 
 - 사용자 페이지: https://moonlit-paprenjak-f17873.netlify.app/
-- 관리자 페이지: https://idyllic-kheer-eeffb7.netlify.app/admin
-(아직 미완성입니다 ㅠㅠ 현재 진행상황까지 리뷰해주시면 감사하겠습니다!)
+- 관리자 페이지(미완성): https://idyllic-kheer-eeffb7.netlify.app/admin
 
 1. test 계정:
 - ID: test@gmail.com
@@ -244,6 +243,8 @@ Front-End :👑✨이승윤님(팀장), ✨이은영님,✨곽혜지님 ,✨한�
   </details>
 </details>
 
+### 👤곽혜지
+
 ## 📱 피드백 받고 싶은 부분
 
 <details>
@@ -285,3 +286,5 @@ Front-End :👑✨이승윤님(팀장), ✨이은영님,✨곽혜지님 ,✨한�
     - 불필요한 api 호출이 자주 이루어지고 있습니다 효과적인 해결 방안을 알고 싶습니다.
     - 가상 dom을 쓰는 react 환경에서 DOM API 사용을 지양할 수 있는 방법이 어떤 것이 있을지 궁금합니다.
 </details>
+
+### 👤곽혜지
