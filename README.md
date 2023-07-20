@@ -54,10 +54,8 @@ Front-End :👑✨이승윤님(팀장), ✨이은영님,✨곽혜지님 ,✨한�
 
 <img src="https://img.shields.io/badge/%20-%20Axios-black"/>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=CSS3&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/><br>
 <img src="https://img.shields.io/badge/node-339933?style=flat-square&logo=Node.js&logoColor=white"/>
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=Styled-components&logoColor=white"/><br/>
-<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/>
 <img src="https://img.shields.io/badge/NETLIFY-00C7B7?style=for-the-badge&logo=NETLIFY&logoColor=white"> <img src="https://img.shields.io/badge/.ENV-ECD53F?style=for-the-badge&logo=.ENV&logoColor=white">
  <img src="https://camo.githubusercontent.com/cfd032a0d113d1b8b79a5c515c395cb501738e017e9fb3f8945dae10e2a918f6/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5377697065722d3633333246363f7374796c653d666c61742d726f756e64266c6f676f3d537769706572266c6f676f436f6c6f723d7768697465">
 
